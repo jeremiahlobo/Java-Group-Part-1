@@ -1,4 +1,4 @@
 package Model;
 
-public class ProductModel {
+public class ProductModel extends DB {
 }
