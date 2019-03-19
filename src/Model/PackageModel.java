@@ -23,7 +23,7 @@ public class PackageModel extends DB{
             Statement stmt = DBConnection.createStatement();
 
             String sql = "SELECT PackageId, PkgName, PkgStartDate, PkgEndDate, PkgDesc, PkgBasePrice, " +
-                         "PkgAgencyCommission FROM `packages`";
+                    "PkgAgencyCommission FROM `packages`";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 PackageList.add(rs.getString("PackageId"));
@@ -40,6 +40,4 @@ public class PackageModel extends DB{
         }
         return PackageList;
     }
-
-
 }

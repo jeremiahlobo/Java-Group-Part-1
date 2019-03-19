@@ -16,7 +16,7 @@
             <Font name="System Bold" size="12.0" />
          </font></Label>
       <Label layoutX="362.0" layoutY="123.0" text="Last " />
-      <Label layoutX="352.0" layoutY="304.0" text="City" />
+      <Label layoutX="372.0" layoutY="304.0" text="City" />
       <Label layoutX="33.0" layoutY="347.0" text="Country" />
       <Label layoutX="33.0" layoutY="304.0" text="Address" />
       <Button layoutX="515.0" layoutY="508.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="68.0" text="Save" />
@@ -26,17 +26,17 @@
          </font>
       </Label>
       <Label layoutX="38.0" layoutY="227.0" text="Home" />
-      <Label layoutX="347.0" layoutY="227.0" text="Business" />
+      <Label layoutX="363.0" layoutY="227.0" text="Business" />
       <Label layoutX="34.0" layoutY="429.0" text="Email" />
-      <Label layoutX="329.0" layoutY="438.0" text="Agent Id" />
+      <Label layoutX="372.0" layoutY="438.0" text="Agent Id" />
       <TextField layoutX="430.0" layoutY="119.0" />
       <TextField layoutX="132.0" layoutY="223.0" />
-      <TextField layoutX="414.0" layoutY="223.0" />
+      <TextField layoutX="433.0" layoutY="222.0" />
       <TextField layoutX="132.0" layoutY="300.0" />
-      <TextField layoutX="400.0" layoutY="300.0" />
+      <TextField layoutX="433.0" layoutY="300.0" />
       <TextField layoutX="132.0" layoutY="434.0" />
       <TextField layoutX="132.0" layoutY="347.0" />
-      <TextField layoutX="414.0" layoutY="434.0" />
+      <TextField layoutX="438.0" layoutY="434.0" />
       <Label layoutX="38.0" layoutY="82.0" text="Name">
          <font>
             <Font name="System Bold" size="12.0" />
