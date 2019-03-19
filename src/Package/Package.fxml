@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Package.PackageController">
+   <children>
+      <TableView layoutX="14.0" layoutY="14.0" prefHeight="526.0" prefWidth="752.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Package ID" />
+          <TableColumn prefWidth="112.0" text="Pkg Name" />
+            <TableColumn prefWidth="112.0" text="Start Date" />
+            <TableColumn prefWidth="112.0" text="End Date" />
+            <TableColumn prefWidth="112.0" text="Description" />
+            <TableColumn prefWidth="112.0" text="Base Price" />
+            <TableColumn prefWidth="112.0" />
+        </columns>
+      </TableView>
+   </children>
+</Pane>
