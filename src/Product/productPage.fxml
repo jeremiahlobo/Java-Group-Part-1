@@ -8,6 +8,8 @@
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
    <children>
       <Button layoutX="319.0" layoutY="309.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="77.0" text="Edit" />
       <Button layoutX="430.0" layoutY="309.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="77.0" text="Save" />
