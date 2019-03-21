@@ -16,8 +16,8 @@
       </Label>
       <TableView fx:id="tvProd" layoutX="28.0" layoutY="100.0" prefHeight="261.0" prefWidth="424.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn prefWidth="75.0" text="ProductId" />
+          <TableColumn prefWidth="75.0" text="ProdName" />
         </columns>
       </TableView>
       <Button layoutX="504.0" layoutY="231.0" mnemonicParsing="false" text="Edit" />
