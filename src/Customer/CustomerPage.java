@@ -14,7 +14,7 @@ public class CustomerPage {
     private URL location;
 
     @FXML
-    private TableView<?> tvCustomers;
+    private TableView<?> tvCustomers; //scenebuilder
 
     @FXML
     void initialize() {
