@@ -1,24 +1,47 @@
 package Customer;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import javax.swing.text.TableView;
 
 public class CustomerPage {
 
     @FXML
-    private ResourceBundle resources;
+    private TableView<?> tvCustomers;
 
     @FXML
-    private URL location;
+    private TableColumn<?, ?> col_CustId;
 
     @FXML
-    private TableView<?> tvCustomers; //scenebuilder
+    private TableColumn<?, ?> col_FirstName;
 
     @FXML
-    void initialize() {
-        assert tvCustomers != null : "fx:id=\"tvCustomers\" was not injected: check your FXML file 'customerPage.fxml'.";
+    private TableColumn<?, ?> col_lastName;
 
-    }
+    @FXML
+    private TableColumn<?, ?> col_Address;
+
+    @FXML
+    private TableColumn<?, ?> col_Province;
+
+    @FXML
+    private TableColumn<?, ?> col_Postal;
+
+    @FXML
+    private TableColumn<?, ?> col_Country;
+
+    @FXML
+    private TableColumn<?, ?> col_HomePhone;
+
+    @FXML
+    private TableColumn<?, ?> col_BusPhone;
+
+    @FXML
+    private TableColumn<?, ?> col_Email;
+
+    @FXML
+    private TableColumn<?, ?> col_AgentId;
+
 }
