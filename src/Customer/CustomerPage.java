@@ -4,8 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import javax.swing.text.TableView;
-
 public class CustomerPage {
 
     @FXML
