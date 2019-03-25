@@ -6,27 +6,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="597.0" prefWidth="707.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Customer.CustomerPage">
+<AnchorPane prefHeight="853.0" prefWidth="1099.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Customer.CustomerPage">
    <children>
       <Label layoutX="230.0" layoutY="22.0" prefHeight="53.0" prefWidth="223.0" text="Customer">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <TableView fx:id="tvCustomers" layoutX="10.0" layoutY="73.0" prefHeight="486.0" prefWidth="688.0">
+      <TableView fx:id="tvCustomers" layoutX="25.0" layoutY="75.0" prefHeight="739.0" prefWidth="1050.0">
         <columns>
-          <TableColumn prefWidth="52.0" text="customerID" />
-          <TableColumn prefWidth="98.0" text="CustFirstName" />
-            <TableColumn prefWidth="75.0" text="CustLastName" />
-            <TableColumn prefWidth="75.0" text="CustAddress" />
-            <TableColumn prefWidth="75.0" text="CustCity" />
-            <TableColumn prefWidth="39.0" text="CustProv" />
-            <TableColumn prefWidth="111.0" text="CustPostal" />
-            <TableColumn prefWidth="75.0" text="CustCountry" />
-            <TableColumn prefWidth="93.0" text="CustHomePhone" />
-            <TableColumn prefWidth="57.0" text="CustBusPhone" />
-            <TableColumn prefWidth="75.0" text="CustEmail" />
-            <TableColumn prefWidth="75.0" text="AgentId" />
+          <TableColumn prefWidth="83.0" text="Customer Id" />
+          <TableColumn prefWidth="67.0" text="First Name" />
+            <TableColumn prefWidth="75.0" text="Last Name" />
+            <TableColumn prefWidth="75.0" text="Address" />
+            <TableColumn prefWidth="75.0" text="City" />
+            <TableColumn prefWidth="78.0" text="Province" />
+            <TableColumn prefWidth="72.0" text="Postal Code" />
+            <TableColumn prefWidth="75.0" text="Country" />
+            <TableColumn prefWidth="93.0" text="Home Phone" />
+            <TableColumn prefWidth="132.0" text="Business Phone" />
+            <TableColumn prefWidth="58.0" text="Email" />
+            <TableColumn prefWidth="128.0" text="Agent Id" />
         </columns>
       </TableView>
    </children>
