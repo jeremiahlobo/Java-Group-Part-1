@@ -25,12 +25,12 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="227.0" text="Home" />
+      <Label layoutX="42.0" layoutY="227.0" text="Home" />
       <Label layoutX="363.0" layoutY="227.0" text="Business" />
       <Label layoutX="34.0" layoutY="429.0" text="Email" />
       <Label layoutX="372.0" layoutY="438.0" text="Agent Id" />
       <TextField layoutX="430.0" layoutY="119.0" />
-      <TextField layoutX="132.0" layoutY="223.0" />
+      <TextField layoutX="141.0" layoutY="223.0" />
       <TextField layoutX="433.0" layoutY="222.0" />
       <TextField layoutX="132.0" layoutY="300.0" />
       <TextField layoutX="433.0" layoutY="300.0" />
