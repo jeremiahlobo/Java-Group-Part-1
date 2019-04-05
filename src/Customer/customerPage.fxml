@@ -17,9 +17,9 @@
         <columns>
           <TableColumn fx:id="col_CustId" prefWidth="83.0" text="Customer ID" />
           <TableColumn fx:id="col_FirstName" minWidth="0.0" prefWidth="67.0" text="First Name" />
-            <TableColumn fx:id="col_lastName" prefWidth="75.0" text="Last Name" />
+            <TableColumn fx:id="col_LastName" prefWidth="75.0" text="Last Name" />
             <TableColumn fx:id="col_Address" prefWidth="75.0" text="Address" />
-            <TableColumn fx:id="col_Address" prefWidth="75.0" text="City" />
+            <TableColumn fx:id="col_City" prefWidth="75.0" text="City" />
             <TableColumn fx:id="col_Province" prefWidth="61.0" text="Province" />
             <TableColumn fx:id="col_Postal" prefWidth="89.0" text="Postal" />
             <TableColumn fx:id="col_Country" prefWidth="75.0" text="Country" />
@@ -27,7 +27,7 @@
             <TableColumn fx:id="col_BusPhone" prefWidth="119.0" text="Business Phone" />
             <TableColumn fx:id="col_Email" prefWidth="53.0" text="Email" />
             <TableColumn fx:id="col_AgentId" prefWidth="113.0" text="Agent Id" />
-            <TableColumn prefWidth="75.0" text="Update" />
+            <TableColumn fx:id="col_update" prefWidth="75.0" text="Update" />
         </columns>
       </TableView>
    </children>
