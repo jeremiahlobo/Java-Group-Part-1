@@ -4,20 +4,32 @@ package Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.StringConverter;
-import javafx.util.converter.FloatStringConverter;
+import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.util.converter.IntegerStringConverter;
 
+
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 
-public class CustomerPage<Customer> implements Initializable {
+import static javafx.scene.control.cell.TextFieldTableCell.forTableColumn;
+
+
+//Controller for Customer
+//Author: Helen Lin
+public class CustomerPage{
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 
     @FXML
     private TableView<Customer> tvCustomers;
@@ -61,77 +73,142 @@ public class CustomerPage<Customer> implements Initializable {
     @FXML
     private TableColumn<Customer,Button> col_update;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initTable();
-        loadData();
-    }
+    public static ObservableList<Customer> data = FXCollections.observableArrayList();
 
-    private void initTable(){
+
+    @FXML
+     void initialize() {
+         assert tvCustomers != null : "fx:id=\"tvCustomers\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_CustId != null : "fx:id=\"col_CustId\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_FirstName != null : "fx:id=\"col_FirstName\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_LastName != null : "fx:id=\"col_LastName\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_Address != null : "fx:id=\"col_Address\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_City != null : "fx:id=\"col_City\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_Province != null : "fx:id=\"col_Province\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_Postal != null : "fx:id=\"col_Postal\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_Country != null : "fx:id=\"col_Country\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_HomePhone != null : "fx:id=\"col_HomePhone\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_BusPhone != null : "fx:id=\"col_BusPhone\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_Email != null : "fx:id=\"col_Email\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_AgentId != null : "fx:id=\"col_AgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
+         assert col_update != null : "fx:id=\"col_update\" was not injected: check your FXML file 'customerPage.fxml'.";
+
         initCols();
+
     }
-
-
+    //populate the table view
     private void initCols(){
-        col_CustId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        col_FirstName.setCellValueFactory(new PropertyValueFactory<>("Fname"));
-        col_LastName.setCellValueFactory(new PropertyValueFactory<>("Lname"));
-        col_Address.setCellValueFactory(new PropertyValueFactory<>("Address"));
-        col_City.setCellValueFactory(new PropertyValueFactory<>("City"));
-        col_Province.setCellValueFactory(new PropertyValueFactory<>("Prov"));
-        col_Postal.setCellValueFactory(new PropertyValueFactory<>("Postal"));
-        col_Country.setCellValueFactory(new PropertyValueFactory<>("Country"));
-        col_HomePhone.setCellValueFactory(new PropertyValueFactory<>("HPhone"));
-        col_BusPhone.setCellValueFactory(new PropertyValueFactory<>("Bphone"));
-        col_Email.setCellValueFactory(new PropertyValueFactory<>("Email"));
-        col_AgentId.setCellValueFactory(new PropertyValueFactory<>("Agid"));
-        editableCols();
-    }
 
-    private void editableCols() {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");//get the driver from the connection we added
 
-        col_FirstName.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_LastName.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_Address.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_City.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_Province.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_Postal.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_Country.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_HomePhone.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_BusPhone.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_Email.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_AgentId.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/travelexperts", "harv", "password");
+                String sql = "select * from Customers";
+                Statement stmt = conn.createStatement(); //make sure for statement you pick java.sql
+                ResultSet rs = stmt.executeQuery(sql);//use executeQuery as it will return a result set, also we imported ResultSet class and named it rs
+                while (rs.next())//move the cursor to new row in result set
+                {
+                    data.add(new Customer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11), rs.getInt(12)));
+                }
+                //green quote parameters have to be the exact same as the Customer class variables
+                col_CustId.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("customerID"));
+                col_FirstName.setCellValueFactory(new PropertyValueFactory<Customer,String>("custFirstName"));
+                col_LastName.setCellValueFactory(new PropertyValueFactory<Customer,String>("custLastName"));
+                col_Address.setCellValueFactory(new PropertyValueFactory<Customer,String>("custAddress"));
+                col_City.setCellValueFactory(new PropertyValueFactory<Customer,String>("custCity"));
+                col_Province.setCellValueFactory(new PropertyValueFactory<Customer,String>("custProv"));
+                col_Postal.setCellValueFactory(new PropertyValueFactory<Customer,String>("custPostal"));
+                col_Country.setCellValueFactory(new PropertyValueFactory<Customer,String>("custCountry"));
+                col_HomePhone.setCellValueFactory(new PropertyValueFactory<Customer,String>("custHomePhone"));
+                col_BusPhone.setCellValueFactory(new PropertyValueFactory<Customer,String>("custBusPhone"));
+                col_Email.setCellValueFactory(new PropertyValueFactory<Customer,String>("custEmail"));
+                col_AgentId.setCellValueFactory(new PropertyValueFactory<Customer,Integer>("agentId"));
+               //button
+                col_update.setCellValueFactory(new PropertyValueFactory<>("update"));
 
-        col_FirstName.setOnEditCommit(e -> {
-            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustName(e.getNewValue());
-
+            tvCustomers.setItems(data);
             tvCustomers.setEditable(true);
 
-        });//editablecols end
 
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+
+            editableCols();
     }
 
-    //   col_CustId.setCellValueFactory(new PropertyValueFactory<>("id"));
-    //        col_FirstName.setCellValueFactory(new PropertyValueFactory<>("Fname"));
-    //        col_LastName.setCellValueFactory(new PropertyValueFactory<>("Lname"));
-    //        col_Address.setCellValueFactory(new PropertyValueFactory<>("Address"));
-    //        col_City.setCellValueFactory(new PropertyValueFactory<>("City"));
-    //        col_Province.setCellValueFactory(new PropertyValueFactory<>("Prov"));
-    //        col_Postal.setCellValueFactory(new PropertyValueFactory<>("Postal"));
-    //        col_Country.setCellValueFactory(new PropertyValueFactory<>("Country"));
-    //        col_HomePhone.setCellValueFactory(new PropertyValueFactory<>("HPhone"));
-    //        col_BusPhone.setCellValueFactory(new PropertyValueFactory<>("Bphone"));
-    //        col_Email.setCellValueFactory(new PropertyValueFactory<>("Email"));
-    //        col_AgentId.setCellValueFactory(new PropertyValueFactory<>("Agid"));
-    private void loadData()
-    {
-        ObservableList<Customer> data_table = FXCollections.observableArrayList();
-        for (int i = 0; i<7; i++){
-            data_table.add(new Customer(String.valueOf(i), "id "+i, "Fname "+i, "Lname "+i,"Address "+i,"City "+i,"Prov "+i,"Postal "+i,"Country "+i,"HPhone "+i,"Bphone "+i,"Email "+i,"Agid "+i, new Button("update")));
-        }
+    public void editableCols() {
+        col_FirstName.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        tvCustomers.setItems(data_table);
-    }
+        col_FirstName.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustFirstName(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+        //
+        col_LastName.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_LastName.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustLastName(e.getNewValue());
+
+        }); //end of setonEditCommit
+        //
+        col_Address.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_Address.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustAddress(e.getNewValue());
+
+        }); //end of setonEditCommit
+        col_City.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_City.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustCity(e.getNewValue());
+
+        }); //end of setonEditCommit
+        col_Province.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_Province.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustProv(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+        col_Country.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_Country.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustCountry(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+        col_HomePhone.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_HomePhone.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustHomePhone(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+         col_BusPhone.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_BusPhone.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustBusPhone(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+        col_Email.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        col_Email.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setCustEmail(e.getNewValue());
+
+        }); //end of setonEditCommit
+
+        col_AgentId.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        col_AgentId.setOnEditCommit(e -> {
+            e.getTableView().getItems().get(e.getTablePosition().getRow()).setAgentId(e.getNewValue());
+
+        });
 
 
-}
+        tvCustomers.setEditable(true);
+    }//end of editableCols
+
+}//end of class
