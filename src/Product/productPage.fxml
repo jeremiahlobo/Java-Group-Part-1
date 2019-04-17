@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
    <children>
       <Label layoutX="198.0" layoutY="33.0" prefHeight="70.0" prefWidth="226.0" text="Products">
          <font>
@@ -16,8 +16,8 @@
       </Label>
       <TableView fx:id="tvProd" layoutX="28.0" layoutY="100.0" prefHeight="261.0" prefWidth="424.0">
         <columns>
-          <TableColumn prefWidth="218.0" text="ProductId" />
-          <TableColumn prefWidth="156.0" text="ProdName" />
+          <TableColumn fx:id="col_ProductId" prefWidth="218.0" text="ProductId" />
+          <TableColumn fx:id="col_ProdName" prefWidth="156.0" text="ProdName" />
         </columns>
       </TableView>
       <Button layoutX="504.0" layoutY="231.0" mnemonicParsing="false" text="Edit" />
