@@ -1,5 +1,6 @@
 package Product;
 
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.util.ResourceBundle;
 import Model.DB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,4 +56,7 @@ public class ProductPage {
     }
 
 
+
+    private TableView<?> tvProd;
 }
+
