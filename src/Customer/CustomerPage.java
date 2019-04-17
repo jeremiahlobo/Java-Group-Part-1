@@ -13,11 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import java.sql.*;
-import javafx.scene.control.Alert;
+
 import javafx.scene.input.MouseEvent;
 
 public class CustomerPage{
@@ -73,9 +72,16 @@ public class CustomerPage{
     private Button btnSave;
 
     @FXML
+    private Button btnNew;
+
+    @FXML
     private ListView<Customer> lvCustomers;
 
-    //when user clicks item in listview
+    @FXML
+    private Label lblMessage; //for message to users
+
+
+    //when user clicks item in listview, populate the text fields
     @FXML
     void selectListItem(MouseEvent event) {
         Customer cust = lvCustomers.getSelectionModel().getSelectedItem();
@@ -92,17 +98,6 @@ public class CustomerPage{
         String Email = cust.getCustEmail();
         int AgentId = cust.getAgentId();
 
-       /* tfCustFname.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustFirstName()));
-        tfCustLName.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustLastName()));
-        tfCustAddress.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustAddress()));
-        tfCustCity.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustCity()));
-        tfCustProv.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustProv()));
-        tfCustPostal.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustPostal()));
-        tfCustCountry.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustCountry()));
-        tfCustHPhone.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustHomePhone()));
-        tfCustBPhone.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustBusPhone()));
-        tfCustEmail.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustEmail()));
-        tfAgentId.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getAgentId()));*/
         tfCustid.setText(String.valueOf(custId));
         tfCustFname.setText(Fname);
         tfCustLName.setText(Lname);
@@ -117,8 +112,10 @@ public class CustomerPage{
         tfAgentId.setText(String.valueOf(AgentId));
 
     }
+
     @FXML
     void initialize() {
+        btnSave.setDisable(true);
         assert tfCustid != null : "fx:id=\"tfCustid\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustFname != null : "fx:id=\"tfCustFname\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustLName != null : "fx:id=\"tfCustLName\" was not injected: check your FXML file 'customerPage.fxml'.";
@@ -134,12 +131,17 @@ public class CustomerPage{
         //load the list view
         loadListView();
     }
+//When new button clicked, work on this today
+    @FXML
+    void OnActionNewClick(ActionEvent event){
 
+    }
     //When edit button clicked
     @FXML
     void OnActionEditClick(ActionEvent event) {
         //Need to be able to edit the Cust information here
         //when someone clicks edit, disable the edit button
+        //OnActionEditClick is referenced in code properties of button
         btnEdit.setDisable(true);
         tfCustFname.setEditable(true);
         tfCustLName.setEditable(true);
@@ -160,7 +162,6 @@ public class CustomerPage{
     void OnActionSaveClick(ActionEvent event) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Customers set CustomerId=?, CustFirstName=?, CustLastName=?, CustAddress=?, CustCity=?, CustProv=?, CustPostal=?, CustCountry=?,  CustHomePhone=?, CustBusPhone=?, CustEmail=?, AgentId=? where CustomerId=?;";
-
         try {
             //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -171,13 +172,17 @@ public class CustomerPage{
             stmt.setString(4, tfCustAddress.getText());
             stmt.setString(5, tfCustCity.getText());
             stmt.setString(6, tfCustProv.getText());
-            stmt.setString(7, tfCustCountry.getText());
-            stmt.setString(8, tfCustHPhone.getText());
-            stmt.setString(9, tfCustBPhone.getText());
-            stmt.setString(10, tfCustEmail.getText());
-            stmt.setInt(11, Integer.parseInt(tfAgentId.getText()));
+            stmt.setString(7, tfCustPostal.getText());
+            stmt.setString(8, tfCustCountry.getText());
+            stmt.setString(9, tfCustHPhone.getText());
+            stmt.setString(10, tfCustBPhone.getText());
+            stmt.setString(11, tfCustEmail.getText());
+            stmt.setInt(12, Integer.parseInt(tfAgentId.getText()));
+            stmt.setInt(13, lvCustomers.getSelectionModel().getSelectedItem().getCustomerID());
             int numRows = stmt.executeUpdate();
             //brings a value that tells us how many rows modified
+            lblMessage.setText("Customer successfully updated");
+
             if (numRows == 0) {
                 //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
