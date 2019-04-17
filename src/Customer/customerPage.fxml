@@ -40,19 +40,19 @@
             <Label text="Home Phone:" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
             <Label text="Business Phone:" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
             <Label text="E-mail:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <TextField fx:id="tfCustid" GridPane.columnIndex="1" />
-            <TextField fx:id="tfCustFname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="tfCustLName" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <TextField fx:id="tfCustAddress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="tfCustCity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="tfCustProv" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField fx:id="tfCustPostal" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <TextField fx:id="tfCustCountry" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="tfCustHPhone" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="tfCustBPhone" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="tfCustEmail" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="tfCustid" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="tfCustFname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tfCustLName" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="tfCustAddress" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tfCustCity" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="tfCustProv" editable="false" prefHeight="25.0" prefWidth="154.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <TextField fx:id="tfCustPostal" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="tfCustCountry" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="tfCustHPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="tfCustBPhone" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="tfCustEmail" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="5" />
             <Label text="Agent Id:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-            <TextField fx:id="tfAgentId" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+            <TextField fx:id="tfAgentId" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <ListView fx:id="lvCustomers" layoutX="75.0" layoutY="481.0" onMouseClicked="#selectListItem" prefHeight="184.0" prefWidth="765.0" />

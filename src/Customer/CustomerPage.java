@@ -115,6 +115,7 @@ public class CustomerPage{
 
     @FXML
     void initialize() {
+        btnSave.setDisable(true);
         assert tfCustid != null : "fx:id=\"tfCustid\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustFname != null : "fx:id=\"tfCustFname\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustLName != null : "fx:id=\"tfCustLName\" was not injected: check your FXML file 'customerPage.fxml'.";
@@ -130,7 +131,7 @@ public class CustomerPage{
         //load the list view
         loadListView();
     }
-//When new button clicked
+//When new button clicked, work on this today
     @FXML
     void OnActionNewClick(ActionEvent event){
 
