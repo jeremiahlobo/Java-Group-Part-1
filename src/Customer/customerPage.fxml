@@ -64,9 +64,9 @@
          </font>
       </Label>
       <Button fx:id="btnNew" layoutX="777.0" layoutY="283.0" mnemonicParsing="false" onAction="#OnActionNewClick" prefHeight="45.0" prefWidth="60.0" text="New" />
-      <Label fx:id="lblMessage" layoutX="625.0" layoutY="86.0" prefHeight="71.0" prefWidth="215.0" textFill="#099039">
+      <Label fx:id="lblMessage" layoutX="625.0" layoutY="86.0" prefHeight="59.0" prefWidth="215.0" textFill="#099039">
          <font>
-            <Font size="22.0" />
+            <Font size="14.0" />
          </font>
       </Label>
    </children>
