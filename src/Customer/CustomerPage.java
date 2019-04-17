@@ -5,20 +5,25 @@ import java.util.ResourceBundle;
 
 import Core.Customer;
 import Core.DBHelper;
+import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import java.sql.*;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 
-public class CustomerPage {
+public class CustomerPage{
 
     /* Author: Helen Lin
-    */
+     */
     @FXML
     private ResourceBundle resources;
 
@@ -70,6 +75,48 @@ public class CustomerPage {
     @FXML
     private ListView<Customer> lvCustomers;
 
+    //when user clicks item in listview
+    @FXML
+    void selectListItem(MouseEvent event) {
+        Customer cust = lvCustomers.getSelectionModel().getSelectedItem();
+        int custId = cust.getCustomerID();
+        String Fname = cust.getCustFirstName();
+        String Lname = cust.getCustLastName();
+        String Address = cust.getCustAddress();
+        String City = cust.getCustCity();
+        String Prov = cust.getCustProv();
+        String Postal = cust.getCustPostal();
+        String Country = cust.getCustCountry();
+        String HPhone = cust.getCustHomePhone();
+        String BPhone = cust.getCustBusPhone();
+        String Email = cust.getCustEmail();
+        int AgentId = cust.getAgentId();
+
+       /* tfCustFname.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustFirstName()));
+        tfCustLName.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustLastName()));
+        tfCustAddress.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustAddress()));
+        tfCustCity.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustCity()));
+        tfCustProv.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustProv()));
+        tfCustPostal.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustPostal()));
+        tfCustCountry.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustCountry()));
+        tfCustHPhone.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustHomePhone()));
+        tfCustBPhone.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustBusPhone()));
+        tfCustEmail.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getCustEmail()));
+        tfAgentId.setText(String.valueOf(lvCustomers.getSelectionModel().getSelectedItem().getAgentId()));*/
+        tfCustid.setText(String.valueOf(custId));
+        tfCustFname.setText(Fname);
+        tfCustLName.setText(Lname);
+        tfCustAddress.setText(Address);
+        tfCustCity.setText(City);
+        tfCustProv.setText(Prov);
+        tfCustPostal.setText(Postal);
+        tfCustCountry.setText(Country);
+        tfCustHPhone.setText(HPhone);
+        tfCustBPhone.setText(BPhone);
+        tfCustEmail.setText(Email);
+        tfAgentId.setText(String.valueOf(AgentId));
+
+    }
     @FXML
     void initialize() {
         assert tfCustid != null : "fx:id=\"tfCustid\" was not injected: check your FXML file 'customerPage.fxml'.";
@@ -108,6 +155,7 @@ public class CustomerPage {
         btnSave.setDisable(false); //enable the save button
     }
 
+    //Updates customer and sends to database
     @FXML
     void OnActionSaveClick(ActionEvent event) {
         Connection conn = DBHelper.getConnection();//initialize connection again
@@ -130,8 +178,7 @@ public class CustomerPage {
             stmt.setInt(11, Integer.parseInt(tfAgentId.getText()));
             int numRows = stmt.executeUpdate();
             //brings a value that tells us how many rows modified
-            if(numRows==0)
-            {
+            if (numRows == 0) {
                 //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
                 alert.showAndWait();
@@ -162,7 +209,7 @@ public class CustomerPage {
     //our array list for storing Customers
     ObservableList<Customer> data = FXCollections.observableArrayList();
 
-    private void loadListView(){
+    private void loadListView() {
         //start with clean list view
         lvCustomers.getItems().clear();
         Connection conn = DBHelper.getConnection();
@@ -170,9 +217,8 @@ public class CustomerPage {
         try {
             Statement stmt = conn.createStatement();//creates statement object
             ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
-            while (rs.next())
-            {
-                data.add(new Customer(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11),rs.getInt(12)));
+            while (rs.next()) {
+                data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
 
             }
             lvCustomers.setItems(data);
@@ -181,5 +227,9 @@ public class CustomerPage {
         }
 
     }
-}
+
+
+
+
+}//end
 
