@@ -35,7 +35,7 @@ public class Base {
             Parent root = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("Dashboard");
-            stage.setScene(new Scene(root, 650, 400));
+            stage.setScene(new Scene(root, 1000, 700));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class Base {
             Parent root = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("Dashboard");
-            stage.setScene(new Scene(root, 650, 400));
+            stage.setScene(new Scene(root, 1000, 700));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,7 +72,7 @@ public class Base {
             Parent root = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             stage.setTitle("Dashboard");
-            stage.setScene(new Scene(root, 650, 400));
+            stage.setScene(new Scene(root, 1000, 700));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
