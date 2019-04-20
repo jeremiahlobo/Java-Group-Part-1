@@ -8,6 +8,12 @@ public class Supplier {
     private SimpleIntegerProperty SupplierId;
     private SimpleStringProperty SupName;
 
+    @Override
+    public String toString() {
+        return
+                "SupName=" + SupName;
+    }
+
     public Supplier(int SupplierId, String SupName)
     {
         this.SupplierId = new SimpleIntegerProperty(SupplierId);
