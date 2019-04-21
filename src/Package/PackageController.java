@@ -19,26 +19,31 @@ import java.util.ResourceBundle;
 
 public class PackageController {
 
-    @FXML
-    private ResourceBundle resources;
 
     @FXML
-    private URL location;
+    private ListView<Package> lvPackages;
 
     @FXML
-    private TextField txtProdId;
+    private TextField txtPackageId;
 
     @FXML
-    private TextField txtProdName;
+    private TextField txtPackageName;
 
     @FXML
-    private Button btnSave;
+    private TextField txtStartDate;
 
     @FXML
-    private Button btnNew;
+    private TextField txtEndDate;
 
     @FXML
-    private ListView<Package> lvProducts;
+    private TextField txtBasePrice;
+
+    @FXML
+    private TextField txtComission;
+
+    @FXML
+    private TextField txtDescription;
+
 
     @FXML
     void selectListItem(MouseEvent event) {
@@ -54,24 +59,38 @@ public class PackageController {
         double PkAg = pack.getPkgAgencyCommission();
 
         //change
-        txtPkId.setText(String.valueOf(PkId));
-        txtPkName.setText(PkName);
-        txtPkStart.setText(PkStart);
-        txtPkEnd.setText(PkEnd);
-        txtPkDesc.setText(PkDesc);
-        txtPkBase.setText(String.valueOf(PkBase));
-        txtPkAg.setText(String.valueOf(PkAg));
+        txtPackageId.setText(String.valueOf(PkId));
+        txtPackageName.setText(PkName);
+        txtStartDate.setText(PkStart);
+        txtEndDate.setText(PkEnd);
+        txtDescription.setText(PkDesc);
+        txtBasePrice.setText(String.valueOf(PkBase));
+        txtComission.setText(String.valueOf(PkAg));
     }
 
     ObservableList<Package> pkList = FXCollections.observableArrayList();
 
     @FXML
     void initialize() {
-        //btnSave.setDisable(true);
-        assert txtProdId != null : "fx:id=\"txtProdId\" was not injected: check your FXML file 'productPage.fxml'.";
-        assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
+        assert lvPackages != null : "fx:id=\"lvPackages\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtPackageId != null : "fx:id=\"txtPackageId\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtPackageName != null : "fx:id=\"txtPackageName\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtStartDate != null : "fx:id=\"txtStartDate\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtEndDate != null : "fx:id=\"txtEndDate\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtBasePrice != null : "fx:id=\"txtBasePrice\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtComission != null : "fx:id=\"txtComission\" was not injected: check your FXML file 'Package.fxml'.";
+        assert txtDescription != null : "fx:id=\"txtDescription\" was not injected: check your FXML file 'Package.fxml'.";
 
-        txtProdId.setEditable(false);
+        //btnSave.setDisable(true);
+
+        txtPackageId.setEditable(false);
+        txtPackageName.setEditable(false);
+        txtStartDate.setEditable(false);
+        txtEndDate.setEditable(false);
+        txtDescription.setEditable(false);
+        txtBasePrice.setEditable(false);
+        txtComission.setEditable(false);
+
         //load the list view
         loadListView();
     }
@@ -95,7 +114,7 @@ public class PackageController {
             //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
             //these parameters equate to the sql string above, dont start at 0, start at 1
-            stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
+            stmt.setInt(1, Integer.parseInt(txtPackageId.getText()));
 
             int numRows = stmt.executeUpdate();
 
@@ -145,7 +164,12 @@ public class PackageController {
             //these parameters equate to the sql string above, dont start at 0, start at 1
             //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
             stmt.setInt(1, maxPackageId);
-            stmt.setString(2, txtProdName.getText());
+            stmt.setString(2, txtPackageName.getText());
+            stmt.setString(3, txtStartDate.getText());
+            stmt.setString(4, txtEndDate.getText());
+            stmt.setString(5, txtDescription.getText());
+            stmt.setString(6, txtBasePrice.getText());
+            stmt.setString(7, txtComission.getText());
 
             int numRows = stmt.executeUpdate();
             System.out.println(numRows);
@@ -197,12 +221,12 @@ public class PackageController {
             //these parameters equate to the sql string above, dont start at 0, start at 1
 
 
-            stmt.setString(1, txtPackName.getText());
-            stmt.setString(1, txtPackStart.getText());
-            stmt.setString(1, txtPackEnd.getText());
-            stmt.setString(1, txtPackDesc.getText());
-            stmt.setInt(2, Integer.parseInt(txtBase.getText()));
-            stmt.setInt(2, Integer.parseInt(txtAgency.getText()));
+            stmt.setString(1, txtPackageName.getText());
+            stmt.setString(1, txtStartDate.getText());
+            stmt.setString(1, txtEndDate.getText());
+            stmt.setString(1, txtDescription.getText());
+            stmt.setInt(2, Integer.parseInt(txtBasePrice.getText()));
+            stmt.setInt(2, Integer.parseInt(txtComission.getText()));
 
             int numRows = stmt.executeUpdate();
 
