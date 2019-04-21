@@ -102,8 +102,8 @@ public class ProductPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
+            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            //`alert.showAndWait();
         }
 
     }

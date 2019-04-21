@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.sql.*;
 
@@ -30,7 +31,18 @@ public class SupplierPage {
     private Button btnNew;
 
     @FXML
+    private javafx.scene.control.Button btnBack;
+
+    @FXML
     private ListView<Supplier> lvSupplier;
+
+    @FXML
+    private void OnBackClick(){
+        // get a handle to the stage
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
 
     @FXML
     void selectListItem(MouseEvent event) {
@@ -174,8 +186,8 @@ public class SupplierPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
+            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            //alert.showAndWait();
         }
 
     }
