@@ -1,21 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="554.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Package.PackageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TableView layoutX="14.0" layoutY="12.0" prefHeight="528.0" prefWidth="752.0">
-        <columns>
-          <TableColumn prefWidth="75.0" text="Package ID" />
-          <TableColumn prefWidth="112.0" text="Pkg Name" />
-            <TableColumn prefWidth="112.0" text="Start Date" />
-            <TableColumn prefWidth="112.0" text="End Date" />
-            <TableColumn prefWidth="112.0" text="Description" />
-            <TableColumn prefWidth="112.0" text="Base Price" />
-            <TableColumn prefWidth="112.0" />
-        </columns>
-      </TableView>
+      <ListView fx:id="lvPackages" layoutX="96.0" layoutY="266.0" onMouseClicked="#selectListItem" prefHeight="200.0" prefWidth="474.0" />
+      <GridPane layoutX="105.0" layoutY="109.0" prefWidth="200.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Package Id:" />
+            <Label text="Package Name:" GridPane.rowIndex="1" />
+            <Label text="Start Date:" GridPane.rowIndex="2" />
+            <Label text="End Date:" GridPane.rowIndex="3" />
+            <TextField fx:id="txtPackageId" GridPane.columnIndex="1" />
+            <TextField fx:id="txtPackageName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtStartDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtEndDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="359.0" layoutY="109.0" prefWidth="200.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Description:" GridPane.rowIndex="2" />
+            <Label text="Base Price:" />
+            <Label text="Comission:" GridPane.rowIndex="1" />
+            <TextField fx:id="txtBasePrice" GridPane.columnIndex="1" />
+            <TextField fx:id="txtComission" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtDescription" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <Button layoutX="384.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnNewClick" text="New" />
+      <Button layoutX="438.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnSaveClick" text="Save" />
+      <Button layoutX="497.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnDeleteClick" text="Delete" />
+      <Label layoutX="238.0" layoutY="25.0" prefHeight="70.0" prefWidth="226.0" text="Packages">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
    </children>
-</Pane>
+</AnchorPane>

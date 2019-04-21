@@ -11,7 +11,7 @@ public class DBHelper {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/travelexperts", "harv", "password");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/travelexperts", "root", "");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

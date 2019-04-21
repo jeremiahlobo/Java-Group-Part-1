@@ -7,7 +7,7 @@ import java.util.Properties;
 public class DB {
     
     // JDBC Connection
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
 
         Connection dbConnection = null;
 
