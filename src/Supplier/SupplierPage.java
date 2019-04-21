@@ -58,7 +58,7 @@ public class SupplierPage {
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "UPDATE Products set SupName=? where SupplierId=?;";
+        String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
         try {
             //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -93,13 +93,13 @@ public class SupplierPage {
 
     public void OnActionNewClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
-        String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
-        int maxProductId=0;
+        String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
+        int maxSupplierId=0;
         try {
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
-            stmt.setInt(1, maxProductId);
+            stmt.setInt(1, maxSupplierId);
             stmt.setString(2, txtSupplierName.getText());
 
             int numRows = stmt.executeUpdate();
@@ -142,7 +142,7 @@ public class SupplierPage {
         //start with clean list view
         lvSupplier.getItems().clear();
         Connection conn = DBHelper.getConnection();
-        String sql = "select * from products";
+        String sql = "select * from suppliers";
         try {
             Statement stmt = conn.createStatement();//creates statement object
             ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs

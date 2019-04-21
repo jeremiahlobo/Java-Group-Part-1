@@ -9,7 +9,7 @@ import java.util.List;
 public class SupplierModel extends DB  {
 
     //*************************************************************
-    //* GET ALL Customers
+    //* GET ALL Suppliers
     //*************************************************************
     public List getSuppliers()
     {

@@ -18,7 +18,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 public class PackageController {
-
+//Author: Helen Lin
 
     @FXML
     private ListView<Package> lvPackages;
@@ -141,7 +141,7 @@ public class PackageController {
     }
 
 
-    public void OnActionNewClick(ActionEvent actionEvent) {
+    public void OnNewClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
         String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
@@ -212,7 +212,7 @@ public class PackageController {
 
 */
 
-    public void OnActionSaveClick(ActionEvent actionEvent) {
+    public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {

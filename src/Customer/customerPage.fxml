@@ -56,18 +56,20 @@
          </children>
       </GridPane>
       <ListView fx:id="lvCustomers" layoutX="75.0" layoutY="481.0" onMouseClicked="#selectListItem" prefHeight="184.0" prefWidth="765.0" />
-      <Button fx:id="btnEdit" layoutX="777.0" layoutY="345.0" mnemonicParsing="false" onAction="#OnActionEditClick" prefHeight="45.0" prefWidth="60.0" text="Edit" />
-      <Button fx:id="btnSave" layoutX="777.0" layoutY="405.0" mnemonicParsing="false" onAction="#OnActionSaveClick" prefHeight="45.0" prefWidth="60.0" text="Save" />
+      <Button fx:id="btnEdit" layoutX="777.0" layoutY="224.0" mnemonicParsing="false" onAction="#OnActionEditClick" prefHeight="45.0" prefWidth="60.0" text="Edit" />
+      <Button fx:id="btnSave" layoutX="777.0" layoutY="283.0" mnemonicParsing="false" onAction="#OnActionSaveClick" prefHeight="45.0" prefWidth="60.0" text="Save" />
       <Label layoutX="464.0" layoutY="27.0" text="Customers">
          <font>
             <Font size="41.0" />
          </font>
       </Label>
-      <Button fx:id="btnNew" layoutX="777.0" layoutY="283.0" mnemonicParsing="false" onAction="#OnActionNewClick" prefHeight="45.0" prefWidth="60.0" text="New" />
+      <Button fx:id="btnNew" layoutX="777.0" layoutY="165.0" mnemonicParsing="false" onAction="#OnActionNewClick" prefHeight="45.0" prefWidth="60.0" text="New" />
       <Label fx:id="lblMessage" layoutX="625.0" layoutY="86.0" prefHeight="59.0" prefWidth="215.0" textFill="#099039">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <Button fx:id="btnDelete" layoutX="777.0" layoutY="342.0" mnemonicParsing="false" onAction="#OnActionDeleteClick" prefHeight="45.0" prefWidth="60.0" text="Delete" />
+      <Button fx:id="btnSubmit" disable="true" layoutX="855.0" layoutY="165.0" mnemonicParsing="false" onAction="#OnActionSubmitClick" prefHeight="45.0" prefWidth="60.0" text="Submit" />
    </children>
 </AnchorPane>
