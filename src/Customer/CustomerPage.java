@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import java.sql.*;
 
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class CustomerPage{
 
@@ -87,6 +88,17 @@ public class CustomerPage{
     private Label lblMessage;
 
     @FXML
+    private Button btnBack;
+
+    @FXML
+    private void OnBackClick(){
+        // get a handle to the stage
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
+
+    @FXML
     void selectListItem(MouseEvent event) {
         Customer cust = lvCustomers.getSelectionModel().getSelectedItem();
         int custId = cust.getCustomerID();
@@ -132,19 +144,14 @@ public class CustomerPage{
         assert tfCustBPhone != null : "fx:id=\"tfCustBPhone\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfAgentId != null : "fx:id=\"tfAgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
         //load the list view
->>>>>>> master
-=======
+
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
 
->>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
         loadListView();
     }
 
@@ -244,13 +251,6 @@ public class CustomerPage{
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    //When edit button clicked
->>>>>>> master
-=======
->>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
     @FXML
     void OnActionEditClick(ActionEvent event) {
         btnEdit.setDisable(true);
