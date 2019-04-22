@@ -52,12 +52,19 @@ public class SupplierPage {
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         Connection conn = DBHelper.getConnection();
         String sql = "UPDATE Products set SupName=? where SupplierId=?;";
 =======
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
 >>>>>>> master
+=======
+
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
+
+>>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(2, Integer.parseInt(txtSupplierId.getText()));
@@ -81,6 +88,7 @@ public class SupplierPage {
 
     public void OnActionNewClick(ActionEvent actionEvent) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         Connection conn = DBHelper.getConnection();
         String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
         int maxProductId=0;
@@ -89,6 +97,13 @@ public class SupplierPage {
         String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
         int maxSupplierId=0;
 >>>>>>> master
+=======
+
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
+        int maxSupplierId=0;
+
+>>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
         try {
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);

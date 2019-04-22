@@ -133,12 +133,18 @@ public class CustomerPage{
         assert tfAgentId != null : "fx:id=\"tfAgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
         //load the list view
 >>>>>>> master
+=======
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
+
+>>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
         loadListView();
     }
 
@@ -239,9 +245,12 @@ public class CustomerPage{
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     //When edit button clicked
 >>>>>>> master
+=======
+>>>>>>> 87df96a30ed41010e4cf25b45d4b27e6414a961f
     @FXML
     void OnActionEditClick(ActionEvent event) {
         btnEdit.setDisable(true);
