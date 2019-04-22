@@ -26,7 +26,7 @@
          <children>
             <Label text="Product ID:" />
             <Label text="Product Name:" GridPane.rowIndex="1" />
-            <TextField fx:id="txtProdId" GridPane.columnIndex="1" />
+            <TextField fx:id="txtProdId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtProdName" prefHeight="25.0" prefWidth="157.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>

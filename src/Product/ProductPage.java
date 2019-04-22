@@ -118,40 +118,41 @@ public class ProductPage {
         if(matchString(txtProdName.getText()) ==true)
     {
 
-        Connection conn = DBHelper.getConnection();
-        String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
-        int maxProductId = 0;
-        try {
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
+        {
+            Connection conn = DBHelper.getConnection();
+            String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
+            int maxProductId = 0;
+            try {
+                PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-            stmt.setInt(1, maxProductId);
-            stmt.setString(2, txtProdName.getText());
+                stmt.setInt(1, maxProductId);
+                stmt.setString(2, txtProdName.getText());
 
-            int numRows = stmt.executeUpdate();
-            System.out.println(numRows);
+                int numRows = stmt.executeUpdate();
+                System.out.println(numRows);
 
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    if (numRows == 0) {
+                        //create a new alert
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                        alert.showAndWait();
+                    } else {
+                        //show rows were updated
+                        Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                        success.showAndWait();
+                        loadListView();
+                    }
+                conn.close();
+
+            }catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
                 alert.showAndWait();
-            } else {
-                //show rows were updated
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                success.showAndWait();
-                loadListView();
             }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
+        }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
+                alert.showAndWait();
+            }
         }
-    }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
-            alert.showAndWait();
-        }
-}
 
     void OnActionEditClick(ActionEvent event) {
         btnEdit.setDisable(true);
@@ -160,7 +161,10 @@ public class ProductPage {
         btnSave.setVisible(true);//show the save button
     }
 
-    public void OnActionSubmitClick(ActionEvent actionEvent) {
+
+    public void OnActionSaveClick(ActionEvent actionEvent) {
+        Boolean passes = false;
+
 
         if (matchString(txtProdName.getText()) == true) {
             Connection conn = DBHelper.getConnection();//initialize connection again

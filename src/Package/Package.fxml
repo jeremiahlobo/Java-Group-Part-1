@@ -29,7 +29,7 @@
             <Label text="Package Name:" GridPane.rowIndex="1" />
             <Label text="Start Date:" GridPane.rowIndex="2" />
             <Label text="End Date:" GridPane.rowIndex="3" />
-            <TextField fx:id="txtPackageId" GridPane.columnIndex="1" />
+            <TextField fx:id="txtPackageId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtPackageName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="txtStartDate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="txtEndDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -54,16 +54,16 @@
             <TextField fx:id="txtDescription" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button layoutX="293.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnNewClick" text="New" />
-      <Button fx:id="btnSave" layoutX="450.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnSaveClick" text="Save" />
-      <Button layoutX="497.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnDeleteClick" text="Delete" />
+      <Button fx:id="btnNew" layoutX="305.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnNewClick" text="New" />
+      <Button fx:id="btnSave" disable="true" layoutX="464.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnSaveClick" text="Save" />
+      <Button fx:id="btnDelete" layoutX="518.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnDeleteClick" text="Delete" />
       <Label layoutX="238.0" layoutY="25.0" prefHeight="70.0" prefWidth="226.0" text="Packages">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
       <Button fx:id="btnBack" layoutX="518.0" layoutY="54.0" mnemonicParsing="false" onAction="#OnBackClick" text="Back" />
-      <Button fx:id="btnSubmit" layoutX="344.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnActionSubmitClick" text="Submit" />
-      <Button fx:id="btnEdit" layoutX="407.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnActionEditClick" text="Edit" />
+      <Button fx:id="btnEdit" layoutX="409.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnEditClick" text="Edit" />
+      <Button fx:id="btnSubmit" disable="true" layoutX="351.0" layoutY="229.0" mnemonicParsing="false" onAction="#OnSubmitClick" text="Submit" />
    </children>
 </AnchorPane>

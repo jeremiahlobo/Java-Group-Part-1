@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="505.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Supplier.SupplierPage">
+<AnchorPane prefHeight="505.0" prefWidth="849.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Supplier.SupplierPage">
     <children>
         <Label layoutX="273.0" layoutY="40.0" prefHeight="70.0" prefWidth="226.0" text="Suppliers">
             <font>
@@ -33,7 +33,7 @@
          <children>
             <Label text="Supplier ID:" />
             <Label text="Supplier Name:" GridPane.rowIndex="1" />
-            <TextField fx:id="txtSupplierId" GridPane.columnIndex="1" />
+            <TextField fx:id="txtSupplierId" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtSupplierName" prefHeight="25.0" prefWidth="157.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
