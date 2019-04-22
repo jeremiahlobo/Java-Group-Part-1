@@ -75,6 +75,12 @@ public class CustomerPage{
     private Button btnNew;
 
     @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnSubmit;
+
+    @FXML
     private ListView<Customer> lvCustomers;
 
     @FXML
@@ -128,14 +134,109 @@ public class CustomerPage{
         assert tfCustBPhone != null : "fx:id=\"tfCustBPhone\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfAgentId != null : "fx:id=\"tfAgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
 
+
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
         //load the list view
         loadListView();
     }
 //When new button clicked, work on this today
     @FXML
     void OnActionNewClick(ActionEvent event){
+        tfCustid.clear();
+        tfCustFname.clear();
+        tfCustLName.clear();
+        tfCustAddress.clear();
+        tfCustCity.clear();
+        tfCustProv.clear();
+        tfCustPostal.clear();
+        tfCustCountry.clear();
+        tfCustHPhone.clear();
+        tfCustBPhone.clear();
+        tfCustEmail.clear();
+        tfAgentId.clear();
+
+        tfCustFname.setEditable(true);
+        tfCustLName.setEditable(true);
+        tfCustAddress.setEditable(true);
+        tfCustCity.setEditable(true);
+        tfCustProv.setEditable(true);
+        tfCustPostal.setEditable(true);
+        tfCustCountry.setEditable(true);
+        tfCustHPhone.setEditable(true);
+        tfCustBPhone.setEditable(true);
+        tfCustEmail.setEditable(true);
+        tfAgentId.setEditable(true);
+
+        btnSubmit.setDisable(false);
+
+        btnSubmit.setVisible(true);
+        btnSave.setVisible(false);
 
     }
+    @FXML
+    void OnActionSubmitClick(ActionEvent event) {
+        Connection conn = DBHelper.getConnection();//initialize connection again
+
+        String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";
+        int maxCustId=0;
+        try {
+            //precompile the statement
+
+            PreparedStatement stmt = conn.prepareStatement(insertsql);
+
+
+            //these parameters equate to the sql string above, dont start at 0, start at 1
+
+            stmt.setString(1, tfCustFname.getText());
+            stmt.setString(2, tfCustLName.getText());
+            stmt.setString(3, tfCustAddress.getText());
+            stmt.setString(4, tfCustCity.getText());
+            stmt.setString(5, tfCustProv.getText());
+            stmt.setString(6, tfCustPostal.getText());
+            stmt.setString(7, tfCustCountry.getText());
+            stmt.setString(8, tfCustHPhone.getText());
+            stmt.setString(9, tfCustBPhone.getText());
+            stmt.setString(10, tfCustEmail.getText());
+            stmt.setString(11, tfAgentId.getText());
+
+
+            //  private int customerID;
+            //    private String CustFirstName;
+            //    private String CustLastName;
+            //    private String CustAddress;
+            //    private String CustCity;
+            //    private String CustProv;
+            //    private String CustPostal;
+            //    private String CustCountry;
+            //    private String CustHomePhone;
+            //    private String CustBusPhone;
+            //    private String CustEmail;
+            //    private int AgentId;
+
+            int numRows = stmt.executeUpdate();
+            System.out.println(numRows);
+
+            if (numRows == 0) {
+                //create a new alert
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                alert.showAndWait();
+            }
+            else{
+                //show rows were updated
+                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                success.showAndWait();
+                loadListView();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            alert.showAndWait();
+        }
+    }
+
     //When edit button clicked
     @FXML
     void OnActionEditClick(ActionEvent event) {
@@ -155,6 +256,7 @@ public class CustomerPage{
         tfCustEmail.setEditable(true);
         tfAgentId.setEditable(true);
         btnSave.setDisable(false); //enable the save button
+        btnSave.setVisible(true);//show the save button
     }
 
     //Updates customer and sends to database
@@ -209,8 +311,43 @@ public class CustomerPage{
 
         //enable the edit button again
         btnEdit.setDisable(false);
+
+        //refresh the list view
+        loadListView();
     }
 
+    @FXML
+    void OnActionDeleteClick(ActionEvent event) {
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String sql = "DELETE FROM customers WHERE customerId=?;";
+        try {
+            //precompile the statement
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            //these parameters equate to the sql string above, dont start at 0, start at 1
+            stmt.setInt(1, Integer.parseInt(tfCustid.getText()));
+
+            int numRows = stmt.executeUpdate();
+
+
+            if (numRows == 0) {
+                //create a new alert
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
+                alert.showAndWait();
+            }
+            else{
+                //show rows were updated
+                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
+                success.showAndWait();
+                loadListView();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            //`alert.showAndWait();
+        }
+    }
     //our array list for storing Customers
     ObservableList<Customer> data = FXCollections.observableArrayList();
 

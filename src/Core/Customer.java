@@ -129,17 +129,9 @@ public class Customer {
 
     @Override
     public String toString() {
-        return  "CustId: " + customerID +
+        return  customerID +
                 "   " + CustFirstName +
                 ", " + CustLastName +
-                ", " + CustAddress +
-                ", " + CustCity +
-                ", " + CustProv +
-                ", " + CustPostal +
-                ", " + CustCountry +
-                ", Home Phone: " + CustHomePhone +
-                ", Bus Phone: " + CustBusPhone +
-                ", Email: " + CustEmail.trim() +
                 " AgentId: " + AgentId;
     }
 }

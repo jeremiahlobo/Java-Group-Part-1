@@ -75,4 +75,12 @@ public class Package {
     public void setPkgAgencyCommission(double pkgAgencyCommission) {
         PkgAgencyCommission = pkgAgencyCommission;
     }
+
+    @Override
+    public String toString() {
+        return
+                PackageId +
+                "   " + PkgName;
+
+    }
 }
