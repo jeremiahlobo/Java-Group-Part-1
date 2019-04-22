@@ -28,7 +28,7 @@ public class Validator {
 
     public static boolean matchPhoneNumber(String input)
     {
-        if(input.matches("/\\(([0-9]{3})\\)([ .-]?)([0-9]{3})\\2([0-9]{4})|([0-9]{3})([ .-]?)([0-9]{3})\\5([0-9]{4})/"))
+        if(input.matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$"))
         {
             return true;
         }

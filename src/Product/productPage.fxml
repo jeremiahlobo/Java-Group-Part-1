@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="424.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
+<AnchorPane prefHeight="424.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Product.ProductPage">
       <Button fx:id="btnSave" layoutX="514.0" layoutY="116.0" mnemonicParsing="false" onAction="#OnActionSaveClick" text="Save" />
-      <Button fx:id="btnNew" layoutX="443.0" layoutY="152.0" mnemonicParsing="false" onAction="#OnActionNewClick" text="New" />
+      <Button fx:id="btnNew" layoutX="443.0" layoutY="116.0" mnemonicParsing="false" onAction="#OnActionNewClick" text="New" />
       <ListView fx:id="lvProducts" layoutX="36.0" layoutY="187.0" onMouseClicked="#selectListItem" prefHeight="198.0" prefWidth="541.0" />
       <GridPane layoutX="99.0" layoutY="116.0" prefHeight="60.0" prefWidth="325.0">
         <columnConstraints>
@@ -37,4 +37,6 @@
       </font>
    </Label>
    <Button fx:id="btnBack" layoutX="499.0" layoutY="55.0" mnemonicParsing="false" onAction="#OnBackClick" text="Back" />
+   <Button fx:id="btnSubmit" layoutX="437.0" layoutY="152.0" mnemonicParsing="false" onAction="#OnActionSubmitClick" text="Submit" />
+   <Button layoutX="577.0" layoutY="116.0" mnemonicParsing="false" onAction="#OnActionEditClick" text="Edit" />
 </AnchorPane>

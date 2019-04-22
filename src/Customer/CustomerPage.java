@@ -2,7 +2,7 @@ package Customer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import Base.Validator;
 import Core.Customer;
 import Core.DBHelper;
 import javafx.collections.FXCollections;
@@ -15,6 +15,8 @@ import java.sql.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import static Base.Validator.*;
 
 public class CustomerPage{
 
@@ -61,6 +63,12 @@ public class CustomerPage{
 
     @FXML
     private TextField tfAgentId;
+
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private TextField txtPassword;
 
     @FXML
     private Button btnEdit;
@@ -197,63 +205,75 @@ public class CustomerPage{
     }
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
 
-        String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";
-        int maxCustId=0;
-        try {
-            //precompile the statement
+        if(matchString(tfCustFname.getText()) == true && matchString(tfCustFname.getText()) == true && matchString(tfCustAddress.getText()) == true && matchString(tfCustCity.getText()) == true
+        && matchProvince(tfCustProv.getText()) == true && matchPostalCode(tfCustPostal.getText()) == true && matchString(tfCustCountry.getText()) == true && matchPhoneNumber(tfCustHPhone.getText()) == true &&
+        matchPhoneNumber(tfCustBPhone.getText()) == true && matchEmail(tfCustEmail.getText()) == true)
+        {
 
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
+            Connection conn = DBHelper.getConnection();//initialize connection again
 
+            String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
+            int maxCustId = 0;
+            try {
+                //precompile the statement
 
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-
-            stmt.setString(1, tfCustFname.getText());
-            stmt.setString(2, tfCustLName.getText());
-            stmt.setString(3, tfCustAddress.getText());
-            stmt.setString(4, tfCustCity.getText());
-            stmt.setString(5, tfCustProv.getText());
-            stmt.setString(6, tfCustPostal.getText());
-            stmt.setString(7, tfCustCountry.getText());
-            stmt.setString(8, tfCustHPhone.getText());
-            stmt.setString(9, tfCustBPhone.getText());
-            stmt.setString(10, tfCustEmail.getText());
-            stmt.setString(11, tfAgentId.getText());
+                PreparedStatement stmt = conn.prepareStatement(insertsql);
 
 
-            //  private int customerID;
-            //    private String CustFirstName;
-            //    private String CustLastName;
-            //    private String CustAddress;
-            //    private String CustCity;
-            //    private String CustProv;
-            //    private String CustPostal;
-            //    private String CustCountry;
-            //    private String CustHomePhone;
-            //    private String CustBusPhone;
-            //    private String CustEmail;
-            //    private int AgentId;
+                //these parameters equate to the sql string above, dont start at 0, start at 1
 
-            int numRows = stmt.executeUpdate();
-            System.out.println(numRows);
+                stmt.setString(1, tfCustFname.getText());
+                stmt.setString(2, tfCustLName.getText());
+                stmt.setString(3, tfCustAddress.getText());
+                stmt.setString(4, tfCustCity.getText());
+                stmt.setString(5, tfCustProv.getText());
+                stmt.setString(6, tfCustPostal.getText());
+                stmt.setString(7, tfCustCountry.getText());
+                stmt.setString(8, tfCustHPhone.getText());
+                stmt.setString(9, tfCustBPhone.getText());
+                stmt.setString(10, tfCustEmail.getText());
+                stmt.setString(11, tfAgentId.getText());
+                stmt.setString(12, txtUsername.getText());
+                stmt.setString(13, txtPassword.getText());
 
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+
+                //  private int customerID;
+                //    private String CustFirstName;
+                //    private String CustLastName;
+                //    private String CustAddress;
+                //    private String CustCity;
+                //    private String CustProv;
+                //    private String CustPostal;
+                //    private String CustCountry;
+                //    private String CustHomePhone;
+                //    private String CustBusPhone;
+                //    private String CustEmail;
+                //    private int AgentId;
+
+                int numRows = stmt.executeUpdate();
+                System.out.println(numRows);
+
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
                 alert.showAndWait();
             }
-            else{
-                //show rows were updated
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                success.showAndWait();
-                loadListView();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bad value entered. Please check entered values.");
             alert.showAndWait();
         }
     }
@@ -279,6 +299,7 @@ public class CustomerPage{
     //Updates customer and sends to database
     @FXML
     void OnActionSaveClick(ActionEvent event) {
+
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Customers set CustomerId=?, CustFirstName=?, CustLastName=?, CustAddress=?, CustCity=?, CustProv=?, CustPostal=?, CustCountry=?,  CustHomePhone=?, CustBusPhone=?, CustEmail=?, AgentId=? where CustomerId=?;";
         try {

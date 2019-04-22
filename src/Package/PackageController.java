@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -53,6 +54,9 @@ public class PackageController {
 
     @FXML
     private Button btnSave;
+
+    @FXML
+    private Button btnEdit;
 
     @FXML
     private void OnBackClick(){
@@ -168,7 +172,56 @@ public class PackageController {
         btnSave.setVisible(false);
     }
 
+    @FXML
+    void OnActionEditClick(ActionEvent event) {
+        btnEdit.setDisable(true);
+        txtDescription.setEditable(true);
+        txtComission.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtPackageName.setEditable(true);
+        txtPackageId.setEditable(true);
+        txtBasePrice.setEditable(true);
+        btnSave.setDisable(false); //enable the save button
+        btnSave.setVisible(true);//show the save button
+    }
 
+    public void OnActionSubmitClick(ActionEvent actionEvent) {
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
+        try {
+            //precompile the statement
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            //these parameters equate to the sql string above, dont start at 0, start at 1
+
+
+            stmt.setString(1, txtPackageName.getText());
+            stmt.setString(1, txtStartDate.getText());
+            stmt.setString(1, txtEndDate.getText());
+            stmt.setString(1, txtDescription.getText());
+            stmt.setInt(2, Integer.parseInt(txtBasePrice.getText()));
+            stmt.setInt(2, Integer.parseInt(txtComission.getText()));
+
+            int numRows = stmt.executeUpdate();
+
+
+            if (numRows == 0) {
+                //create a new alert
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                alert.showAndWait();
+            }
+            else{
+                //show rows were updated
+                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
+                success.showAndWait();
+                loadListView();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
@@ -205,7 +258,13 @@ public class PackageController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        txtPackageId.setEditable(false);
+        txtPackageName.setEditable(false);
+        txtStartDate.setEditable(false);
+        txtEndDate.setEditable(false);
+        txtDescription.setEditable(false);
+        txtBasePrice.setEditable(false);
+        txtComission.setEditable(false);
     }
 
 
