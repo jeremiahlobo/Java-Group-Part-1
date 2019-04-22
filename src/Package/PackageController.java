@@ -9,12 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
+import javax.swing.*;
 import java.sql.*;
 
 
@@ -47,6 +49,22 @@ public class PackageController {
 
     @FXML
     private Button btnBack;
+
+
+    @FXML
+    private Button btnNew;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnDelete;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnSubmit;
 
     @FXML
     private void OnBackClick(){
@@ -108,6 +126,18 @@ public class PackageController {
 
 
     @FXML
+    void OnEditClick(ActionEvent event) {
+        txtPackageId.setEditable(true);
+        txtPackageName.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtDescription.setEditable(true);
+        txtBasePrice.setEditable(true);
+        txtComission.setEditable(true);
+        btnSave.setDisable(false);
+    }
+
+    @FXML
     void OnDeleteClick(ActionEvent event) {
 
         Connection conn = DBHelper.getConnection();//initialize connection again
@@ -143,6 +173,21 @@ public class PackageController {
     }
 
     public void OnNewClick(ActionEvent actionEvent) {
+        //clear fields
+
+        txtPackageId.clear();
+        txtPackageName.clear();
+        txtStartDate.clear();
+        txtEndDate.clear();
+        txtDescription.clear();
+        txtBasePrice.clear();
+        txtComission.clear();
+        //turn on submit button
+        btnSubmit.setDisable(false);
+
+    }
+
+    public void OnSubmitClick(ActionEvent actionEvent){
         Boolean passes = false;
 
         if (txtPackageName.getText().matches("^[a-zA-Z]+$")) {
@@ -203,27 +248,24 @@ public class PackageController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-
     }
-
 
 
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
+        String sql = "UPDATE packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {
             //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
             //these parameters equate to the sql string above, dont start at 0, start at 1
 
-
             stmt.setString(1, txtPackageName.getText());
-            stmt.setString(1, txtStartDate.getText());
-            stmt.setString(1, txtEndDate.getText());
-            stmt.setString(1, txtDescription.getText());
-            stmt.setInt(2, Integer.parseInt(txtBasePrice.getText()));
-            stmt.setInt(2, Integer.parseInt(txtComission.getText()));
-
+            stmt.setString(2, txtStartDate.getText());
+            stmt.setString(3, txtEndDate.getText());
+            stmt.setString(4, txtDescription.getText());
+            stmt.setDouble(5, Double.parseDouble(txtBasePrice.getText()));
+            stmt.setDouble(6, Double.parseDouble(txtComission.getText()));
+            stmt.setInt(7,Integer.parseInt(txtPackageId.getText()));
             int numRows = stmt.executeUpdate();
 
 
@@ -245,6 +287,7 @@ public class PackageController {
         }
 
     }
+
 
 
     ObservableList<Package> data = FXCollections.observableArrayList();
