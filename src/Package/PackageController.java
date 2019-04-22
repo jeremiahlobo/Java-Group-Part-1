@@ -73,6 +73,9 @@ public class PackageController {
     private Button btnSave;
 
     @FXML
+    private Button btnEdit;
+
+    @FXML
     private void OnBackClick(){
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -192,69 +195,56 @@ public class PackageController {
 
     }
 
-    public void OnSubmitClick(ActionEvent actionEvent){
-        Boolean passes = false;
-
-        if (txtPackageName.getText().matches("^[a-zA-Z]+$")) {
-            passes = true;
-        }
-
-        if (passes == true) {
-            Connection conn = DBHelper.getConnection();//initialize connection again
-            //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
-            String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
-            int maxPackageId = 0;
-            try {
-                //precompile the statement
-
-                PreparedStatement stmt = conn.prepareStatement(insertsql);
-                //PreparedStatement stmt2 = conn.prepareStatement(insertsql);
-                //ResultSet rs =stmt2.executeQuery(maxProductIDsql);
-                //System.out.println(rs);
-
-//            while(rs.next()){
-//                //System.out.println("MAX(user_id)="+rs.getInt("MAX(user_id)"));
-//                maxProductId = rs.getInt("MAX(ProductId)") + 1;
-//            }
-                // close ResultSet rs
-                //rs.close();
-
-                //these parameters equate to the sql string above, dont start at 0, start at 1
-                //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
-                stmt.setInt(1, maxPackageId);
-                stmt.setString(2, txtPackageName.getText());
-                stmt.setString(3, txtStartDate.getText());
-                stmt.setString(4, txtEndDate.getText());
-                stmt.setString(5, txtDescription.getText());
-                stmt.setString(6, txtBasePrice.getText());
-                stmt.setString(7, txtComission.getText());
-
-                int numRows = stmt.executeUpdate();
-                System.out.println(numRows);
-
-                if (numRows == 0) {
-                    //create a new alert
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
-                    alert.showAndWait();
-                } else {
-                    //show rows were updated
-                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                    success.showAndWait();
-                    loadListView();
-                }
-                conn.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-                alert.showAndWait();
-            }
-        }else{
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
-        }
+    @FXML
+    void OnActionEditClick(ActionEvent event) {
+        btnEdit.setDisable(true);
+        txtDescription.setEditable(true);
+        txtComission.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtPackageName.setEditable(true);
+        txtPackageId.setEditable(true);
+        txtBasePrice.setEditable(true);
+        btnSave.setDisable(false); //enable the save button
+        btnSave.setVisible(true);//show the save button
     }
 
+    public void OnActionSubmitClick(ActionEvent actionEvent) {
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
+        try {
+            //precompile the statement
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            //these parameters equate to the sql string above, dont start at 0, start at 1
+
+
+            stmt.setString(1, txtPackageName.getText());
+            stmt.setString(1, txtStartDate.getText());
+            stmt.setString(1, txtEndDate.getText());
+            stmt.setString(1, txtDescription.getText());
+            stmt.setInt(2, Integer.parseInt(txtBasePrice.getText()));
+            stmt.setInt(2, Integer.parseInt(txtComission.getText()));
+
+            int numRows = stmt.executeUpdate();
+
+
+            if (numRows == 0) {
+                //create a new alert
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                alert.showAndWait();
+            }
+            else{
+                //show rows were updated
+                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
+                success.showAndWait();
+                loadListView();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
@@ -290,7 +280,13 @@ public class PackageController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        txtPackageId.setEditable(false);
+        txtPackageName.setEditable(false);
+        txtStartDate.setEditable(false);
+        txtEndDate.setEditable(false);
+        txtDescription.setEditable(false);
+        txtBasePrice.setEditable(false);
+        txtComission.setEditable(false);
     }
 
 
