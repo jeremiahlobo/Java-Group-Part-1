@@ -66,7 +66,7 @@ public class ProductPage {
 
     @FXML
     void initialize() {
-        //btnSave.setDisable(true);
+        btnSave.setDisable(true);
         assert txtProdId != null : "fx:id=\"txtProdId\" was not injected: check your FXML file 'productPage.fxml'.";
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
@@ -100,6 +100,10 @@ public class ProductPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred");
+            alert.showAndWait();
+
         }
     }
 
@@ -148,13 +152,12 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-
     }else{
             Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
             alert.showAndWait();
         }
-
 }
+    }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
         Boolean passes = false;
@@ -216,5 +219,6 @@ public class ProductPage {
             e.printStackTrace();
         }
     }
+
 }
 
