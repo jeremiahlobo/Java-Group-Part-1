@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
+
 public class Main extends Application {
 
     @FXML
@@ -113,6 +114,7 @@ public class Main extends Application {
                     else{
                         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successful login.");
                         alert.showAndWait();
+
                         try {
 
                             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("basePage.fxml"));
@@ -121,7 +123,6 @@ public class Main extends Application {
                             stage.setTitle("Dashboard");
                             stage.setScene(new Scene(root, 1000, 700));
                             stage.show();
-
 
                         } catch (IOException e) {
                             e.printStackTrace();
