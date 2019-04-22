@@ -70,21 +70,17 @@ public class ProductPage {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "DELETE FROM Products WHERE ProductId=?;";
         try {
-            //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
             stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
 
             int numRows = stmt.executeUpdate();
 
 
             if (numRows == 0) {
-                //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
                 alert.showAndWait();
             }
             else{
-                //show rows were updated
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
@@ -93,21 +89,18 @@ public class ProductPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
+
             Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred");
             alert.showAndWait();
-        }
 
+        }
     }
 
-
     public void OnActionNewClick(ActionEvent actionEvent) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+        Connection conn = DBHelper.getConnection();
         String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
         int maxProductId=0;
         try {
-            //precompile the statement
-
             PreparedStatement stmt = conn.prepareStatement(insertsql);
 
             stmt.setInt(1, maxProductId);
@@ -141,9 +134,7 @@ public class ProductPage {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Products set ProdName=? where ProductId=?;";
         try {
-            //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
             stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
             stmt.setString(1, txtProdName.getText());
 
@@ -177,8 +168,8 @@ public class ProductPage {
         Connection conn = DBHelper.getConnection();
         String sql = "select * from products";
         try {
-            Statement stmt = conn.createStatement();//creates statement object
-            ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data.add(new Product(rs.getInt(1), rs.getString(2)));
 
@@ -187,7 +178,6 @@ public class ProductPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
 }

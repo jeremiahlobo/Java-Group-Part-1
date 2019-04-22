@@ -14,14 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
-
-
-    @FXML
-    private Button loginButton;
 
     @FXML
     private TextField txtUser;
@@ -70,14 +64,6 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        //Parent root = new FXMLLoader(getClass().getResource("basePage.fxml"));
-        //primaryStage.setTitle("Dashboard");
-        //primaryStage.setScene(new Scene(root, 650, 400));
-        //primaryStage.show();
-
-
     }
 
     @FXML
@@ -96,36 +82,57 @@ public class Main extends Application {
 
     @FXML
     void actionLogin(MouseEvent event) {
+        String name = txtUser.getText();
+        String pass = txtPass.getText();
+
+        String sql = "SELECT * FROM CUSTOMERS WHERE username =?;";
+        String sql2 = "SELECT * FROM customers WHERE password=? and username=?;";
+
+        Connection conn = DBHelper.getConnection();//initialize connection
 
         try {
-            Connection conn = DBHelper.getConnection();//initialize connection again
-            Statement stmt = conn.createStatement();
-            String name = txtUser.getText();
-            String pass = txtPass.getText();
-            String sql = "SELECT * FROM customers WHERE username='" + name + "' and password='" + pass + '"';
-            ResultSet rs = stmt.executeQuery(sql);
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1,name);
+            ResultSet resultSet = stmt.executeQuery();
 
-            if (rs.next()) {
-                //create a new alert
-                System.out.println("THis worked quite well");
-//                try{
-//                    String sql2 = "SELECT";
-//                }
-//                catch{}
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "No rows were deleted. Contact Tech Support");
-                alert.showAndWait();
-            }
-            else{
-                //show rows were updated
-                Alert failure = new Alert(Alert.AlertType.ERROR, "Wrong username please try again.");
-                failure.showAndWait();
-            }
+            if (!resultSet.next()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Enter correct user/pass please.");
+                    alert.showAndWait();
+                }
+                else{
+                PreparedStatement stmt2 = conn.prepareStatement(sql2);
+
+                stmt2.setString(2,name);
+                stmt2.setString(1,pass);
+
+                ResultSet resultSet2 = stmt2.executeQuery();
+                    if (!resultSet2.next()) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Enter correct user/pass please.");
+                        alert.showAndWait();
+                    }
+                    else{
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Successful login.");
+                        alert.showAndWait();
+                        try {
+
+                            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("basePage.fxml"));
+                            Parent root = (Parent) fxmlLoader.load();
+                            Stage stage = new Stage();
+                            stage.setTitle("Dashboard");
+                            stage.setScene(new Scene(root, 1000, 700));
+                            stage.show();
+
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
             conn.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
         }
     }
 
