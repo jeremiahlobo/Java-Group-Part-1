@@ -25,14 +25,14 @@ public class DB {
 
             if (dbConnection != null) {
                 System.out.println(dbConnection);
-                //  System.out.println("SQL Connection created");
+
             }
 
         } catch (SQLException ex) {
-            //System.out.println("An error occurred while connecting MySQL database");
+
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            // System.out.println("An error occurred while connecting MySQL Classes");
+
             ex.printStackTrace();
 
         }
