@@ -63,37 +63,23 @@ public class ProductPage {
         loadListView();
     }
 
-    //@FXML
-    //void OnActionEditClick(ActionEvent event) {
-        //Need to be able to edit the Cust information here
-        //when someone clicks edit, disable the edit button
-        //OnActionEditClick is referenced in code properties of button
-        //btnEdit.setDisable(true);
-        //txtProdName.setEditable(true);
-        //btnSave.setDisable(false); //enable the save button
-    //}
-
     @FXML
     void OnDeleteClick(ActionEvent event) {
 
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "DELETE FROM Products WHERE ProductId=?;";
         try {
-            //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
             stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
 
             int numRows = stmt.executeUpdate();
 
 
             if (numRows == 0) {
-                //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
                 alert.showAndWait();
             }
             else{
-                //show rows were updated
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
@@ -102,35 +88,16 @@ public class ProductPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            //`alert.showAndWait();
         }
-
     }
 
-
     public void OnActionNewClick(ActionEvent actionEvent) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+        Connection conn = DBHelper.getConnection();
         String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
         int maxProductId=0;
         try {
-            //precompile the statement
-
             PreparedStatement stmt = conn.prepareStatement(insertsql);
-            //PreparedStatement stmt2 = conn.prepareStatement(insertsql);
-            //ResultSet rs =stmt2.executeQuery(maxProductIDsql);
-            //System.out.println(rs);
 
-//            while(rs.next()){
-//                //System.out.println("MAX(user_id)="+rs.getInt("MAX(user_id)"));
-//                maxProductId = rs.getInt("MAX(ProductId)") + 1;
-//            }
-            // close ResultSet rs
-            //rs.close();
-
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-            //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
             stmt.setInt(1, maxProductId);
             stmt.setString(2, txtProdName.getText());
 
@@ -155,21 +122,13 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
-
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Products set ProdName=? where ProductId=?;";
         try {
-            //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
             stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
             stmt.setString(1, txtProdName.getText());
 
@@ -192,12 +151,6 @@ public class ProductPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
-
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
 
@@ -209,8 +162,8 @@ public class ProductPage {
         Connection conn = DBHelper.getConnection();
         String sql = "select * from products";
         try {
-            Statement stmt = conn.createStatement();//creates statement object
-            ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data.add(new Product(rs.getInt(1), rs.getString(2)));
 
@@ -219,9 +172,6 @@ public class ProductPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
-    //private TableView<?> tvProd;
 }
 
