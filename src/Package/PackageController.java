@@ -67,6 +67,12 @@ public class PackageController {
     private Button btnSubmit;
 
     @FXML
+    private Button btnSubmit;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
     private void OnBackClick(){
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -76,7 +82,6 @@ public class PackageController {
 
     @FXML
     void selectListItem(MouseEvent event) {
-
 
         Package pack = lvPackages.getSelectionModel().getSelectedItem();
         int PkId = pack.getPackageId();
