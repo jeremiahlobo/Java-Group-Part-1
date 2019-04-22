@@ -131,6 +131,7 @@ public class SupplierPage {
         assert txtSupplierId != null : "fx:id=\"txtSupplierId\" was not injected: check your FXML file 'SupplierPage.fxml'.";
         assert txtSupplierName != null : "fx:id=\"txtSupplierName\" was not injected: check your FXML file 'SupplierPage.fxml'.";
 
+        txtSupplierName.setEditable(false);
         txtSupplierId.setEditable(false);
         loadListView();
     }

@@ -144,6 +144,17 @@ public class CustomerPage{
         assert tfCustBPhone != null : "fx:id=\"tfCustBPhone\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfAgentId != null : "fx:id=\"tfAgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
 
+        tfCustid.setEditable(false);
+        tfCustFname.setEditable(false);
+        tfCustLName.setEditable(false);
+        tfCustAddress.setEditable(false);
+        tfCustCity.setEditable(false);
+        tfCustProv.setEditable(false);
+        tfCustPostal.setEditable(false);
+        tfCustCountry.setEditable(false);
+        tfCustHPhone.setEditable(false);
+        tfCustBPhone.setEditable(false);
+        tfAgentId.setEditable(false);
 
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
