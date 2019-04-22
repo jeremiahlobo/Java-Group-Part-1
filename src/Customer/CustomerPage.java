@@ -84,10 +84,8 @@ public class CustomerPage{
     private ListView<Customer> lvCustomers;
 
     @FXML
-    private Label lblMessage; //for message to users
+    private Label lblMessage;
 
-
-    //when user clicks item in listview, populate the text fields
     @FXML
     void selectListItem(MouseEvent event) {
         Customer cust = lvCustomers.getSelectionModel().getSelectedItem();
@@ -134,13 +132,12 @@ public class CustomerPage{
         assert tfCustBPhone != null : "fx:id=\"tfCustBPhone\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfAgentId != null : "fx:id=\"tfAgentId\" was not injected: check your FXML file 'customerPage.fxml'.";
 
-
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
-        //load the list view
+
         loadListView();
     }
-//When new button clicked, work on this today
+
     @FXML
     void OnActionNewClick(ActionEvent event){
         tfCustid.clear();
@@ -237,12 +234,8 @@ public class CustomerPage{
         }
     }
 
-    //When edit button clicked
     @FXML
     void OnActionEditClick(ActionEvent event) {
-        //Need to be able to edit the Cust information here
-        //when someone clicks edit, disable the edit button
-        //OnActionEditClick is referenced in code properties of button
         btnEdit.setDisable(true);
         tfCustFname.setEditable(true);
         tfCustLName.setEditable(true);
