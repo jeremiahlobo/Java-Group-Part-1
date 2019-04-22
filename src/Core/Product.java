@@ -21,13 +21,15 @@ public class Product {
         ProdName = prodName;
     }
 
-    @Override
-    public String toString() {
-        return  "Product Name: " + ProdName;
-    }
-
     public Product(int productId, String prodName) {
         ProductId = productId;
         ProdName = prodName;
+    }
+
+    @Override
+    public String toString() {
+        return
+                ProductId +
+                "  " + ProdName;
     }
 }

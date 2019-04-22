@@ -59,6 +59,7 @@ public class ProductPage {
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
         txtProdId.setEditable(false);
+        txtProdName.setEditable(false);
         //load the list view
         loadListView();
     }

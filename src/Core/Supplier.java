@@ -1,48 +1,34 @@
 package Core;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 public class Supplier {
 
-    private SimpleIntegerProperty SupplierId;
-    private SimpleStringProperty SupName;
+    private int SupplierId;
+    private String SupName;
 
-    @Override
-    public String toString() {
-        return
-                "SupName=" + SupName;
-    }
-
-    public Supplier(int SupplierId, String SupName)
-    {
-        this.SupplierId = new SimpleIntegerProperty(SupplierId);
-        this.SupName = new SimpleStringProperty(SupName);
+    public Supplier(int supplierId, String supName) {
+        SupplierId = supplierId;
+        SupName = supName;
     }
 
     public int getSupplierId() {
-        return SupplierId.get();
-    }
-
-    public SimpleIntegerProperty supplierIdProperty() {
         return SupplierId;
     }
 
     public void setSupplierId(int supplierId) {
-        this.SupplierId.set(supplierId);
+        SupplierId = supplierId;
     }
 
     public String getSupName() {
-        return SupName.get();
-    }
-
-    public SimpleStringProperty supNameProperty() {
         return SupName;
     }
 
     public void setSupName(String supName) {
-        this.SupName.set(supName);
+        SupName = supName;
     }
 
-
+    @Override
+    public String toString() {
+        return  SupplierId +
+                "   " + SupName;
+    }
 }
