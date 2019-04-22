@@ -54,7 +54,7 @@ public class ProductPage {
 
     @FXML
     void initialize() {
-        //btnSave.setDisable(true);
+        btnSave.setDisable(true);
         assert txtProdId != null : "fx:id=\"txtProdId\" was not injected: check your FXML file 'productPage.fxml'.";
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
@@ -63,16 +63,6 @@ public class ProductPage {
         //load the list view
         loadListView();
     }
-
-    //@FXML
-    //void OnActionEditClick(ActionEvent event) {
-        //Need to be able to edit the Cust information here
-        //when someone clicks edit, disable the edit button
-        //OnActionEditClick is referenced in code properties of button
-        //btnEdit.setDisable(true);
-        //txtProdName.setEditable(true);
-        //btnSave.setDisable(false); //enable the save button
-    //}
 
     @FXML
     void OnDeleteClick(ActionEvent event) {
@@ -103,8 +93,8 @@ public class ProductPage {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            //`alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred");
+            alert.showAndWait();
         }
 
     }
@@ -119,19 +109,7 @@ public class ProductPage {
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
-            //PreparedStatement stmt2 = conn.prepareStatement(insertsql);
-            //ResultSet rs =stmt2.executeQuery(maxProductIDsql);
-            //System.out.println(rs);
 
-//            while(rs.next()){
-//                //System.out.println("MAX(user_id)="+rs.getInt("MAX(user_id)"));
-//                maxProductId = rs.getInt("MAX(ProductId)") + 1;
-//            }
-            // close ResultSet rs
-            //rs.close();
-
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-            //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
             stmt.setInt(1, maxProductId);
             stmt.setString(2, txtProdName.getText());
 
@@ -156,12 +134,7 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
 
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
@@ -193,12 +166,6 @@ public class ProductPage {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
-
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
 
@@ -223,6 +190,5 @@ public class ProductPage {
 
     }
 
-    //private TableView<?> tvProd;
 }
 

@@ -5,13 +5,9 @@ import java.util.ResourceBundle;
 
 import Core.Customer;
 import Core.DBHelper;
-import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -232,7 +228,7 @@ public class CustomerPage{
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
             alert.showAndWait();
         }
     }
@@ -373,5 +369,5 @@ public class CustomerPage{
 
 
 
-}//end
+}
 

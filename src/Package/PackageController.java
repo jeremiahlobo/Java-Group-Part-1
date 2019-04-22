@@ -8,14 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
+
 import java.sql.*;
-import java.util.ResourceBundle;
+
 
 public class PackageController {
 //Author: Helen Lin
@@ -95,15 +95,6 @@ public class PackageController {
         loadListView();
     }
 
-    //@FXML
-    //void OnActionEditClick(ActionEvent event) {
-    //Need to be able to edit the Cust information here
-    //when someone clicks edit, disable the edit button
-    //OnActionEditClick is referenced in code properties of button
-    //btnEdit.setDisable(true);
-    //txtProdName.setEditable(true);
-    //btnSave.setDisable(false); //enable the save button
-    //}
 
     @FXML
     void OnDeleteClick(ActionEvent event) {
@@ -134,8 +125,8 @@ public class PackageController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            //`alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occured.");
+            alert.showAndWait();
         }
 
     }
@@ -143,26 +134,14 @@ public class PackageController {
 
     public void OnNewClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
-        //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+
         String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
         int maxPackageId=0;
         try {
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
-            //PreparedStatement stmt2 = conn.prepareStatement(insertsql);
-            //ResultSet rs =stmt2.executeQuery(maxProductIDsql);
-            //System.out.println(rs);
 
-//            while(rs.next()){
-//                //System.out.println("MAX(user_id)="+rs.getInt("MAX(user_id)"));
-//                maxProductId = rs.getInt("MAX(ProductId)") + 1;
-//            }
-            // close ResultSet rs
-            //rs.close();
-
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-            //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
             stmt.setInt(1, maxPackageId);
             stmt.setString(2, txtPackageName.getText());
             stmt.setString(3, txtStartDate.getText());
@@ -192,25 +171,10 @@ public class PackageController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
 
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
-            /*
-            seven
-    int PackageId;
-    String PkgName;
-    String PkgStartDate;
-    String PkgEndDate;
-    String PkgDesc;
-    double PkgBasePrice;
-    double PkgAgencyCommission;
 
-*/
 
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
@@ -247,12 +211,7 @@ public class PackageController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//after they save, turn fields back to read only
-        //txtProdName.setEditable(false);
-        //txtProdId.setEditable(false);
 
-        //enable the edit button again
-        //btnEdit.setDisable(false);
     }
 
 
