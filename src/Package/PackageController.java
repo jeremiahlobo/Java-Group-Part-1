@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -43,6 +44,23 @@ public class PackageController {
 
     @FXML
     private TextField txtDescription;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnNew;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnDelete;
+
+
+    @FXML
+    private Button btnSubmit;
+
 
 
     @FXML
@@ -91,6 +109,9 @@ public class PackageController {
         txtBasePrice.setEditable(false);
         txtComission.setEditable(false);
 
+
+
+
         //load the list view
         loadListView();
     }
@@ -125,7 +146,7 @@ public class PackageController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occured.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
             alert.showAndWait();
         }
 
@@ -133,47 +154,78 @@ public class PackageController {
 
 
     public void OnNewClick(ActionEvent actionEvent) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
 
-        String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
-        int maxPackageId=0;
-        try {
-            //precompile the statement
+        boolean passes = true;
 
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
+        if(txtPackageName.getText().matches("^[a-zA-Z]+$")){
+            passes = true;
+        }
+        if(passes==true) {
+            Connection conn = DBHelper.getConnection();//initialize connection again
 
-            stmt.setInt(1, maxPackageId);
-            stmt.setString(2, txtPackageName.getText());
-            stmt.setString(3, txtStartDate.getText());
-            stmt.setString(4, txtEndDate.getText());
-            stmt.setString(5, txtDescription.getText());
-            stmt.setString(6, txtBasePrice.getText());
-            stmt.setString(7, txtComission.getText());
+            String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
+            int maxPackageId = 0;
+            try {
+                //precompile the statement
 
-            int numRows = stmt.executeUpdate();
-            System.out.println(numRows);
+                PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                stmt.setInt(1, maxPackageId);
+                stmt.setString(2, txtPackageName.getText());
+                stmt.setString(3, txtStartDate.getText());
+                stmt.setString(4, txtEndDate.getText());
+                stmt.setString(5, txtDescription.getText());
+                stmt.setString(6, txtBasePrice.getText());
+                stmt.setString(7, txtComission.getText());
+
+                int numRows = stmt.executeUpdate();
+                System.out.println(numRows);
+
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
                 alert.showAndWait();
             }
-            else{
-                //show rows were updated
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                success.showAndWait();
-                loadListView();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-            alert.showAndWait();
+        }else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Does not match.");
         }
 
     }
+    @FXML
+    void OnEditClick(ActionEvent event) {
 
+        /*  int PackageId;
+    String PkgName;
+    String PkgStartDate;
+    String PkgEndDate;
+    String PkgDesc;
+    double PkgBasePrice;
+    double PkgAgencyCommission;*/
+        btnEdit.setDisable(true);
+        txtPackageName.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtDescription.setEditable(true);
+        txtBasePrice.setEditable(true);
+        txtComission.setEditable(true);
+
+        btnSave.setDisable(false); //enable the save button
+        btnSave.setVisible(true);//show the save button
+    }
 
 
     public void OnSaveClick(ActionEvent actionEvent) {
