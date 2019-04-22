@@ -51,8 +51,13 @@ public class SupplierPage {
     ObservableList<Supplier> suplist = FXCollections.observableArrayList();
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
+<<<<<<< HEAD
         Connection conn = DBHelper.getConnection();
         String sql = "UPDATE Products set SupName=? where SupplierId=?;";
+=======
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
+>>>>>>> master
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(2, Integer.parseInt(txtSupplierId.getText()));
@@ -75,13 +80,19 @@ public class SupplierPage {
     }
 
     public void OnActionNewClick(ActionEvent actionEvent) {
+<<<<<<< HEAD
         Connection conn = DBHelper.getConnection();
         String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
         int maxProductId=0;
+=======
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
+        int maxSupplierId=0;
+>>>>>>> master
         try {
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
-            stmt.setInt(1, maxProductId);
+            stmt.setInt(1, maxSupplierId);
             stmt.setString(2, txtSupplierName.getText());
 
             int numRows = stmt.executeUpdate();
@@ -119,7 +130,7 @@ public class SupplierPage {
     private void loadListView() {
         lvSupplier.getItems().clear();
         Connection conn = DBHelper.getConnection();
-        String sql = "select * from products";
+        String sql = "select * from suppliers";
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
