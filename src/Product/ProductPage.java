@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class ProductPage {
 
@@ -41,6 +42,17 @@ public class ProductPage {
     private ListView<Product> lvProducts;
 
     @FXML
+    private Button btnBack;
+
+    @FXML
+    private void OnBackClick() {
+        // get a handle to the stage
+        Stage stage = (Stage) btnBack.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
+
+    @FXML
     void selectListItem(MouseEvent event) {
         Product prod = lvProducts.getSelectionModel().getSelectedItem();
         int prodIdTemp = prod.getProductId();
@@ -59,7 +71,7 @@ public class ProductPage {
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
         txtProdId.setEditable(false);
-        txtProdName.setEditable(false);
+//        txtProdName.setEditable(false);
         //load the list view
         loadListView();
     }
@@ -79,8 +91,7 @@ public class ProductPage {
             if (numRows == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
                 alert.showAndWait();
-            }
-            else{
+            } else {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
@@ -97,9 +108,24 @@ public class ProductPage {
     }
 
     public void OnActionNewClick(ActionEvent actionEvent) {
+
+    Boolean passes = false;
+
+        if(txtProdName.getText().
+
+    matches("^[a-zA-Z]+$"))
+
+    {
+        passes = true;
+    }
+
+        if(passes ==true)
+
+    {
+
         Connection conn = DBHelper.getConnection();
         String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
-        int maxProductId=0;
+        int maxProductId = 0;
         try {
             PreparedStatement stmt = conn.prepareStatement(insertsql);
 
@@ -113,8 +139,7 @@ public class ProductPage {
                 //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
                 alert.showAndWait();
-            }
-            else{
+            } else {
                 //show rows were updated
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
                 success.showAndWait();
@@ -127,38 +152,53 @@ public class ProductPage {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }
-
+    }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
+            alert.showAndWait();
+        }
+}
     }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "UPDATE Products set ProdName=? where ProductId=?;";
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
-            stmt.setString(1, txtProdName.getText());
+        Boolean passes = false;
 
-            int numRows = stmt.executeUpdate();
+        if (txtProdName.getText().
+
+                matches("^[a-zA-Z]+$")) {
+            passes = true;
+        }
+
+        if (passes == true) {
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String sql = "UPDATE Products set ProdName=? where ProductId=?;";
+            try {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
+                stmt.setString(1, txtProdName.getText());
+
+                int numRows = stmt.executeUpdate();
 
 
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
-                alert.showAndWait();
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            else{
-                //show rows were updated
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
-                success.showAndWait();
-                loadListView();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }else{
+            Alert success = new Alert(Alert.AlertType.INFORMATION, "Bad insert. Please enter a String.");
+            success.showAndWait();
         }
     }
-
 
     ObservableList<Product> data = FXCollections.observableArrayList();
 

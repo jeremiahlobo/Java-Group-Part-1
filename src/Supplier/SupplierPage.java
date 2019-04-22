@@ -2,6 +2,7 @@ package Supplier;
 
 import Core.DBHelper;
 import Core.Supplier;
+import Base.Validator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,61 +51,77 @@ public class SupplierPage {
 
     ObservableList<Supplier> suplist = FXCollections.observableArrayList();
 
+
+
     public void OnActionSaveClick(ActionEvent actionEvent) {
 
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
 
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(2, Integer.parseInt(txtSupplierId.getText()));
-            stmt.setString(1, txtSupplierName.getText());
-            int numRows = stmt.executeUpdate();
+        if(Validator.matchString(txtSupplierName.getText()) == true) {
 
-            if (numRows == 0) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
-                alert.showAndWait();
-            } else {
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
-                success.showAndWait();
-                loadListView();
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String sql = "UPDATE suppliers set SupName=? where SupplierId=?;";
+
+            try {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(2, Integer.parseInt(txtSupplierId.getText()));
+                stmt.setString(1, txtSupplierName.getText());
+                int numRows = stmt.executeUpdate();
+
+                if (numRows == 0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please enter a string.");
+            alert.showAndWait();
         }
     }
 
     public void OnActionNewClick(ActionEvent actionEvent) {
 
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
-        int maxSupplierId=0;
+            if(Validator.matchString(txtSupplierName.getText()) == true) {
 
-        try {
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
+            int maxSupplierId = 0;
 
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
-            stmt.setInt(1, maxSupplierId);
-            stmt.setString(2, txtSupplierName.getText());
+            try {
 
-            int numRows = stmt.executeUpdate();
-            System.out.println(numRows);
+                PreparedStatement stmt = conn.prepareStatement(insertsql);
+                stmt.setInt(1, maxSupplierId);
+                stmt.setString(2, txtSupplierName.getText());
 
-            if (numRows == 0) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                int numRows = stmt.executeUpdate();
+                System.out.println(numRows);
+
+                if (numRows == 0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
                 alert.showAndWait();
             }
-            else{
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                success.showAndWait();
-                loadListView();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please enter a string.");
             alert.showAndWait();
         }
     }
