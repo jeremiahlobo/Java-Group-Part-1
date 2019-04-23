@@ -66,6 +66,7 @@ public class PackageController {
 
     @FXML
     public Label nameLabel;
+
     @FXML
     private Button btnEdit;
 
@@ -266,6 +267,7 @@ public class PackageController {
         txtBasePrice.setEditable(true);
         btnSave.setDisable(false); //enable the save button
         btnSave.setVisible(true);//show the save button
+
     }
 
     public void OnActionSubmitClick(ActionEvent actionEvent) {
@@ -305,7 +307,6 @@ public class PackageController {
         }
     }
 
->>>>>>> 2e19a5d5413678415fc00b2f0cb20f3a9128ac4e
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
