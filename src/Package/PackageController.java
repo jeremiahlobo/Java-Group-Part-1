@@ -2,16 +2,14 @@ package Package;
 //import models
 import Core.Package;
 import Core.DBHelper;
+import Base.Validator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -66,6 +64,14 @@ public class PackageController {
     @FXML
     private Button btnSubmit;
 
+    @FXML
+    public Label nameLabel;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnEdit;
 
     @FXML
     private void OnBackClick(){
@@ -182,9 +188,71 @@ public class PackageController {
         txtDescription.clear();
         txtBasePrice.clear();
         txtComission.clear();
+
+        //Editable
+
+        txtPackageName.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtDescription.setEditable(true);
+        txtBasePrice.setEditable(true);
+        txtComission.setEditable(true);
         //turn on submit button
         btnSubmit.setDisable(false);
 
+    }
+
+    public void OnSubmitClick(ActionEvent actionEvent){
+        Boolean passes = false;
+        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
+        /*if (txtPackageName.getText().matches("^[a-zA-Z]+$")&&Validator.textFieldNotEmpty(TextField){
+            passes = true;
+        }
+
+        if (passes == true) {*/
+        if(name){
+
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+            String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
+            int maxPackageId = 0;
+            try {
+                //precompile the statement
+
+                PreparedStatement stmt = conn.prepareStatement(insertsql);
+
+
+                stmt.setString(1, txtPackageName.getText());
+                stmt.setString(2, txtStartDate.getText());
+                stmt.setString(3, txtEndDate.getText());
+                stmt.setString(4, txtDescription.getText());
+                stmt.setString(5, txtBasePrice.getText());
+                stmt.setString(6, txtComission.getText());
+
+                int numRows = stmt.executeUpdate();
+                System.out.println(numRows);
+
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+                alert.showAndWait();
+            }
+        /*}else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            alert.showAndWait();
+        }*/}
     }
 
     @FXML
@@ -199,6 +267,7 @@ public class PackageController {
         txtBasePrice.setEditable(true);
         btnSave.setDisable(false); //enable the save button
         btnSave.setVisible(true);//show the save button
+
     }
 
     public void OnActionSubmitClick(ActionEvent actionEvent) {
