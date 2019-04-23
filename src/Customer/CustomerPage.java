@@ -412,9 +412,10 @@ public class CustomerPage{
     }
     //our array list for storing Customers
     ObservableList<Customer> data = FXCollections.observableArrayList();
-//tester list
-ObservableList names =
-        FXCollections.observableArrayList();
+
+    //tester list
+    ObservableList names =
+            FXCollections.observableArrayList();
 
     class XCell extends ListCell<Customer> {
         HBox hbox = new HBox();
@@ -430,8 +431,8 @@ ObservableList names =
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    //put what happens when you click button 
-                    System.out.println(lastItem + " : " + event);
+                    //put what happens when you click button
+                    System.out.println(lastItem.getCustomerID());
                 }
             });
         }
