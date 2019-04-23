@@ -116,7 +116,6 @@ public class ProductPage {
     public void OnActionNewClick(ActionEvent actionEvent) {
 
         if(matchString(txtProdName.getText()) ==true)
-    {
 
         {
             Connection conn = DBHelper.getConnection();
@@ -159,43 +158,6 @@ public class ProductPage {
         txtProdName.setEditable(true);
         btnSave.setDisable(false); //enable the save button
         btnSave.setVisible(true);//show the save button
-    }
-
-
-    public void OnActionSaveClick(ActionEvent actionEvent) {
-        Boolean passes = false;
-
-
-        if (matchString(txtProdName.getText()) == true) {
-            Connection conn = DBHelper.getConnection();//initialize connection again
-            String sql = "UPDATE Products set ProdName=? where ProductId=?;";
-            try {
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
-                stmt.setString(1, txtProdName.getText());
-
-                int numRows = stmt.executeUpdate();
-
-
-                if (numRows == 0) {
-                    //create a new alert
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
-                    alert.showAndWait();
-                } else {
-                    //show rows were updated
-                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
-                    success.showAndWait();
-                    loadListView();
-                }
-                conn.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }else{
-            Alert success = new Alert(Alert.AlertType.INFORMATION, "Bad insert. Please enter a String.");
-            success.showAndWait();
-        }
     }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {

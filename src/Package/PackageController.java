@@ -66,14 +66,6 @@ public class PackageController {
     @FXML
     private Button btnSubmit;
 
-    @FXML
-    private Button btnSubmit;
-
-    @FXML
-    private Button btnSave;
-
-    @FXML
-    private Button btnEdit;
 
     @FXML
     private void OnBackClick(){
