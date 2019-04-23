@@ -1,6 +1,10 @@
 package Base;
 
+import java.awt.*;
+
 public class Validator {
+
+    TextField i=null;
 
     /*
     private boolean isInt(TextField input, String message){
@@ -56,7 +60,7 @@ public class Validator {
 
     public static boolean matchPhoneNumber(String input)
     {
-        if(input.matches("/\\(([0-9]{3})\\)([ .-]?)([0-9]{3})\\2([0-9]{4})|([0-9]{3})([ .-]?)([0-9]{3})\\5([0-9]{4})/"))
+        if(input.matches("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$"))
         {
             return true;
         }
@@ -65,6 +69,31 @@ public class Validator {
             return false;
         }
     }
+
+    public static Boolean textFieldnotEmpty(javafx.scene.control.TextField i)
+    {
+        boolean r = false;
+        if(i.getText() != null && !i.getText().isEmpty())
+        {
+           r = true;
+        }
+        return r;
+    }
+
+    public static Boolean textFieldnotEmpty(javafx.scene.control.TextField i, javafx.scene.control.Label l, String sValidationText) {
+        boolean r = true;
+        String c = null;
+        if(!textFieldnotEmpty(i)){
+            r = false;
+            c = sValidationText;
+
+        }
+        l.setText(c);
+        return r;
+    }
+
+
+
 
     public static boolean matchProvince(String input)
     {
@@ -88,4 +117,6 @@ public class Validator {
             return false;
         }
     }
+
+
 }

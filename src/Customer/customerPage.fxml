@@ -40,7 +40,7 @@
             <Label text="Home Phone:" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
             <Label text="Business Phone:" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
             <Label text="E-mail:" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <TextField fx:id="tfCustid" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="tfCustid" disable="true" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="tfCustFname" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="tfCustLName" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             <TextField fx:id="tfCustAddress" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -72,5 +72,9 @@
       <Button fx:id="btnDelete" layoutX="777.0" layoutY="342.0" mnemonicParsing="false" onAction="#OnActionDeleteClick" prefHeight="45.0" prefWidth="60.0" text="Delete" />
       <Button fx:id="btnSubmit" disable="true" layoutX="855.0" layoutY="165.0" mnemonicParsing="false" onAction="#OnActionSubmitClick" prefHeight="45.0" prefWidth="60.0" text="Submit" />
       <Button fx:id="btnBack" layoutX="835.0" layoutY="57.0" mnemonicParsing="false" onAction="#OnBackClick" text="Back" />
+      <TextField fx:id="txtusername" layoutX="43.0" layoutY="27.0" />
+      <TextField fx:id="txtpassword" layoutX="43.0" layoutY="57.0" />
+      <Label layoutX="192.0" layoutY="31.0" text="user" />
+      <Label layoutX="190.0" layoutY="61.0" text="password" />
    </children>
 </AnchorPane>
