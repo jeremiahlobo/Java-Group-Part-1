@@ -197,6 +197,9 @@ public class CustomerPage{
     }
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
+
+
+
         Connection conn = DBHelper.getConnection();//initialize connection again
 
         String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";

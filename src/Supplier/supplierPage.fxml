@@ -33,7 +33,7 @@
          <children>
             <Label text="Supplier ID:" />
             <Label text="Supplier Name:" GridPane.rowIndex="1" />
-            <TextField fx:id="txtSupplierId" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="txtSupplierId" disable="true" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtSupplierName" prefHeight="25.0" prefWidth="157.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>

@@ -1,6 +1,10 @@
 package Base;
 
+import java.awt.*;
+
 public class Validator {
+
+    TextField i=null;
 
     /*
     private boolean isInt(TextField input, String message){
@@ -66,6 +70,31 @@ public class Validator {
         }
     }
 
+    public static Boolean textFieldnotEmpty(javafx.scene.control.TextField i)
+    {
+        boolean r = false;
+        if(i.getText() != null && !i.getText().isEmpty())
+        {
+           r = true;
+        }
+        return r;
+    }
+
+    public static Boolean textFieldnotEmpty(javafx.scene.control.TextField i, javafx.scene.control.Label l, String sValidationText) {
+        boolean r = true;
+        String c = null;
+        if(!textFieldnotEmpty(i)){
+            r = false;
+            c = sValidationText;
+
+        }
+        l.setText(c);
+        return r;
+    }
+
+
+
+
     public static boolean matchProvince(String input)
     {
         if(input.matches("^[A-Z]{2}$"))
@@ -88,4 +117,6 @@ public class Validator {
             return false;
         }
     }
+
+
 }

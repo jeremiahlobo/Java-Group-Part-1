@@ -2,16 +2,14 @@ package Package;
 //import models
 import Core.Package;
 import Core.DBHelper;
+import Base.Validator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -67,11 +65,7 @@ public class PackageController {
     private Button btnSubmit;
 
     @FXML
-    private Button btnSubmit;
-
-    @FXML
-    private Button btnSave;
-
+    public Label nameLabel;
     @FXML
     private void OnBackClick(){
         // get a handle to the stage
@@ -187,6 +181,15 @@ public class PackageController {
         txtDescription.clear();
         txtBasePrice.clear();
         txtComission.clear();
+
+        //Editable
+
+        txtPackageName.setEditable(true);
+        txtStartDate.setEditable(true);
+        txtEndDate.setEditable(true);
+        txtDescription.setEditable(true);
+        txtBasePrice.setEditable(true);
+        txtComission.setEditable(true);
         //turn on submit button
         btnSubmit.setDisable(false);
 
@@ -194,12 +197,14 @@ public class PackageController {
 
     public void OnSubmitClick(ActionEvent actionEvent){
         Boolean passes = false;
-
-        if (txtPackageName.getText().matches("^[a-zA-Z]+$")) {
+        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
+        /*if (txtPackageName.getText().matches("^[a-zA-Z]+$")&&Validator.textFieldNotEmpty(TextField){
             passes = true;
         }
 
-        if (passes == true) {
+        if (passes == true) {*/
+        if(name){
+
             Connection conn = DBHelper.getConnection();//initialize connection again
             //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
             String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
@@ -221,13 +226,13 @@ public class PackageController {
 
                 //these parameters equate to the sql string above, dont start at 0, start at 1
                 //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
-                stmt.setInt(1, maxPackageId);
-                stmt.setString(2, txtPackageName.getText());
-                stmt.setString(3, txtStartDate.getText());
-                stmt.setString(4, txtEndDate.getText());
-                stmt.setString(5, txtDescription.getText());
-                stmt.setString(6, txtBasePrice.getText());
-                stmt.setString(7, txtComission.getText());
+
+                stmt.setString(1, txtPackageName.getText());
+                stmt.setString(2, txtStartDate.getText());
+                stmt.setString(3, txtEndDate.getText());
+                stmt.setString(4, txtDescription.getText());
+                stmt.setString(5, txtBasePrice.getText());
+                stmt.setString(6, txtComission.getText());
 
                 int numRows = stmt.executeUpdate();
                 System.out.println(numRows);
@@ -249,10 +254,10 @@ public class PackageController {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
                 alert.showAndWait();
             }
-        }else{
+        /*}else{
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
-        }
+        }*/}
     }
 
 
