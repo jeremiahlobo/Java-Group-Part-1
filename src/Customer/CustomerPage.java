@@ -5,21 +5,30 @@ import java.util.ResourceBundle;
 
 import Core.Customer;
 import Core.DBHelper;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.sql.*;
 
+import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class CustomerPage{
 
     /* Author: Helen Lin
      */
+
+
     @FXML
     private ResourceBundle resources;
 
@@ -77,8 +86,9 @@ public class CustomerPage{
     @FXML
     private Button btnSubmit;
 
-    @FXML
-    private ListView<Customer> lvCustomers;
+   @FXML
+  private ListView<Customer> lvCustomers;
+
 
     @FXML
     private Label lblMessage;
@@ -127,6 +137,7 @@ public class CustomerPage{
 
     @FXML
     void initialize() {
+
         btnSave.setDisable(true);
         assert tfCustid != null : "fx:id=\"tfCustid\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustFname != null : "fx:id=\"tfCustFname\" was not injected: check your FXML file 'customerPage.fxml'.";
@@ -160,7 +171,38 @@ public class CustomerPage{
         btnSave.setVisible(false);
 
         loadListView();
-    }
+
+
+
+
+
+        ObservableList names =
+                FXCollections.observableArrayList();
+        ObservableList data =
+                FXCollections.observableArrayList();
+
+
+        ListView lvCustomers = new ListView(data);
+
+
+        names.addAll(
+                "Adam", "Alex", "Alfred", "Albert",
+                "Brenda", "Connie", "Derek", "Donny",
+                "Lynne", "Myrtle", "Rose", "Rudolph",
+                "Tony", "Trudy", "Williams", "Zach"
+        );
+
+        for (int i = 0; i < 18; i++) {
+            data.add("anonym");
+        }
+
+        lvCustomers.setItems(data);
+        lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
+
+
+
+}
+
 
     @FXML
     void OnActionNewClick(ActionEvent event){
@@ -203,7 +245,7 @@ public class CustomerPage{
         Connection conn = DBHelper.getConnection();//initialize connection again
 
         String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";
-        int maxCustId=0;
+
         try {
             //precompile the statement
 
@@ -370,8 +412,48 @@ public class CustomerPage{
     }
     //our array list for storing Customers
     ObservableList<Customer> data = FXCollections.observableArrayList();
+//tester list
+ObservableList names =
+        FXCollections.observableArrayList();
 
+    class XCell extends ListCell<Customer> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button button = new Button("  Print PDF  ");
+        Customer lastItem;
+
+        public XCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, button);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //put what happens when you click button 
+                    System.out.println(lastItem + " : " + event);
+                }
+            });
+        }
+
+
+        @Override
+        protected void updateItem(Customer item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(null);  // No text in label of super class
+            if (empty) {
+                lastItem = null;
+                setGraphic(null);
+            } else {
+                lastItem = item;
+                label.setText(item!=null ? String.valueOf(item) : "<null>");
+                setGraphic(hbox);
+            }
+        }
+    }
     private void loadListView() {
+
+
         //start with clean list view
         lvCustomers.getItems().clear();
         Connection conn = DBHelper.getConnection();
@@ -383,12 +465,27 @@ public class CustomerPage{
                 data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
 
             }
+
+
             lvCustomers.setItems(data);
+            //sets the cell
+            lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
+                @Override
+                public ListCell<Customer> call(ListView<Customer> param) {
+                    return new XCell();
+                }
+            });
+
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
+        }
+
+
+
 
 
 
