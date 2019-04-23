@@ -205,49 +205,6 @@ public class CustomerPage{
     }
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
-<<<<<<< HEAD
-
-
-
-        Connection conn = DBHelper.getConnection();//initialize connection again
-
-        String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";
-        int maxCustId=0;
-        try {
-            //precompile the statement
-
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
-
-
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-
-            stmt.setString(1, tfCustFname.getText());
-            stmt.setString(2, tfCustLName.getText());
-            stmt.setString(3, tfCustAddress.getText());
-            stmt.setString(4, tfCustCity.getText());
-            stmt.setString(5, tfCustProv.getText());
-            stmt.setString(6, tfCustPostal.getText());
-            stmt.setString(7, tfCustCountry.getText());
-            stmt.setString(8, tfCustHPhone.getText());
-            stmt.setString(9, tfCustBPhone.getText());
-            stmt.setString(10, tfCustEmail.getText());
-            stmt.setString(11, tfAgentId.getText());
-
-
-            //  private int customerID;
-            //    private String CustFirstName;
-            //    private String CustLastName;
-            //    private String CustAddress;
-            //    private String CustCity;
-            //    private String CustProv;
-            //    private String CustPostal;
-            //    private String CustCountry;
-            //    private String CustHomePhone;
-            //    private String CustBusPhone;
-            //    private String CustEmail;
-            //    private int AgentId;
-=======
->>>>>>> 2e19a5d5413678415fc00b2f0cb20f3a9128ac4e
 
         if(matchString(tfCustFname.getText()) == true && matchString(tfCustFname.getText()) == true && matchString(tfCustAddress.getText()) == true && matchString(tfCustCity.getText()) == true
         && matchProvince(tfCustProv.getText()) == true && matchPostalCode(tfCustPostal.getText()) == true && matchString(tfCustCountry.getText()) == true && matchPhoneNumber(tfCustHPhone.getText()) == true &&
@@ -455,4 +412,3 @@ public class CustomerPage{
 
 
 }
-

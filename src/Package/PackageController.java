@@ -70,6 +70,9 @@ public class PackageController {
     private Button btnEdit;
 
     @FXML
+    private Button btnEdit;
+
+    @FXML
     private void OnBackClick(){
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -198,7 +201,6 @@ public class PackageController {
 
     }
 
-<<<<<<< HEAD
     public void OnSubmitClick(ActionEvent actionEvent){
         Boolean passes = false;
         Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
@@ -217,19 +219,7 @@ public class PackageController {
                 //precompile the statement
 
                 PreparedStatement stmt = conn.prepareStatement(insertsql);
-                //PreparedStatement stmt2 = conn.prepareStatement(insertsql);
-                //ResultSet rs =stmt2.executeQuery(maxProductIDsql);
-                //System.out.println(rs);
 
-//            while(rs.next()){
-//                //System.out.println("MAX(user_id)="+rs.getInt("MAX(user_id)"));
-//                maxProductId = rs.getInt("MAX(ProductId)") + 1;
-//            }
-                // close ResultSet rs
-                //rs.close();
-
-                //these parameters equate to the sql string above, dont start at 0, start at 1
-                //stmt.setInt(1, Integer.parseInt(txtProdId.getText()));
 
                 stmt.setString(1, txtPackageName.getText());
                 stmt.setString(2, txtStartDate.getText());
@@ -262,7 +252,8 @@ public class PackageController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }*/}
-=======
+    }
+
     @FXML
     void OnActionEditClick(ActionEvent event) {
         btnEdit.setDisable(true);
@@ -312,9 +303,9 @@ public class PackageController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
->>>>>>> 2e19a5d5413678415fc00b2f0cb20f3a9128ac4e
     }
 
+>>>>>>> 2e19a5d5413678415fc00b2f0cb20f3a9128ac4e
     public void OnSaveClick(ActionEvent actionEvent) {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
