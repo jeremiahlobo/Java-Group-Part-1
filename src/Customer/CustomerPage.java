@@ -1,14 +1,31 @@
 package Customer;
 
+
 import Core.Customer;
 import Core.DBHelper;
 import Core.GeneratePDF;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import Base.Validator;
+import Core.Customer;
+import Core.DBHelper;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.sql.*;
+
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -210,6 +227,7 @@ public class CustomerPage{
 }
 
 
+
     @FXML
     void OnActionNewClick(ActionEvent event){
         tfCustid.clear();
@@ -246,12 +264,11 @@ public class CustomerPage{
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
 
-
-        Connection conn = DBHelper.getConnection();//initialize connection again
-
-        String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?";
-
         try {
+            Connection conn = DBHelper.getConnection();//initialize connection again
+
+            String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
+
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
@@ -260,6 +277,7 @@ public class CustomerPage{
             if (matchString(tfCustFname.getText()) == true && matchString(tfCustFname.getText()) == true && matchString(tfCustAddress.getText()) == true && matchString(tfCustCity.getText()) == true
                     && matchProvince(tfCustProv.getText()) == true && matchPostalCode(tfCustPostal.getText()) == true && matchString(tfCustCountry.getText()) == true && matchPhoneNumber(tfCustHPhone.getText()) == true &&
                     matchPhoneNumber(tfCustBPhone.getText()) == true && matchEmail(tfCustEmail.getText()) == true) {
+
 
                 String insertsql2 = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
                 try {
@@ -315,8 +333,12 @@ public class CustomerPage{
                 } catch (SQLException e) {
                     e.printStackTrace();
                     Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
+
                     alert.showAndWait();
                 }
+
+                conn.close();
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Bad value entered. Please check entered values.");
                 alert.showAndWait();
@@ -327,108 +349,143 @@ public class CustomerPage{
             alert.showAndWait();
         }
     }
-
-    @FXML
-    void OnActionEditClick(ActionEvent event) {
-        btnEdit.setDisable(true);
-        tfCustFname.setEditable(true);
-        tfCustLName.setEditable(true);
-        tfCustAddress.setEditable(true);
-        tfCustCity.setEditable(true);
-        tfCustProv.setEditable(true);
-        tfCustPostal.setEditable(true);
-        tfCustCountry.setEditable(true);
-        tfCustHPhone.setEditable(true);
-        tfCustBPhone.setEditable(true);
-        tfCustEmail.setEditable(true);
-        tfAgentId.setEditable(true);
-        btnSave.setDisable(false); //enable the save button
-        btnSave.setVisible(true);//show the save button
-    }
-
-    //Updates customer and sends to database
-    @FXML
-    void OnActionSaveClick(ActionEvent event) {
-
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "UPDATE Customers set CustomerId=?, CustFirstName=?, CustLastName=?, CustAddress=?, CustCity=?, CustProv=?, CustPostal=?, CustCountry=?,  CustHomePhone=?, CustBusPhone=?, CustEmail=?, AgentId=? where CustomerId=?;";
-        try {
-            //precompile the statement
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-            stmt.setInt(1, Integer.parseInt(tfCustid.getText()));
-            stmt.setString(2, tfCustFname.getText());
-            stmt.setString(3, tfCustLName.getText());
-            stmt.setString(4, tfCustAddress.getText());
-            stmt.setString(5, tfCustCity.getText());
-            stmt.setString(6, tfCustProv.getText());
-            stmt.setString(7, tfCustPostal.getText());
-            stmt.setString(8, tfCustCountry.getText());
-            stmt.setString(9, tfCustHPhone.getText());
-            stmt.setString(10, tfCustBPhone.getText());
-            stmt.setString(11, tfCustEmail.getText());
-            stmt.setInt(12, Integer.parseInt(tfAgentId.getText()));
-            stmt.setInt(13, lvCustomers.getSelectionModel().getSelectedItem().getCustomerID());
-            int numRows = stmt.executeUpdate();
-            //brings a value that tells us how many rows modified
-            lblMessage.setText("Customer successfully updated");
-
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
-                alert.showAndWait();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        @FXML
+        void OnActionEditClick (ActionEvent event){
+            btnEdit.setDisable(true);
+            tfCustFname.setEditable(true);
+            tfCustLName.setEditable(true);
+            tfCustAddress.setEditable(true);
+            tfCustCity.setEditable(true);
+            tfCustProv.setEditable(true);
+            tfCustPostal.setEditable(true);
+            tfCustCountry.setEditable(true);
+            tfCustHPhone.setEditable(true);
+            tfCustBPhone.setEditable(true);
+            tfCustEmail.setEditable(true);
+            tfAgentId.setEditable(true);
+            btnSave.setDisable(false); //enable the save button
+            btnSave.setVisible(true);//show the save button
         }
+
+        //Updates customer and sends to database
+        @FXML
+        void OnActionSaveClick (ActionEvent event){
+
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String sql = "UPDATE Customers set CustomerId=?, CustFirstName=?, CustLastName=?, CustAddress=?, CustCity=?, CustProv=?, CustPostal=?, CustCountry=?,  CustHomePhone=?, CustBusPhone=?, CustEmail=?, AgentId=? where CustomerId=?;";
+            try {
+                //precompile the statement
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                //these parameters equate to the sql string above, dont start at 0, start at 1
+                stmt.setInt(1, Integer.parseInt(tfCustid.getText()));
+                stmt.setString(2, tfCustFname.getText());
+                stmt.setString(3, tfCustLName.getText());
+                stmt.setString(4, tfCustAddress.getText());
+                stmt.setString(5, tfCustCity.getText());
+                stmt.setString(6, tfCustProv.getText());
+                stmt.setString(7, tfCustPostal.getText());
+                stmt.setString(8, tfCustCountry.getText());
+                stmt.setString(9, tfCustHPhone.getText());
+                stmt.setString(10, tfCustBPhone.getText());
+                stmt.setString(11, tfCustEmail.getText());
+                stmt.setInt(12, Integer.parseInt(tfAgentId.getText()));
+                stmt.setInt(13, lvCustomers.getSelectionModel().getSelectedItem().getCustomerID());
+                int numRows = stmt.executeUpdate();
+                //brings a value that tells us how many rows modified
+                lblMessage.setText("Customer successfully updated");
+
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                    alert.showAndWait();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 //after they save, turn fields back to read only
-        tfCustid.setEditable(false);
-        tfCustFname.setEditable(false);
-        tfCustLName.setEditable(false);
-        tfCustAddress.setEditable(false);
-        tfCustCity.setEditable(false);
-        tfCustProv.setEditable(false);
-        tfCustPostal.setEditable(false);
-        tfCustCountry.setEditable(false);
-        tfCustHPhone.setEditable(false);
-        tfCustBPhone.setEditable(false);
-        tfCustEmail.setEditable(false);
-        tfAgentId.setEditable(false);
+            tfCustid.setEditable(false);
+            tfCustFname.setEditable(false);
+            tfCustLName.setEditable(false);
+            tfCustAddress.setEditable(false);
+            tfCustCity.setEditable(false);
+            tfCustProv.setEditable(false);
+            tfCustPostal.setEditable(false);
+            tfCustCountry.setEditable(false);
+            tfCustHPhone.setEditable(false);
+            tfCustBPhone.setEditable(false);
+            tfCustEmail.setEditable(false);
+            tfAgentId.setEditable(false);
 
-        //enable the edit button again
-        btnEdit.setDisable(false);
+            //enable the edit button again
+            btnEdit.setDisable(false);
 
-        //refresh the list view
-        loadListView();
-    }
+            //refresh the list view
+            loadListView();
+        }
 
-    @FXML
-    void OnActionDeleteClick(ActionEvent event) {
-        Connection conn = DBHelper.getConnection();//initialize connection again
-        String sql = "DELETE FROM customers WHERE customerId=?;";
-        try {
-            //precompile the statement
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            //these parameters equate to the sql string above, dont start at 0, start at 1
-            stmt.setInt(1, Integer.parseInt(tfCustid.getText()));
+        @FXML
+        void OnActionDeleteClick (ActionEvent event){
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String sql = "DELETE FROM customers WHERE customerId=?;";
+            try {
+                //precompile the statement
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                //these parameters equate to the sql string above, dont start at 0, start at 1
+                stmt.setInt(1, Integer.parseInt(tfCustid.getText()));
 
-            int numRows = stmt.executeUpdate();
+                int numRows = stmt.executeUpdate();
 
 
-            if (numRows == 0) {
-                //create a new alert
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
-                alert.showAndWait();
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were deleted. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+                //`alert.showAndWait();
             }
-            else{
-                //show rows were updated
-                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
-                success.showAndWait();
-                loadListView();
-            }
-            conn.close();
+        }
+        //our array list for storing Customers
+        ObservableList<Customer> data = FXCollections.observableArrayList();
+
+        //tester list
+        ObservableList names =
+                FXCollections.observableArrayList();
+
+        class XCell extends ListCell<Customer> {
+            HBox hbox = new HBox();
+            Label label = new Label("(empty)");
+            Pane pane = new Pane();
+            Button button = new Button("  Print PDF  ");
+            Customer lastItem;
+
+            public XCell() {
+                super();
+                hbox.getChildren().addAll(label, pane, button);
+                HBox.setHgrow(pane, Priority.ALWAYS);
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        //put what happens when you click button
+                        /* we need to insert the cust id into the api to retrieve the data */
+
+                        try {
+
+                        /* set this property to the location of the cert file
+                        System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -488,58 +545,100 @@ public class CustomerPage{
             });
         }
 
+                        String username = "yy777PPP";
+                        String password = "yy777PPP";
+                        String userpass = "";*/
 
-        @Override
-        protected void updateItem(Customer item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);  // No text in label of super class
-            if (empty) {
-                lastItem = null;
-                setGraphic(null);
-            } else {
-                lastItem = item;
-                label.setText(item!=null ? String.valueOf(item) : "<null>");
-                setGraphic(hbox);
+
+                            URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
+//      URLConnection uc = url.openConnection();
+                            HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+
+
+                            System.out.println("sending request...");
+
+                            uc.setRequestMethod("GET");
+                            uc.setAllowUserInteraction(false);
+                            uc.setDoOutput(true);
+                            uc.setRequestProperty("Content-type", "application/json");
+
+
+                            System.out.println(uc.getRequestProperties());
+
+
+                            int rspCode = uc.getResponseCode();
+
+                            if (rspCode == 200) {
+                                InputStream is = uc.getInputStream();
+                                InputStreamReader isr = new InputStreamReader(is);
+                                BufferedReader br = new BufferedReader(isr);
+                                System.out.println(isr);
+
+                                String nextLine = br.readLine();
+                                while (nextLine != null) {
+                                    System.out.println(nextLine);
+                                    nextLine = br.readLine();
+                                }
+
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        //end of test
+                        System.out.println(lastItem.getCustomerID());
+                    }
+                });
             }
-        }
-    }
-    private void loadListView() {
 
 
-        //start with clean list view
-        lvCustomers.getItems().clear();
-        Connection conn = DBHelper.getConnection();
-        String sql = "select * from customers";
-        try {
-            Statement stmt = conn.createStatement();//creates statement object
-            ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
-            while (rs.next()) {
-                data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
-
-            }
-
-
-            lvCustomers.setItems(data);
-            //sets the cell
-            lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
-                @Override
-                public ListCell<Customer> call(ListView<Customer> param) {
-                    return new XCell();
+            @Override
+            protected void updateItem(Customer item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(null);  // No text in label of super class
+                if (empty) {
+                    lastItem = null;
+                    setGraphic(null);
+                } else {
+                    lastItem = item;
+                    label.setText(item != null ? String.valueOf(item) : "<null>");
+                    setGraphic(hbox);
                 }
-            });
+            }
+        }
+        private void loadListView(){
 
 
+            //start with clean list view
+            lvCustomers.getItems().clear();
+            Connection conn = DBHelper.getConnection();
+            String sql = "select * from customers";
+            try {
+                Statement stmt = conn.createStatement();//creates statement object
+                ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
+                while (rs.next()) {
+                    data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                }
+
+
+                lvCustomers.setItems(data);
+                //sets the cell
+                lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
+                    @Override
+                    public ListCell<Customer> call(ListView<Customer> param) {
+                        return new XCell();
+                    }
+                });
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
 
-        }
 
+    }
 
-
-
-
-
-
-}
