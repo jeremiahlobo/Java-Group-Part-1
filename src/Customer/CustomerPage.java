@@ -1,5 +1,10 @@
 package Customer;
 
+
+import Core.Customer;
+import Core.DBHelper;
+import Core.GeneratePDF;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +24,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-
 import java.sql.*;
 
 import javafx.scene.control.cell.ComboBoxListCell;
@@ -29,6 +33,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 
 import static Base.Validator.*;
 
@@ -256,11 +264,11 @@ public class CustomerPage{
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
 
-
         try {
             Connection conn = DBHelper.getConnection();//initialize connection again
 
             String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
+
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
@@ -270,52 +278,66 @@ public class CustomerPage{
                     && matchProvince(tfCustProv.getText()) == true && matchPostalCode(tfCustPostal.getText()) == true && matchString(tfCustCountry.getText()) == true && matchPhoneNumber(tfCustHPhone.getText()) == true &&
                     matchPhoneNumber(tfCustBPhone.getText()) == true && matchEmail(tfCustEmail.getText()) == true) {
 
-                int maxCustId = 0;
-                //these parameters equate to the sql string above, dont start at 0, start at 1
 
-                stmt.setString(1, tfCustFname.getText());
-                stmt.setString(2, tfCustLName.getText());
-                stmt.setString(3, tfCustAddress.getText());
-                stmt.setString(4, tfCustCity.getText());
-                stmt.setString(5, tfCustProv.getText());
-                stmt.setString(6, tfCustPostal.getText());
-                stmt.setString(7, tfCustCountry.getText());
-                stmt.setString(8, tfCustHPhone.getText());
-                stmt.setString(9, tfCustBPhone.getText());
-                stmt.setString(10, tfCustEmail.getText());
-                stmt.setString(11, tfAgentId.getText());
-                stmt.setString(12, txtUsername.getText());
-                stmt.setString(13, txtPassword.getText());
+                String insertsql2 = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
+                try {
+                    //precompile the statement
+
+                    PreparedStatement stmt2 = conn.prepareStatement(insertsql);
 
 
-                //  private int customerID;
-                //    private String CustFirstName;
-                //    private String CustLastName;
-                //    private String CustAddress;
-                //    private String CustCity;
-                //    private String CustProv;
-                //    private String CustPostal;
-                //    private String CustCountry;
-                //    private String CustHomePhone;
-                //    private String CustBusPhone;
-                //    private String CustEmail;
-                //    private int AgentId;
+                    //these parameters equate to the sql string above, dont start at 0, start at 1
 
-                int numRows = stmt.executeUpdate();
+                    stmt.setString(1, tfCustFname.getText());
+                    stmt.setString(2, tfCustLName.getText());
+                    stmt.setString(3, tfCustAddress.getText());
+                    stmt.setString(4, tfCustCity.getText());
+                    stmt.setString(5, tfCustProv.getText());
+                    stmt.setString(6, tfCustPostal.getText());
+                    stmt.setString(7, tfCustCountry.getText());
+                    stmt.setString(8, tfCustHPhone.getText());
+                    stmt.setString(9, tfCustBPhone.getText());
+                    stmt.setString(10, tfCustEmail.getText());
+                    stmt.setString(11, tfAgentId.getText());
+                    stmt.setString(12, txtUsername.getText());
+                    stmt.setString(13, txtPassword.getText());
 
 
-                if (numRows == 0) {
-                    //create a new alert
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                    //  private int customerID;
+                    //    private String CustFirstName;
+                    //    private String CustLastName;
+                    //    private String CustAddress;
+                    //    private String CustCity;
+                    //    private String CustProv;
+                    //    private String CustPostal;
+                    //    private String CustCountry;
+                    //    private String CustHomePhone;
+                    //    private String CustBusPhone;
+                    //    private String CustEmail;
+                    //    private int AgentId;
+
+                    int numRows = stmt.executeUpdate();
+
+                    if (numRows == 0) {
+                        //create a new alert
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                        alert.showAndWait();
+                    } else {
+                        //show rows were updated
+                        Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                        success.showAndWait();
+                        loadListView();
+                    }
+                    conn.close();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred.");
+
                     alert.showAndWait();
-                } else {
-                    //show rows were updated
-                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                    success.showAndWait();
-                    loadListView();
                 }
-                conn.close();
 
+                conn.close();
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Bad value entered. Please check entered values.");
@@ -464,9 +486,69 @@ public class CustomerPage{
                         System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
 
 
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            //`alert.showAndWait();
+        }
+    }
+    //our array list for storing Customers
+    ObservableList<Customer> data = FXCollections.observableArrayList();
+
+    //tester list
+    ObservableList names =
+            FXCollections.observableArrayList();
+
+    class XCell extends ListCell<Customer> {
+        HBox hbox = new HBox();
+        Label label = new Label("(empty)");
+        Pane pane = new Pane();
+        Button button = new Button("  Print PDF  ");
+        Customer lastItem;
+
+        public XCell() {
+            super();
+            hbox.getChildren().addAll(label, pane, button);
+            HBox.setHgrow(pane, Priority.ALWAYS);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    //put what happens when you click button
+                    System.out.println(lastItem.getCustomerID());
+
+                    //connect to the url and get json object
+
+                    //send the object to make pdf/invoice one function
+                    GeneratePDF(data);
+
+
+                   /* Document document = new Document();
+                    try
+                    {
+                        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HElloMarkooooooo.pdf"));
+                        document.open();
+                        document.add(new Paragraph("A Hello World PDF document."));
+                        document.close();
+                        writer.close();
+                    } catch (DocumentException e)
+                    {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    }*/
+
+                    //save windows pop up
+
+                }
+            });
+        }
+
                         String username = "yy777PPP";
                         String password = "yy777PPP";
                         String userpass = "";*/
+
 
                             URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
 //      URLConnection uc = url.openConnection();
