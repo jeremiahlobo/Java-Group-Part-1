@@ -1,5 +1,12 @@
 package Customer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Base.Validator;
@@ -462,6 +469,60 @@ public class CustomerPage{
                 @Override
                 public void handle(ActionEvent event) {
                     //put what happens when you click button
+       /* we need to insert the cust id into the api to retrieve the data */
+
+                    try{
+
+                        /* set this property to the location of the cert file
+                        System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
+
+
+                        String username = "yy777PPP";
+                        String password = "yy777PPP";
+                        String userpass = "";*/
+
+                        URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/"+lastItem.getCustomerID());
+//      URLConnection uc = url.openConnection();
+                        HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+
+
+
+                        System.out.println("sending request...");
+
+                        uc.setRequestMethod("GET");
+                        uc.setAllowUserInteraction(false);
+                        uc.setDoOutput(true);
+                        uc.setRequestProperty( "Content-type", "application/json" );
+
+
+                        System.out.println(uc.getRequestProperties());
+
+
+
+
+                        int rspCode = uc.getResponseCode();
+
+                        if (rspCode == 200) {
+                            InputStream is = uc.getInputStream();
+                            InputStreamReader isr = new InputStreamReader(is);
+                            BufferedReader br = new BufferedReader(isr);
+                            System.out.println(isr);
+
+                            String nextLine = br.readLine();
+                            while (nextLine != null) {
+                                System.out.println(nextLine);
+                                nextLine = br.readLine();
+                            }
+
+                        }
+                    }
+
+                    catch(IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //end of test
                     System.out.println(lastItem.getCustomerID());
                 }
             });
