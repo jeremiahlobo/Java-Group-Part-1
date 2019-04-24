@@ -18,6 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import static Base.Validator.matchString;
+
 public class ProductPage {
 
     @FXML
@@ -45,6 +47,9 @@ public class ProductPage {
     private Button btnBack;
 
     @FXML
+    private Button btnEdit;
+
+    @FXML
     private void OnBackClick() {
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -70,6 +75,7 @@ public class ProductPage {
         assert txtProdId != null : "fx:id=\"txtProdId\" was not injected: check your FXML file 'productPage.fxml'.";
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
+        txtProdName.setEditable(false);
         txtProdId.setEditable(false);
 //        txtProdName.setEditable(false);
         //load the list view
@@ -109,13 +115,8 @@ public class ProductPage {
 
     public void OnActionNewClick(ActionEvent actionEvent) {
 
-        Boolean passes = false;
-
-            if(txtProdName.getText().matches("^[a-zA-Z]+$"))
-        {
-            passes = true;
-        }
-            if(passes ==true)
+        if(matchString(txtProdName.getText()) ==true)
+    {
 
         {
             Connection conn = DBHelper.getConnection();
@@ -151,19 +152,21 @@ public class ProductPage {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
                 alert.showAndWait();
             }
+        }
+
+    void OnActionEditClick(ActionEvent event) {
+        btnEdit.setDisable(true);
+        txtProdName.setEditable(true);
+        btnSave.setDisable(false); //enable the save button
+        btnSave.setVisible(true);//show the save button
     }
 
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
         Boolean passes = false;
 
-        if (txtProdName.getText().
 
-                matches("^[a-zA-Z]+$")) {
-            passes = true;
-        }
-
-        if (passes == true) {
+        if (matchString(txtProdName.getText()) == true) {
             Connection conn = DBHelper.getConnection();//initialize connection again
             String sql = "UPDATE Products set ProdName=? where ProductId=?;";
             try {
@@ -193,6 +196,42 @@ public class ProductPage {
             Alert success = new Alert(Alert.AlertType.INFORMATION, "Bad insert. Please enter a String.");
             success.showAndWait();
         }
+    }
+
+    public void OnActionSaveClick(ActionEvent actionEvent) {
+
+        if (matchString(txtProdName.getText()) == true) {
+            Connection conn = DBHelper.getConnection();//initialize connection again
+            String sql = "UPDATE Products set ProdName=? where ProductId=?;";
+            try {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(2, Integer.parseInt(txtProdId.getText()));
+                stmt.setString(1, txtProdName.getText());
+
+                int numRows = stmt.executeUpdate();
+
+
+                if (numRows == 0) {
+                    //create a new alert
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                    alert.showAndWait();
+                } else {
+                    //show rows were updated
+                    Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
+                    success.showAndWait();
+                    loadListView();
+                }
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Alert success = new Alert(Alert.AlertType.INFORMATION, "Bad insert. Please enter a String.");
+            success.showAndWait();
+        }
+        txtProdId.setEditable(false);
+        txtProdName.setEditable(false);
     }
 
     ObservableList<Product> data = FXCollections.observableArrayList();
