@@ -8,11 +8,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class GeneratePDF {
+
+
+ /*
+
     private static GeneratePDF ourInstance = new GeneratePDF();
 
     public static GeneratePDF getInstance() {
@@ -242,13 +250,24 @@ public class GeneratePDF {
                 float[] totalColumnWidths = { 1f};
                 totalPriceTB.setWidths(totalColumnWidths);
 
-                PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + /*df.format(finalPrice)*/NumberFormat.getCurrencyInstance().format(finalPrice)));
+
+                PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + df.format(finalPrice)/* NumberFormat.getCurrencyInstance().format(finalPrice)));
+
                 totalPriceCell.setBorderColor(BaseColor.WHITE);
                 totalPriceCell.setPaddingLeft(10);
                 totalPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 totalPriceCell.setVerticalAlignment(Element.ALIGN_RIGHT);
 
                 totalPriceTB.addCell(totalPriceCell);
+
+                document.add(totalPriceTB);*/
+
+              //  //document.close();
+             //   //writer.close();
+
+             //   //sendEmail(orderDetail.getBookingNo(), orderDetail.getCustomerId());
+        /*    }
+
                 document.add(totalPriceTB);
 
                 document.close();
@@ -257,9 +276,40 @@ public class GeneratePDF {
                 sendEmail(orderDetail.getBookingNo(), orderDetail.getCustomerId());
             }
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
     }
+
+
+    */
+public static void makePdf(String jsonDetails) {
+    Document document = new Document();
+    PdfWriter writer = null;
+    try {
+        writer = PdfWriter.getInstance(document, new FileOutputStream("Invoice.pdf"));
+    } catch (DocumentException e1) {
+        e1.printStackTrace();
+    } catch (FileNotFoundException e1) {
+        e1.printStackTrace();
+    }
+    document.open();
+    try {
+        document.add(new Paragraph("Travel Experts."));
+//        var splitJson = jsonDetails.split(""},{"");
+        document.add(new Paragraph(jsonDetails));
+
+
+    } catch (DocumentException e1) {
+        e1.printStackTrace();
+    }
+    document.close();
+    writer.close();
+
+    }//end makePDF
+}//end GeneratePDF class
+
 }
+

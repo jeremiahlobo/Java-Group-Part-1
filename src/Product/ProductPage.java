@@ -115,20 +115,21 @@ public class ProductPage {
 
     public void OnActionNewClick(ActionEvent actionEvent) {
 
-        if(matchString(txtProdName.getText()) ==true)
+        if (matchString(txtProdName.getText()) == true) {
 
-        {
-            Connection conn = DBHelper.getConnection();
-            String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
-            int maxProductId = 0;
-            try {
-                PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-                stmt.setInt(1, maxProductId);
-                stmt.setString(2, txtProdName.getText());
 
-                int numRows = stmt.executeUpdate();
-                System.out.println(numRows);
+                Connection conn = DBHelper.getConnection();
+                String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
+                int maxProductId = 0;
+                try {
+                    PreparedStatement stmt = conn.prepareStatement(insertsql);
+
+                    stmt.setInt(1, maxProductId);
+                    stmt.setString(2, txtProdName.getText());
+
+                    int numRows = stmt.executeUpdate();
+                    System.out.println(numRows);
 
                     if (numRows == 0) {
                         //create a new alert
@@ -140,14 +141,14 @@ public class ProductPage {
                         success.showAndWait();
                         loadListView();
                     }
-                conn.close();
+                    conn.close();
 
-            }catch (SQLException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-                alert.showAndWait();
-            }
-        }else{
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+                    alert.showAndWait();
+                }
+            }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
                 alert.showAndWait();
             }
@@ -159,6 +160,7 @@ public class ProductPage {
         btnSave.setDisable(false); //enable the save button
         btnSave.setVisible(true);//show the save button
     }
+
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
 

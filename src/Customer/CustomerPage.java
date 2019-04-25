@@ -1,6 +1,9 @@
 package Customer;
 
 
+
+import java.io.*;
+=======
 import Core.Customer;
 import Core.DBHelper;
 import Core.GeneratePDF;
@@ -9,20 +12,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.net.HttpURLConnection;
 
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import Base.Validator;
 import Core.Customer;
 import Core.DBHelper;
-
+import Core.GeneratePDF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import java.net.URL;
 
 import java.sql.*;
 
@@ -33,6 +44,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.net.URL;
 import java.sql.*;
@@ -208,7 +223,8 @@ public class CustomerPage{
         ListView lvCustomers = new ListView(data);
 
 
-        names.addAll(
+      /* We shouldn't need this 
+      names.addAll(
                 "Adam", "Alex", "Alfred", "Albert",
                 "Brenda", "Connie", "Derek", "Donny",
                 "Lynne", "Myrtle", "Rose", "Rudolph",
@@ -217,7 +233,7 @@ public class CustomerPage{
 
         for (int i = 0; i < 18; i++) {
             data.add("anonym");
-        }
+        }*/
 
         lvCustomers.setItems(data);
         lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
@@ -469,6 +485,7 @@ public class CustomerPage{
             Pane pane = new Pane();
             Button button = new Button("  Print PDF  ");
             Customer lastItem;
+            String temp;
 
             public XCell() {
                 super();
@@ -479,12 +496,19 @@ public class CustomerPage{
                     public void handle(ActionEvent event) {
                         //put what happens when you click button
                         /* we need to insert the cust id into the api to retrieve the data */
-
                         try {
+                            URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
+                            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                            String str = br.readLine();
 
-                        /* set this property to the location of the cert file
-                        System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
 
+                            List<String> list = new ArrayList<String>();
+                            JSONArray array1 = new JSONArray(str);
+
+
+                            System.out.println(array1.length());
+                            for (int j = 0; j < array1.length(); j++)
+                            {
 
 
         } catch (SQLException e) {
@@ -555,42 +579,30 @@ public class CustomerPage{
                             HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 
-                            System.out.println("sending request...");
-
-                            uc.setRequestMethod("GET");
-                            uc.setAllowUserInteraction(false);
-                            uc.setDoOutput(true);
-                            uc.setRequestProperty("Content-type", "application/json");
+                                for (int i = 0; i < array1.getJSONArray(j).length(); i++) {
 
 
-                            System.out.println(uc.getRequestProperties());
 
+                                    list.add(array1.getJSONArray(j).toString());
 
-                            int rspCode = uc.getResponseCode();
-
-                            if (rspCode == 200) {
-                                InputStream is = uc.getInputStream();
-                                InputStreamReader isr = new InputStreamReader(is);
-                                BufferedReader br = new BufferedReader(isr);
-                                System.out.println(isr);
-
-                                String nextLine = br.readLine();
-                                while (nextLine != null) {
-                                    System.out.println(nextLine);
-                                    nextLine = br.readLine();
                                 }
 
+                                //System.out.println(array1.getJSONArray(j));
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+
+
+                            System.out.println(list);
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-
-
-                        //end of test
-                        System.out.println(lastItem.getCustomerID());
                     }
-                });
-            }
+                        });
+                    }
+
+
+
 
 
             @Override
