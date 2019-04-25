@@ -10,43 +10,15 @@
     <orderEntry type="library" exported="" name="javafx-sdk-11.0" level="project" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.17-bin1" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.17-bin" level="project" />
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES />
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-ignore-dependency/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-ignore-unused-declared-dependency/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-ignore-used-undeclared-dependency/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-multimodule-project/module1/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-multimodule-project/module2/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze-report/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/analyze/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/mdep-439-analyze-java8/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/mdep-599-analyze-java9/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/mdep-599-analyze-java9/src/test/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/setup-custom-ear-lifecycle/manager/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/setup-custom-ear-lifecycle/plugin/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/used-dependencies/annotation/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/it/projects/used-dependencies/module/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/main/java" />
-          <root url="file://$USER_HOME$/Desktop/maven-dependency-plugin-3.1.1/src/test/java" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+
+    <orderEntry type="library" exported="" name="itextpdf-5.5.13" level="project" />
+    <orderEntry type="library" exported="" name="java-json" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/itextpdf-5.0.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/itextpdf-5.5.13.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/json-simple-1.1.1.jar!/" />
+
+
         </CLASSES>
         <JAVADOC />
         <SOURCES />
