@@ -63,13 +63,35 @@ public class PackageController {
     @FXML
     public Label nameLabel;
 
+    @FXML
+    public Label dateLabel;
 
+    @FXML
+    public Label endDateLabel;
+
+    @FXML
+    public Label comissionLabel;
+
+    @FXML
+    public Label priceLabel;
+
+    @FXML
+    public Label descriptionLabel;
     @FXML
     private void OnBackClick(){
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
         // do what you have to do
         stage.close();
+    }
+
+    public void feildFull(){
+        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
+        Boolean startDate = Validator.textFieldnotEmpty(txtStartDate, dateLabel, "Date is required!");
+        Boolean endDate = Validator.textFieldnotEmpty(txtEndDate, endDateLabel, "Date is required!");
+        Boolean comission = Validator.textFieldnotEmpty(txtComission, comissionLabel, "Comission is required!");
+        Boolean price = Validator.textFieldnotEmpty(txtBasePrice, priceLabel, "Price is required!");
+        Boolean description = Validator.textFieldnotEmpty(txtDescription, descriptionLabel, "Description is required!");
     }
 
     @FXML
@@ -92,6 +114,18 @@ public class PackageController {
         txtDescription.setText(PkDesc);
         txtBasePrice.setText(String.valueOf(PkBase));
         txtComission.setText(String.valueOf(PkAg));
+
+        btnNew.setVisible(false);
+        btnNew.setDisable(false);
+        btnSubmit.setVisible(false);
+        btnSubmit.setDisable(false);
+
+        btnEdit.setDisable(false);
+        btnSave.setDisable(false);
+        btnDelete.setDisable(false);
+        btnEdit.setVisible(true);
+        btnSave.setVisible(true);
+        btnDelete.setVisible(true);
     }
 
     public static ObservableList<Package> pkList = FXCollections.observableArrayList();
@@ -117,6 +151,14 @@ public class PackageController {
         txtBasePrice.setEditable(false);
         txtComission.setEditable(false);
 
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
+        btnDelete.setVisible(false);
+        btnEdit.setVisible(false);
+        btnSubmit.setDisable(true);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+        btnEdit.setDisable(true);
         //load the list view
         loadListView();
     }
@@ -132,6 +174,7 @@ public class PackageController {
         txtBasePrice.setEditable(true);
         txtComission.setEditable(true);
         btnSave.setDisable(false);
+        btnSave.setVisible(true);
     }
 
     @FXML
@@ -158,6 +201,26 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 
@@ -190,28 +253,31 @@ public class PackageController {
         txtComission.setEditable(true);
         //turn on submit button
         btnSubmit.setDisable(false);
+        btnSubmit.setVisible(true);
 
     }
 
     public void OnSubmitClick(ActionEvent actionEvent){
+        feildFull();
         Boolean passes = false;
-        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
         /*if (txtPackageName.getText().matches("^[a-zA-Z]+$")&&Validator.textFieldNotEmpty(TextField){
             passes = true;
         }
 
         if (passes == true) {*/
-        if(name){
+
 
             Connection conn = DBHelper.getConnection();//initialize connection again
-            //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+            //String maxProductIDsql = "SELECT MAX(PackageId)+1 FROM Packages";
+            //System.out.println(maxProductIDsql);
+            //int translation = Integer.parseInt(maxProductIDsql);
+            //int newInt = translation + 1;
             String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
-            int maxPackageId = 0;
+            //int maxPackageId = 0;
             try {
                 //precompile the statement
 
                 PreparedStatement stmt = conn.prepareStatement(insertsql);
-
 
                 stmt.setString(1, txtPackageName.getText());
                 stmt.setString(2, txtStartDate.getText());
@@ -232,6 +298,27 @@ public class PackageController {
                     Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
                     success.showAndWait();
                     loadListView();
+
+                    //in neutral buttons
+                    btnNew.setVisible(true);
+                    btnNew.setDisable(false);
+                    btnSubmit.setVisible(false);
+                    btnSubmit.setDisable(true);
+                    btnEdit.setDisable(true);
+                    btnSave.setDisable(true);
+                    btnDelete.setDisable(true);
+                    btnEdit.setVisible(false);
+                    btnSave.setVisible(false);
+                    btnDelete.setVisible(false);
+
+                    //in neutral fields
+                    txtPackageId.clear();
+                    txtPackageName.clear();
+                    txtStartDate.clear();
+                    txtEndDate.clear();
+                    txtDescription.clear();
+                    txtBasePrice.clear();
+                    txtComission.clear();
                 }
                 conn.close();
 
@@ -244,7 +331,7 @@ public class PackageController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }*/}
-    }
+
 
     @FXML
     void OnActionEditClick(ActionEvent event) {
@@ -262,6 +349,7 @@ public class PackageController {
     }
 
     public void OnActionSubmitClick(ActionEvent actionEvent) {
+        feildFull();
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {
@@ -290,6 +378,27 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 
@@ -299,6 +408,7 @@ public class PackageController {
     }
 
     public void OnSaveClick(ActionEvent actionEvent) {
+        feildFull();
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {
@@ -326,6 +436,27 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 

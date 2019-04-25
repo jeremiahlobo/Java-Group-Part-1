@@ -1,5 +1,6 @@
 package Core;
 
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -251,9 +252,11 @@ public class GeneratePDF {
                 totalPriceTB.setWidths(totalColumnWidths);
 
 
+
                 PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + df.format(finalPrice)/* NumberFormat.getCurrencyInstance().format(finalPrice)));
 
                 totalPriceCell.setBorderColor(BaseColor.WHITE);
+
                 totalPriceCell.setPaddingLeft(10);
                 totalPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 totalPriceCell.setVerticalAlignment(Element.ALIGN_RIGHT);
@@ -312,4 +315,6 @@ public static void makePdf(String jsonDetails) {
 }//end GeneratePDF class
 
 }
+
+
 

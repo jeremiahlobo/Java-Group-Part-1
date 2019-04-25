@@ -25,6 +25,9 @@ public class Main extends Application {
     private TextField txtPass;
 
     @FXML
+    private Button loginButton;
+
+    @FXML
     void AllCustomerMouseClick(MouseEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../Customer/customerPage.fxml"));
@@ -50,6 +53,12 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onSuccessfulLogin(){
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     @FXML
@@ -85,6 +94,11 @@ public class Main extends Application {
     void actionLogin(MouseEvent event) {
         String name = txtUser.getText();
         String pass = txtPass.getText();
+        Boolean provided = false;
+        if(!txtUser.getText().trim().isEmpty() && !txtPass.getText().trim().isEmpty())
+        {
+            provided = true;
+        }
 
         String sql = "SELECT * FROM CUSTOMERS WHERE username =?;";
         String sql2 = "SELECT * FROM customers WHERE password=? and username=?;";
@@ -96,7 +110,7 @@ public class Main extends Application {
             stmt.setString(1,name);
             ResultSet resultSet = stmt.executeQuery();
 
-            if (!resultSet.next()) {
+            if (!resultSet.next() || provided == false) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Enter correct user/pass please.");
                     alert.showAndWait();
                 }
@@ -124,6 +138,8 @@ public class Main extends Application {
                             stage.setScene(new Scene(root, 1000, 700));
                             stage.show();
 
+                            onSuccessfulLogin();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -135,11 +151,12 @@ public class Main extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("loginPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../Product/productPage.fxml"));
         primaryStage.setTitle("Dashboard");
         primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.show();
