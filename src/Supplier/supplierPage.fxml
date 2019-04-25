@@ -17,9 +17,9 @@
                 <Font size="48.0" />
             </font>
         </Label>
-        <Button layoutX="244.0" layoutY="219.0" mnemonicParsing="false" onAction="#OnActionNewClick" text="New" />
+        <Button fx:id="btnNew" layoutX="244.0" layoutY="219.0" mnemonicParsing="false" onAction="#OnActionNewClick" text="New" />
         <Button fx:id="btnSave" layoutX="413.0" layoutY="219.0" mnemonicParsing="false" onAction="#OnActionSaveClick" text="Save" />
-      <Button layoutX="463.0" layoutY="219.0" mnemonicParsing="false" onAction="#OnDeleteClick" text="Delete" />
+      <Button fx:id="btnDelete" layoutX="463.0" layoutY="219.0" mnemonicParsing="false" onAction="#OnDeleteClick" text="Delete" />
       <ListView id="lvSupplier" fx:id="lvSupplier" layoutX="136.0" layoutY="264.0" onMouseClicked="#selectListItem" prefHeight="200.0" prefWidth="526.0" />
       <GridPane layoutX="156.0" layoutY="136.0" prefHeight="60.0" prefWidth="475.0">
          <columnConstraints>
@@ -41,6 +41,6 @@
       </GridPane>
       <Button fx:id="btnBack" layoutX="593.0" layoutY="63.0" mnemonicParsing="false" onAction="#OnBackClick" text="Back" />
       <Button fx:id="btnSubmit" layoutX="301.0" layoutY="219.0" mnemonicParsing="false" onAction="#onActionSubmitClick" text="Submit" />
-      <Button layoutX="366.0" layoutY="219.0" mnemonicParsing="false" text="Edit" />
+      <Button fx:id="btnEdit" layoutX="366.0" layoutY="219.0" mnemonicParsing="false" text="Edit" />
     </children>
 </AnchorPane>

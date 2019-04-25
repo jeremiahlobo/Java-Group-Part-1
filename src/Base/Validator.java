@@ -36,7 +36,7 @@ public class Validator {
 
     public static boolean matchString(String input)
     {
-        if(input.matches("^[a-zA-Z]+$"))
+        if(input.matches("^[a-zA-Z0-9_ ]*$"))
         {
             return true;
         }

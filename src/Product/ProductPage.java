@@ -39,6 +39,9 @@ public class ProductPage {
     private Button btnNew;
 
     @FXML
+    private Button btnDelete;
+
+    @FXML
     private ListView<Product> lvProducts;
 
     @FXML
@@ -69,6 +72,18 @@ public class ProductPage {
 
         txtProdId.setText(String.valueOf(prodIdTemp));
         txtProdName.setText(Fname);
+
+        btnNew.setVisible(false);
+        btnNew.setDisable(true);
+        btnSubmit.setVisible(false);
+        btnSubmit.setDisable(true);
+
+        btnEdit.setDisable(false);
+        btnSave.setDisable(false);
+        btnDelete.setDisable(false);
+        btnEdit.setVisible(true);
+        btnSave.setVisible(true);
+        btnDelete.setVisible(true);
     }
 
     ObservableList<Product> oblist = FXCollections.observableArrayList();
@@ -79,11 +94,21 @@ public class ProductPage {
         assert txtProdId != null : "fx:id=\"txtProdId\" was not injected: check your FXML file 'productPage.fxml'.";
         assert txtProdName != null : "fx:id=\"txtProdName\" was not injected: check your FXML file 'productPage.fxml'.";
 
-        txtProdName.setEditable(false);
-        txtProdId.setEditable(false);
-
+        //in neutral buttons
+        btnNew.setVisible(true);
+        btnNew.setDisable(false);
         btnSubmit.setVisible(false);
+        btnSubmit.setDisable(true);
+        btnEdit.setDisable(true);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+        btnEdit.setVisible(false);
         btnSave.setVisible(false);
+        btnDelete.setVisible(false);
+        //in neutral fields
+        txtProdName.clear();
+        txtProdId.clear();
+
 //        txtProdName.setEditable(false);
         //load the list view
         loadListView();
@@ -108,6 +133,21 @@ public class ProductPage {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+                //in neutral fields
+                txtProdName.clear();
+                txtProdId.clear();
             }
             conn.close();
 
@@ -161,6 +201,21 @@ public class ProductPage {
                     Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
                     success.showAndWait();
                     loadListView();
+
+                    //in neutral buttons
+                    btnNew.setVisible(true);
+                    btnNew.setDisable(false);
+                    btnSubmit.setVisible(false);
+                    btnSubmit.setDisable(true);
+                    btnEdit.setDisable(true);
+                    btnSave.setDisable(true);
+                    btnDelete.setDisable(true);
+                    btnEdit.setVisible(false);
+                    btnSave.setVisible(false);
+                    btnDelete.setVisible(false);
+                    //in neutral fields
+                    txtProdName.clear();
+                    txtProdId.clear();
                 }
                 conn.close();
 
@@ -216,7 +271,6 @@ public class ProductPage {
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-
             stmt.setString(1, txtProdName.getText());
             int numRows = stmt.executeUpdate();
             System.out.println(numRows);
@@ -230,6 +284,21 @@ public class ProductPage {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+                //in neutral fields
+                txtProdName.clear();
+                txtProdId.clear();
             }
             conn.close();
 

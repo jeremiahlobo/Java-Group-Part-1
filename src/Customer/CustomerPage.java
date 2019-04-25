@@ -191,6 +191,10 @@ public class CustomerPage{
         tfCustEmail.setText(Email);
         tfAgentId.setText(String.valueOf(AgentId));
 
+        btnNew.setVisible(false);
+        btnNew.setDisable(false);
+        btnSubmit.setVisible(false);
+        btnSubmit.setDisable(false);
     }
 
     @FXML
@@ -299,12 +303,12 @@ public class CustomerPage{
         try {
             Connection conn = DBHelper.getConnection();//initialize connection again
 
-            String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username=?, password=?";
+            String insertsql = "INSERT Customers set CustFirstName=?, CustLastName=?,CustAddress=?,CustCity=?,CustProv=?,CustPostal=?,CustCountry=?,CustHomePhone=?,CustBusPhone=?,CustEmail=?, AgentId=?, username='', password=''";
             //precompile the statement
 
             PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-            String username="";
+            // username="";
 
 
             if (matchString(tfCustFname.getText()) == true && matchString(tfCustFname.getText()) == true && matchString(tfCustAddress.getText()) == true && matchString(tfCustCity.getText()) == true
@@ -325,8 +329,6 @@ public class CustomerPage{
                 stmt.setString(9, tfCustBPhone.getText());
                 stmt.setString(10, tfCustEmail.getText());
                 stmt.setString(11, tfAgentId.getText());
-                stmt.setString(12, txtUsername.getText());
-                stmt.setString(13, txtPassword.getText());
 
 
                 //  private int customerID;

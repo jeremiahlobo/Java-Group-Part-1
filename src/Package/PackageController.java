@@ -114,6 +114,18 @@ public class PackageController {
         txtDescription.setText(PkDesc);
         txtBasePrice.setText(String.valueOf(PkBase));
         txtComission.setText(String.valueOf(PkAg));
+
+        btnNew.setVisible(false);
+        btnNew.setDisable(false);
+        btnSubmit.setVisible(false);
+        btnSubmit.setDisable(false);
+
+        btnEdit.setDisable(false);
+        btnSave.setDisable(false);
+        btnDelete.setDisable(false);
+        btnEdit.setVisible(true);
+        btnSave.setVisible(true);
+        btnDelete.setVisible(true);
     }
 
     public static ObservableList<Package> pkList = FXCollections.observableArrayList();
@@ -141,6 +153,12 @@ public class PackageController {
 
         btnSubmit.setVisible(false);
         btnSave.setVisible(false);
+        btnDelete.setVisible(false);
+        btnEdit.setVisible(false);
+        btnSubmit.setDisable(true);
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+        btnEdit.setDisable(true);
         //load the list view
         loadListView();
     }
@@ -156,6 +174,7 @@ public class PackageController {
         txtBasePrice.setEditable(true);
         txtComission.setEditable(true);
         btnSave.setDisable(false);
+        btnSave.setVisible(true);
     }
 
     @FXML
@@ -182,6 +201,26 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Row was deleted.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 
@@ -214,6 +253,7 @@ public class PackageController {
         txtComission.setEditable(true);
         //turn on submit button
         btnSubmit.setDisable(false);
+        btnSubmit.setVisible(true);
 
     }
 
@@ -228,14 +268,16 @@ public class PackageController {
 
 
             Connection conn = DBHelper.getConnection();//initialize connection again
-            //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+            //String maxProductIDsql = "SELECT MAX(PackageId)+1 FROM Packages";
+            //System.out.println(maxProductIDsql);
+            //int translation = Integer.parseInt(maxProductIDsql);
+            //int newInt = translation + 1;
             String insertsql = "INSERT Packages set PkgName=?, PkgStartDate=?, PkgEndDate=?, PkgDesc=?, PkgBasePrice=?, PkgAgencyCommission=?;";
-            int maxPackageId = 0;
+            //int maxPackageId = 0;
             try {
                 //precompile the statement
 
                 PreparedStatement stmt = conn.prepareStatement(insertsql);
-
 
                 stmt.setString(1, txtPackageName.getText());
                 stmt.setString(2, txtStartDate.getText());
@@ -256,6 +298,27 @@ public class PackageController {
                     Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
                     success.showAndWait();
                     loadListView();
+
+                    //in neutral buttons
+                    btnNew.setVisible(true);
+                    btnNew.setDisable(false);
+                    btnSubmit.setVisible(false);
+                    btnSubmit.setDisable(true);
+                    btnEdit.setDisable(true);
+                    btnSave.setDisable(true);
+                    btnDelete.setDisable(true);
+                    btnEdit.setVisible(false);
+                    btnSave.setVisible(false);
+                    btnDelete.setVisible(false);
+
+                    //in neutral fields
+                    txtPackageId.clear();
+                    txtPackageName.clear();
+                    txtStartDate.clear();
+                    txtEndDate.clear();
+                    txtDescription.clear();
+                    txtBasePrice.clear();
+                    txtComission.clear();
                 }
                 conn.close();
 
@@ -315,6 +378,27 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 
@@ -352,6 +436,27 @@ public class PackageController {
                 Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were updated.");
                 success.showAndWait();
                 loadListView();
+
+                //in neutral buttons
+                btnNew.setVisible(true);
+                btnNew.setDisable(false);
+                btnSubmit.setVisible(false);
+                btnSubmit.setDisable(true);
+                btnEdit.setDisable(true);
+                btnSave.setDisable(true);
+                btnDelete.setDisable(true);
+                btnEdit.setVisible(false);
+                btnSave.setVisible(false);
+                btnDelete.setVisible(false);
+
+                //in neutral fields
+                txtPackageId.clear();
+                txtPackageName.clear();
+                txtStartDate.clear();
+                txtEndDate.clear();
+                txtDescription.clear();
+                txtBasePrice.clear();
+                txtComission.clear();
             }
             conn.close();
 
