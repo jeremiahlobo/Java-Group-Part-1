@@ -1,20 +1,16 @@
 package Package;
 //import models
-import Core.Package;
-import Core.DBHelper;
 import Base.Validator;
-
+import Core.DBHelper;
+import Core.Package;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-
-import javax.swing.*;
 import java.sql.*;
 
 
@@ -68,8 +64,6 @@ public class PackageController {
     public Label nameLabel;
 
 
-
-
     @FXML
     private void OnBackClick(){
         // get a handle to the stage
@@ -100,7 +94,7 @@ public class PackageController {
         txtComission.setText(String.valueOf(PkAg));
     }
 
-    ObservableList<Package> pkList = FXCollections.observableArrayList();
+    public static ObservableList<Package> pkList = FXCollections.observableArrayList();
 
     @FXML
     void initialize() {

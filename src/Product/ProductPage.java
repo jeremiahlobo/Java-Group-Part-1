@@ -118,6 +118,7 @@ public class ProductPage {
         if (matchString(txtProdName.getText()) == true) {
 
 
+
                 Connection conn = DBHelper.getConnection();
                 String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
                 int maxProductId = 0;

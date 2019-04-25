@@ -8,15 +8,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class GeneratePDF {
 
+
  /*
+
     private static GeneratePDF ourInstance = new GeneratePDF();
 
     public static GeneratePDF getInstance() {
@@ -246,13 +250,16 @@ public class GeneratePDF {
                 float[] totalColumnWidths = { 1f};
                 totalPriceTB.setWidths(totalColumnWidths);
 
+
                 PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + df.format(finalPrice)/* NumberFormat.getCurrencyInstance().format(finalPrice)));
+
                 totalPriceCell.setBorderColor(BaseColor.WHITE);
                 totalPriceCell.setPaddingLeft(10);
                 totalPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 totalPriceCell.setVerticalAlignment(Element.ALIGN_RIGHT);
 
                 totalPriceTB.addCell(totalPriceCell);
+
                 document.add(totalPriceTB);*/
 
               //  //document.close();
@@ -261,11 +268,21 @@ public class GeneratePDF {
              //   //sendEmail(orderDetail.getBookingNo(), orderDetail.getCustomerId());
         /*    }
 
+                document.add(totalPriceTB);
+
+                document.close();
+                writer.close();
+
+                sendEmail(orderDetail.getBookingNo(), orderDetail.getCustomerId());
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
     }
+
 
     */
 public static void makePdf(String jsonDetails) {
@@ -293,3 +310,6 @@ public static void makePdf(String jsonDetails) {
 
     }//end makePDF
 }//end GeneratePDF class
+
+}
+
