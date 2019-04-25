@@ -63,13 +63,35 @@ public class PackageController {
     @FXML
     public Label nameLabel;
 
+    @FXML
+    public Label dateLabel;
 
+    @FXML
+    public Label endDateLabel;
+
+    @FXML
+    public Label comissionLabel;
+
+    @FXML
+    public Label priceLabel;
+
+    @FXML
+    public Label descriptionLabel;
     @FXML
     private void OnBackClick(){
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
         // do what you have to do
         stage.close();
+    }
+
+    public void feildFull(){
+        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
+        Boolean startDate = Validator.textFieldnotEmpty(txtStartDate, dateLabel, "Date is required!");
+        Boolean endDate = Validator.textFieldnotEmpty(txtEndDate, endDateLabel, "Date is required!");
+        Boolean comission = Validator.textFieldnotEmpty(txtComission, comissionLabel, "Comission is required!");
+        Boolean price = Validator.textFieldnotEmpty(txtBasePrice, priceLabel, "Price is required!");
+        Boolean description = Validator.textFieldnotEmpty(txtDescription, descriptionLabel, "Description is required!");
     }
 
     @FXML
@@ -117,6 +139,8 @@ public class PackageController {
         txtBasePrice.setEditable(false);
         txtComission.setEditable(false);
 
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
         //load the list view
         loadListView();
     }
@@ -194,14 +218,14 @@ public class PackageController {
     }
 
     public void OnSubmitClick(ActionEvent actionEvent){
+        feildFull();
         Boolean passes = false;
-        Boolean name = Validator.textFieldnotEmpty(txtPackageName, nameLabel, "Name is required!");
         /*if (txtPackageName.getText().matches("^[a-zA-Z]+$")&&Validator.textFieldNotEmpty(TextField){
             passes = true;
         }
 
         if (passes == true) {*/
-        if(name){
+
 
             Connection conn = DBHelper.getConnection();//initialize connection again
             //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
@@ -244,7 +268,7 @@ public class PackageController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             alert.showAndWait();
         }*/}
-    }
+
 
     @FXML
     void OnActionEditClick(ActionEvent event) {
@@ -262,6 +286,7 @@ public class PackageController {
     }
 
     public void OnActionSubmitClick(ActionEvent actionEvent) {
+        feildFull();
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {
@@ -299,6 +324,7 @@ public class PackageController {
     }
 
     public void OnSaveClick(ActionEvent actionEvent) {
+        feildFull();
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE packages set PkgName=?, PkgStartDate=?,PkgEndDate=?, PkgDesc=?,PkgBasePrice=?,PkgAgencyCommission=? where PackageId=?;";
         try {

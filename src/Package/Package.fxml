@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Package.PackageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="649.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Package.PackageController">
    <children>
       <ListView fx:id="lvPackages" layoutX="95.0" layoutY="278.0" onMouseClicked="#selectListItem" prefHeight="200.0" prefWidth="474.0" />
       <GridPane layoutX="105.0" layoutY="104.0" prefWidth="200.0">
@@ -37,7 +37,7 @@
             <Label text="yyyy/mm/dd" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <GridPane layoutX="359.0" layoutY="104.0" prefWidth="200.0">
+      <GridPane layoutX="325.0" layoutY="106.0" prefWidth="200.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -68,10 +68,11 @@
       <Button fx:id="btnEdit" layoutX="436.0" layoutY="224.0" mnemonicParsing="false" onAction="#OnEditClick" text="Edit" />
       <Button fx:id="btnSubmit" disable="true" layoutX="378.0" layoutY="224.0" mnemonicParsing="false" onAction="#OnSubmitClick" text="Submit" />
       <Label layoutX="105.0" layoutY="254.0" text="yyyy/mm/dd" />
-      <Label fx:id="nameLabel" layoutX="14.0" layoutY="141.0" prefHeight="17.0" prefWidth="88.0" textFill="RED">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <Label fx:id="nameLabel" layoutX="2.0" layoutY="141.0" prefHeight="20.0" prefWidth="100.0" textFill="RED" />
+      <Label fx:id="dateLabel" layoutX="14.0" layoutY="171.0" prefHeight="17.0" prefWidth="88.0" textFill="RED" />
+      <Label fx:id="endDateLabel" layoutX="14.0" layoutY="228.0" prefHeight="17.0" prefWidth="88.0" textFill="RED" />
+      <Label fx:id="priceLabel" layoutX="539.0" layoutY="113.0" prefHeight="17.0" prefWidth="116.0" textFill="RED" />
+      <Label fx:id="comissionLabel" layoutX="539.0" layoutY="143.0" prefHeight="17.0" prefWidth="152.0" textFill="RED" />
+      <Label fx:id="descriptionLabel" layoutX="539.0" layoutY="171.0" prefHeight="17.0" prefWidth="152.0" textFill="RED" />
    </children>
 </AnchorPane>

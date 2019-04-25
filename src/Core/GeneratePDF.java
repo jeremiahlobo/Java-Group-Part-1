@@ -1,19 +1,7 @@
 package Core;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import javafx.collections.ObservableList;
-
-import java.io.File;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
-public class GeneratePDF {
-    private static GeneratePDF ourInstance = new GeneratePDF();
+//public class GeneratePDF {
+    /*private static GeneratePDF ourInstance = new GeneratePDF();
 
     public static GeneratePDF getInstance() {
         return ourInstance;
@@ -242,8 +230,9 @@ public class GeneratePDF {
                 float[] totalColumnWidths = { 1f};
                 totalPriceTB.setWidths(totalColumnWidths);
 
-                PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + /*df.format(finalPrice)*/NumberFormat.getCurrencyInstance().format(finalPrice)));
-                totalPriceCell.setBorderColor(BaseColor.WHITE);
+               // PdfPCell totalPriceCell = new PdfPCell(new Paragraph("Total: " + /*df.format(finalPrice)*///NumberFormat.getCurrencyInstance().format(finalPrice)));
+
+               /* totalPriceCell.setBorderColor(BaseColor.WHITE);
                 totalPriceCell.setPaddingLeft(10);
                 totalPriceCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 totalPriceCell.setVerticalAlignment(Element.ALIGN_RIGHT);
@@ -263,3 +252,4 @@ public class GeneratePDF {
         return true;
     }
 }
+*/

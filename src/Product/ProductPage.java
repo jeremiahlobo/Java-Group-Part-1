@@ -1,22 +1,20 @@
 package Product;
 
 
-import java.net.URL;
-import java.sql.*;
-import java.util.ResourceBundle;
-
+import Base.Validator;
 import Core.DBHelper;
 import Core.Product;
-import Model.DB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 
 import static Base.Validator.matchString;
 
@@ -45,6 +43,12 @@ public class ProductPage {
 
     @FXML
     private Button btnBack;
+
+    @FXML
+    private Button btnSubmit;
+
+    @FXML
+    private Label lblProdName;
 
     @FXML
     private Button btnEdit;
@@ -77,6 +81,9 @@ public class ProductPage {
 
         txtProdName.setEditable(false);
         txtProdId.setEditable(false);
+
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
 //        txtProdName.setEditable(false);
         //load the list view
         loadListView();
@@ -115,53 +122,25 @@ public class ProductPage {
 
     public void OnActionNewClick(ActionEvent actionEvent) {
 
-        if(matchString(txtProdName.getText()) ==true)
+        txtProdName.clear();
 
-        {
-            Connection conn = DBHelper.getConnection();
-            String insertsql = "INSERT Products set ProductId=?, ProdName=?;";
-            int maxProductId = 0;
-            try {
-                PreparedStatement stmt = conn.prepareStatement(insertsql);
+        //Editable
 
-                stmt.setInt(1, maxProductId);
-                stmt.setString(2, txtProdName.getText());
-
-                int numRows = stmt.executeUpdate();
-                System.out.println(numRows);
-
-                    if (numRows == 0) {
-                        //create a new alert
-                        Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
-                        alert.showAndWait();
-                    } else {
-                        //show rows were updated
-                        Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
-                        success.showAndWait();
-                        loadListView();
-                    }
-                conn.close();
-
-            }catch (SQLException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
-                alert.showAndWait();
-            }
-        }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
-                alert.showAndWait();
-            }
+        txtProdName.setEditable(true);
+        //turn on submit button
+        btnSubmit.setDisable(false);
+        btnSubmit.setVisible(true);
         }
 
-    void OnActionEditClick(ActionEvent event) {
-        btnEdit.setDisable(true);
+    public void OnActionEditClick(ActionEvent actionEvent) {
+        btnEdit.setDisable(false);
         txtProdName.setEditable(true);
         btnSave.setDisable(false); //enable the save button
         btnSave.setVisible(true);//show the save button
     }
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
-
+        Boolean description = Validator.textFieldnotEmpty(txtProdName, lblProdName, "Name is required!");
         if (matchString(txtProdName.getText()) == true) {
             Connection conn = DBHelper.getConnection();//initialize connection again
             String sql = "UPDATE Products set ProdName=? where ProductId=?;";
@@ -215,6 +194,54 @@ public class ProductPage {
             e.printStackTrace();
         }
     }
+
+
+    public void OnActionSubmitClick(ActionEvent actionEvent){
+        Boolean description = Validator.textFieldnotEmpty(txtProdName, lblProdName, "Name is required!");
+        //feildFull();
+        Boolean passes = false;
+        /*if (txtPackageName.getText().matches("^[a-zA-Z]+$")&&Validator.textFieldNotEmpty(TextField){
+            passes = true;
+        }
+
+        if (passes == true) {*/
+
+
+        Connection conn = DBHelper.getConnection();//initialize connection again
+        //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
+        String insertsql = "INSERT Packages set ProdName=?;";
+        int maxPackageId = 0;
+        try {
+            //precompile the statement
+
+            PreparedStatement stmt = conn.prepareStatement(insertsql);
+
+
+            stmt.setString(1, txtProdName.getText());
+            int numRows = stmt.executeUpdate();
+            System.out.println(numRows);
+
+            if (numRows == 0) {
+                //create a new alert
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were inserted. Contact Tech Support");
+                alert.showAndWait();
+            } else {
+                //show rows were updated
+                Alert success = new Alert(Alert.AlertType.INFORMATION, "Success. Rows were inserted.");
+                success.showAndWait();
+                loadListView();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            alert.showAndWait();
+        }
+        /*}else{
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
+            alert.showAndWait();
+        }*/}
 
 }
 

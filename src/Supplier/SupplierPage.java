@@ -1,16 +1,13 @@
 package Supplier;
 
+import Base.Validator;
 import Core.DBHelper;
 import Core.Supplier;
-import Base.Validator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -23,7 +20,16 @@ public class SupplierPage {
     private TextField txtSupplierId;
 
     @FXML
+    private Label lblSupName;
+
+    @FXML
     private TextField txtSupplierName;
+
+    @FXML
+    private Button btnSubmit;
+
+    @FXML
+    private Button btnSave;
 
     @FXML
     private javafx.scene.control.Button btnBack;
@@ -55,7 +61,7 @@ public class SupplierPage {
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
 
-
+        Boolean name = Validator.textFieldnotEmpty(txtSupplierName, lblSupName, "Name is required!");
         if(Validator.matchString(txtSupplierName.getText()) == true) {
 
             Connection conn = DBHelper.getConnection();//initialize connection again
@@ -88,7 +94,14 @@ public class SupplierPage {
     }
 
     public void OnActionNewClick(ActionEvent actionEvent) {
+        txtSupplierName.setEditable(true);
 
+        btnSubmit.setVisible(true);
+    }
+
+    public void onActionSubmitClick(ActionEvent actionEvent) {
+
+        Boolean name = Validator.textFieldnotEmpty(txtSupplierName, lblSupName, "Name is required!");
             if(Validator.matchString(txtSupplierName.getText()) == true) {
 
             Connection conn = DBHelper.getConnection();//initialize connection again
@@ -98,7 +111,7 @@ public class SupplierPage {
             try {
 
                 PreparedStatement stmt = conn.prepareStatement(insertsql);
-                stmt.setInt(1, maxSupplierId);
+                stmt.setInt(1, Integer.parseInt(txtSupplierId.getText()));
                 stmt.setString(2, txtSupplierName.getText());
 
                 int numRows = stmt.executeUpdate();
@@ -131,8 +144,11 @@ public class SupplierPage {
         assert txtSupplierId != null : "fx:id=\"txtSupplierId\" was not injected: check your FXML file 'SupplierPage.fxml'.";
         assert txtSupplierName != null : "fx:id=\"txtSupplierName\" was not injected: check your FXML file 'SupplierPage.fxml'.";
 
+        btnSubmit.setVisible(false);
+        btnSave.setVisible(false);
+
         txtSupplierName.setEditable(false);
-        txtSupplierId.setEditable(false);
+        //txtSupplierId.setEditable(false);
         loadListView();
     }
 
