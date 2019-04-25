@@ -1,23 +1,28 @@
 package Customer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import Base.Validator;
 import Core.Customer;
 import Core.DBHelper;
-
+import Core.GeneratePDF;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import java.net.URL;
 
 
 import java.sql.*;
@@ -29,6 +34,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import static Base.Validator.*;
 
@@ -447,6 +456,7 @@ public class CustomerPage{
             Pane pane = new Pane();
             Button button = new Button("  Print PDF  ");
             Customer lastItem;
+            String temp;
 
             public XCell() {
                 super();
@@ -457,58 +467,44 @@ public class CustomerPage{
                     public void handle(ActionEvent event) {
                         //put what happens when you click button
                         /* we need to insert the cust id into the api to retrieve the data */
-
                         try {
-
-                        /* set this property to the location of the cert file
-                        System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
-
-
-                        String username = "yy777PPP";
-                        String password = "yy777PPP";
-                        String userpass = "";*/
-
                             URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
-//      URLConnection uc = url.openConnection();
-                            HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+                            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                            String str = br.readLine();
 
 
-                            System.out.println("sending request...");
-
-                            uc.setRequestMethod("GET");
-                            uc.setAllowUserInteraction(false);
-                            uc.setDoOutput(true);
-                            uc.setRequestProperty("Content-type", "application/json");
+                            List<String> list = new ArrayList<String>();
+                            JSONArray array1 = new JSONArray(str);
 
 
-                            System.out.println(uc.getRequestProperties());
+                            System.out.println(array1.length());
+                            for (int j = 0; j < array1.length(); j++)
+                            {
+
+                                for (int i = 0; i < array1.getJSONArray(j).length(); i++) {
 
 
-                            int rspCode = uc.getResponseCode();
 
-                            if (rspCode == 200) {
-                                InputStream is = uc.getInputStream();
-                                InputStreamReader isr = new InputStreamReader(is);
-                                BufferedReader br = new BufferedReader(isr);
-                                System.out.println(isr);
+                                    list.add(array1.getJSONArray(j).toString());
 
-                                String nextLine = br.readLine();
-                                while (nextLine != null) {
-                                    System.out.println(nextLine);
-                                    nextLine = br.readLine();
                                 }
 
+                                //System.out.println(array1.getJSONArray(j));
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
+
+
+
+                            System.out.println(list);
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-
-
-                        //end of test
-                        System.out.println(lastItem.getCustomerID());
                     }
-                });
-            }
+                        });
+                    }
+
+
+
 
 
             @Override

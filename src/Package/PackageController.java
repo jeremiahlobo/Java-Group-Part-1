@@ -67,11 +67,8 @@ public class PackageController {
     @FXML
     public Label nameLabel;
 
-    @FXML
-    private Button btnEdit;
 
-    @FXML
-    private Button btnEdit;
+
 
     @FXML
     private void OnBackClick(){
