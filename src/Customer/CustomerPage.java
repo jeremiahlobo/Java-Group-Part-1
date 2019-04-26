@@ -1,14 +1,49 @@
 package Customer;
 
+
 import Base.Validator;
 import Core.Customer;
 import Core.DBHelper;
+
+
+
+import java.io.*;
+
+import Core.Customer;
+import Core.DBHelper;
+import Core.GeneratePDF;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import java.net.HttpURLConnection;
+
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
+import Base.Validator;
+import Core.Customer;
+import Core.DBHelper;
+import Core.GeneratePDF;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.net.URL;
+
+import java.sql.*;
+
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -16,6 +51,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -243,7 +282,8 @@ public class CustomerPage{
         ListView lvCustomers = new ListView(data);
 
 
-        names.addAll(
+      /* We shouldn't need this 
+      names.addAll(
                 "Adam", "Alex", "Alfred", "Albert",
                 "Brenda", "Connie", "Derek", "Donny",
                 "Lynne", "Myrtle", "Rose", "Rudolph",
@@ -252,7 +292,7 @@ public class CustomerPage{
 
         for (int i = 0; i < 18; i++) {
             data.add("anonym");
-        }
+        }*/
 
         lvCustomers.setItems(data);
         lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
@@ -442,6 +482,7 @@ public class CustomerPage{
         //enable the edit button again
         btnEdit.setDisable(false);
 
+
         //refresh the list view
         loadListView();
     }
@@ -470,6 +511,38 @@ public class CustomerPage{
                 loadListView();
             }
             conn.close();
+        }
+    }
+        class XCell extends ListCell<Customer> {
+            HBox hbox = new HBox();
+            Label label = new Label("(empty)");
+            Pane pane = new Pane();
+            Button button = new Button("  Print PDF  ");
+            Customer lastItem;
+            String temp;
+
+            public XCell() {
+                super();
+                hbox.getChildren().addAll(label, pane, button);
+                HBox.setHgrow(pane, Priority.ALWAYS);
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        //put what happens when you click button
+                        /* we need to insert the cust id into the api to retrieve the data */
+                        try {
+                            URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
+                            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                            String str = br.readLine();
+
+
+                            List<String> list = new ArrayList<String>();
+                            JSONArray array1 = new JSONArray(str);
+
+
+                            System.out.println(array1.length());
+                            for (int j = 0; j < array1.length(); j++)
+                            {
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -516,7 +589,8 @@ public class CustomerPage{
                         HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
 
-                        System.out.println("sending request...");
+                                for (int i = 0; i < array1.getJSONArray(j).length(); i++) {
+
 
                         uc.setRequestMethod("GET");
                         uc.setAllowUserInteraction(false);
@@ -524,27 +598,27 @@ public class CustomerPage{
                         uc.setRequestProperty("Content-type", "application/json");
 
 
-                        System.out.println(uc.getRequestProperties());
+                                    list.add(array1.getJSONArray(j).toString());
 
+                                }
 
-                        int rspCode = uc.getResponseCode();
-
-                        if (rspCode == 200) {
-                            InputStream is = uc.getInputStream();
-                            InputStreamReader isr = new InputStreamReader(is);
-                            BufferedReader br = new BufferedReader(isr);
-                            System.out.println(isr);
-
-                            String nextLine = br.readLine();
-                            while (nextLine != null) {
-                                System.out.println(nextLine);
-                                nextLine = br.readLine();
+                                //System.out.println(array1.getJSONArray(j));
                             }
 
+
+
+                            System.out.println(list);
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                        });
+                    }
+
+
+
+
 
 
                     //end of test
