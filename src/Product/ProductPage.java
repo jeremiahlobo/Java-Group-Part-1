@@ -65,7 +65,9 @@ public class ProductPage {
     }
 
     @FXML
+    @SuppressWarnings("unused")
     void selectListItem(MouseEvent event) {
+
         Product prod = lvProducts.getSelectionModel().getSelectedItem();
         int prodIdTemp = prod.getProductId();
         String Fname = prod.getProdName();
@@ -107,6 +109,7 @@ public class ProductPage {
         btnDelete.setVisible(false);
         //in neutral fields
         txtProdName.clear();
+        txtProdName.setEditable(false);
         txtProdId.clear();
 
 //        txtProdName.setEditable(false);
@@ -302,18 +305,32 @@ public class ProductPage {
         if (passes == true) {*/
 
 
+        int largest = 0;
+
         Connection conn = DBHelper.getConnection();//initialize connection again
-        //String maxProductIDsql = "SELECT MAX(ProductId) FROM Products";
-        String insertsql = "INSERT Packages set ProdName=?;";
+
+        String maxProductIDsql = "SELECT ProductId FROM Products order by 1 desc limit 1;";
+        String insertsql = "INSERT into Products (ProductId, ProdName)values(?, ?);";
         int maxPackageId = 0;
         try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(maxProductIDsql);
             //precompile the statement
 
-            PreparedStatement stmt = conn.prepareStatement(insertsql);
 
-            stmt.setString(1, txtProdName.getText());
-            int numRows = stmt.executeUpdate();
-            System.out.println(numRows);
+            System.out.println();
+
+            PreparedStatement stmt1 = conn.prepareStatement(insertsql);
+            if(rs.next()){
+                int insertPLS = rs.getInt("ProductId")+1;
+
+                //stmt1.setInt(1, rs.getInt("MAX(ProductId)") );
+                stmt1.setInt(1, insertPLS);
+                stmt1.setString(2, txtProdName.getText());
+
+
+
+            int numRows = stmt1.executeUpdate();
 
             if (numRows == 0) {
                 //create a new alert
@@ -339,7 +356,7 @@ public class ProductPage {
                 //in neutral fields
                 txtProdName.clear();
                 txtProdId.clear();
-            }
+            } }
             conn.close();
 
         } catch (SQLException e) {
