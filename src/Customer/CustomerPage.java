@@ -67,7 +67,7 @@ import java.util.ResourceBundle;
 
 import static Base.Validator.*;
 
-public class CustomerPage{
+public class CustomerPage {
 
     /* Author: Helen Lin
      */
@@ -180,7 +180,7 @@ public class CustomerPage{
     private Button btnBack;
 
     @FXML
-    private void OnBackClick(){
+    private void OnBackClick() {
         // get a handle to the stage
         Stage stage = (Stage) btnBack.getScene().getWindow();
         // do what you have to do
@@ -188,17 +188,17 @@ public class CustomerPage{
     }
 
     public void validate() {
-        Boolean name = Validator.textFieldnotEmpty(tfAgentId, agentLabel, "Name is required!");
-        Boolean first = Validator.textFieldnotEmpty(tfAgentId, frstNameLabel, "Name is required!");
-        Boolean adress = Validator.textFieldnotEmpty(tfAgentId, addressLabel, "Adress is required!");
-        Boolean city = Validator.textFieldnotEmpty(tfAgentId, cityLabel, "City is required!");
-        Boolean country = Validator.textFieldnotEmpty(tfAgentId, countryLabel, "Country is required!");
-        Boolean phone = Validator.textFieldnotEmpty(tfAgentId, homePhoneLabel, "Phone is required!");
-        Boolean busphone = Validator.textFieldnotEmpty(tfAgentId, businessPhoneLabel, "Phone is required!");
-        Boolean lname = Validator.textFieldnotEmpty(tfAgentId, lastNameLabel, "Name is required!");
-        Boolean postcode = Validator.textFieldnotEmpty(tfAgentId, postalCodeLabel, "Code is required!");
-        Boolean prov = Validator.textFieldnotEmpty(tfAgentId, provinceLabel, "Province is required!");
-        Boolean email = Validator.textFieldnotEmpty(tfAgentId, emailLabel, "Email is required!");
+        Boolean name = Validator.textFieldnotEmpty(tfCustFname, agentLabel, "Name is required!");
+        Boolean first = Validator.textFieldnotEmpty(tfCustLName, frstNameLabel, "Name is required!");
+        Boolean adress = Validator.textFieldnotEmpty(tfCustAddress, addressLabel, "Address is required!");
+        Boolean city = Validator.textFieldnotEmpty(tfCustCity, cityLabel, "City is required!");
+        Boolean country = Validator.textFieldnotEmpty(tfCustCountry, countryLabel, "Country is required!");
+        Boolean phone = Validator.textFieldnotEmpty(tfCustHPhone, homePhoneLabel, "Phone is required!");
+        Boolean busphone = Validator.textFieldnotEmpty(tfCustBPhone, businessPhoneLabel, "Phone is required!");
+        Boolean lname = Validator.textFieldnotEmpty(tfAgentId, lastNameLabel, "Agent Id is required!");
+        Boolean postcode = Validator.textFieldnotEmpty(tfCustPostal, postalCodeLabel, "Code is required!");
+        Boolean prov = Validator.textFieldnotEmpty(tfCustProv, provinceLabel, "Province is required!");
+        Boolean email = Validator.textFieldnotEmpty(tfCustEmail, emailLabel, "Email is required!");
     }
 
     @FXML
@@ -230,8 +230,7 @@ public class CustomerPage{
         tfCustEmail.setText(Email);
         tfAgentId.setText(String.valueOf(AgentId));
 
-        btnNew.setVisible(false);
-        btnNew.setDisable(false);
+
         btnSubmit.setVisible(false);
         btnSubmit.setDisable(false);
     }
@@ -240,6 +239,8 @@ public class CustomerPage{
     void initialize() {
 
         btnSave.setDisable(true);
+
+        btnNew.setDisable(false);
         assert tfCustid != null : "fx:id=\"tfCustid\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustFname != null : "fx:id=\"tfCustFname\" was not injected: check your FXML file 'customerPage.fxml'.";
         assert tfCustLName != null : "fx:id=\"tfCustLName\" was not injected: check your FXML file 'customerPage.fxml'.";
@@ -270,10 +271,7 @@ public class CustomerPage{
         loadListView();
 
 
-
-
-
-       // ObservableList names = FXCollections.observableArrayList();
+        // ObservableList names = FXCollections.observableArrayList();
         ObservableList data =
                 FXCollections.observableArrayList();
 
@@ -297,13 +295,11 @@ public class CustomerPage{
         //lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
 
 
-
     }
 
 
-
     @FXML
-    void OnActionNewClick(ActionEvent event){
+    void OnActionNewClick(ActionEvent event) {
         tfCustid.clear();
         tfCustFname.clear();
         tfCustLName.clear();
@@ -329,12 +325,14 @@ public class CustomerPage{
         tfCustEmail.setEditable(true);
         tfAgentId.setEditable(true);
 
+        btnSubmit.setVisible(true);
         btnSubmit.setDisable(false);
 
         btnSubmit.setVisible(true);
         btnSave.setVisible(false);
 
     }
+
     @FXML
     void OnActionSubmitClick(ActionEvent event) {
 
@@ -409,8 +407,9 @@ public class CustomerPage{
             alert.showAndWait();
         }
     }
+
     @FXML
-    void OnActionEditClick (ActionEvent event){
+    void OnActionEditClick(ActionEvent event) {
         btnEdit.setDisable(true);
         tfCustFname.setEditable(true);
         tfCustLName.setEditable(true);
@@ -429,7 +428,7 @@ public class CustomerPage{
 
     //Updates customer and sends to database
     @FXML
-    void OnActionSaveClick (ActionEvent event){
+    void OnActionSaveClick(ActionEvent event) {
         validate();
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "UPDATE Customers set CustomerId=?, CustFirstName=?, CustLastName=?, CustAddress=?, CustCity=?, CustProv=?, CustPostal=?, CustCountry=?,  CustHomePhone=?, CustBusPhone=?, CustEmail=?, AgentId=? where CustomerId=?;";
@@ -452,11 +451,17 @@ public class CustomerPage{
             stmt.setInt(13, lvCustomers.getSelectionModel().getSelectedItem().getCustomerID());
             int numRows = stmt.executeUpdate();
             //brings a value that tells us how many rows modified
-            lblMessage.setText("Customer successfully updated");
+
+            loadListView();
+
 
             if (numRows == 0) {
                 //create a new alert
                 Alert alert = new Alert(Alert.AlertType.ERROR, "No rows were updated. Contact Tech Support");
+                alert.showAndWait();
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Customer has been updated.");
                 alert.showAndWait();
             }
             conn.close();
@@ -487,10 +492,10 @@ public class CustomerPage{
     }
 
     @FXML
-    void OnActionDeleteClick (ActionEvent event){
+    void OnActionDeleteClick(ActionEvent event) throws SQLException {
         Connection conn = DBHelper.getConnection();//initialize connection again
         String sql = "DELETE FROM customers WHERE customerId=?;";
-        try {
+
             //precompile the statement
             PreparedStatement stmt = conn.prepareStatement(sql);
             //these parameters equate to the sql string above, dont start at 0, start at 1
@@ -557,12 +562,12 @@ public class CustomerPage{
         }
     }*/
 
-    //our array list for storing Customers
-    //ObservableList<Customer> data = FXCollections.observableArrayList();
+        //our array list for storing Customers
+        //ObservableList<Customer> data = FXCollections.observableArrayList();
 
-    //tester list
-    ObservableList names =
-            FXCollections.observableArrayList();
+        //tester list
+        ObservableList names =
+                FXCollections.observableArrayList();
 /*
     class XCell extends ListCell<Customer> {
         HBox hbox = new HBox();
@@ -580,29 +585,23 @@ public class CustomerPage{
                 public void handle(ActionEvent event) {
                     //put what happens when you click button
                     /* we need to insert the cust id into the api to retrieve the data */
-
-                    Document document = new Document();
-                    try
-                    {
-                        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HElloMarkooooooo.pdf"));
-                        document.open();
-                        document.add(new Paragraph("A Hello World PDF document."));
-                        document.close();
-                        writer.close();
-                    } catch (DocumentException e)
-                    {
-                        e.printStackTrace();
-                    } catch (FileNotFoundException e)
-                    {
-                        e.printStackTrace();
-                    }
+/*
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HElloMarkooooooo.pdf"));
+            document.open();
+            document.add(new Paragraph("A Hello World PDF document."));
+            document.close();
+            writer.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-                        /* set this property to the location of the cert file
-                        System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
-
-
-
+                        /*
 
                         URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
 //      URLConnection uc = url.openConnection();
@@ -636,8 +635,6 @@ public class CustomerPage{
                         });
                     }*/
 
-
-
 /*
 
 
@@ -647,52 +644,35 @@ public class CustomerPage{
 
             }*/
 
-        private void loadListView(){
+
+        private void loadListView () {
 
 
-        @Override
-        protected void updateItem(Customer item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);  // No text in label of super class
-            if (empty) {
-                lastItem = null;
-                setGraphic(null);
-            } else {
-                lastItem = item;
-                label.setText(item != null ? String.valueOf(item) : "<null>");
-                setGraphic(hbox);
-            }
-        }
-    }
-    private void loadListView(){
+            //start with clean list view
+            lvCustomers.getItems().clear();
+            Connection conn = DBHelper.getConnection();
+            String sql = "select * from customers";
+            try {
+                Statement stmt = conn.createStatement();//creates statement object
+                ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
+                while (rs.next()) {
+                    data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
+                }
 
-
-        //start with clean list view
-        lvCustomers.getItems().clear();
-        Connection conn = DBHelper.getConnection();
-        String sql = "select * from customers";
-        try {
-            Statement stmt = conn.createStatement();//creates statement object
-            ResultSet rs = stmt.executeQuery(sql);//executes the statement, stores the return in rs
-            while (rs.next()) {
-                data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
-
-
-                lvCustomers.setItems(data);
-                //sets the cell
+                    lvCustomers.setItems(data);
+                    //sets the cell
           /*      lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
                    @Override
                     public ListCell<Customer> call(ListView<Customer> param) {
                         return new XCell();
-                    }
+
                 });*/
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+                } catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
         }
 
-    }
 
-
-}

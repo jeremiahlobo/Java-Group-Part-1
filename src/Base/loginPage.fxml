@@ -2,11 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Base.Main">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Base.Main">
    <children>
       <Label layoutX="212.0" layoutY="82.0" text="Travel Experts">
          <font>
@@ -24,7 +25,7 @@
          </font>
       </Label>
       <TextField fx:id="txtUser" layoutX="277.0" layoutY="176.0" />
-      <TextField fx:id="txtPass" layoutX="277.0" layoutY="224.0" />
       <Button fx:id="loginButton" layoutX="376.0" layoutY="279.0" mnemonicParsing="false" onMouseClicked="#actionLogin" text="Log In" />
+      <PasswordField fx:id="txtPass" layoutX="277.0" layoutY="224.0" />
    </children>
 </AnchorPane>

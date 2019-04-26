@@ -175,7 +175,7 @@ public class ProductPage {
         btnSubmit.setDisable(false);
         btnSubmit.setVisible(true);
 
-        if (matchString(txtProdName.getText()) == true) {
+        /*if (matchString(txtProdName.getText()) == true) {
 
 
 
@@ -211,7 +211,7 @@ public class ProductPage {
             }else{
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Bad input. Please insert a string.");
                 alert.showAndWait();
-            }
+            }*/
         }
 
     public void OnActionEditClick(ActionEvent actionEvent) {
