@@ -1,16 +1,13 @@
 package Supplier;
 
+import Base.Validator;
 import Core.DBHelper;
 import Core.Supplier;
-import Base.Validator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -23,7 +20,25 @@ public class SupplierPage {
     private TextField txtSupplierId;
 
     @FXML
+    private Label lblSupName;
+
+    @FXML
     private TextField txtSupplierName;
+
+    @FXML
+    private Button btnSubmit;
+
+    @FXML
+    private Button btnNew;
+
+    @FXML
+    private Button btnSave;
+
+    @FXML
+    private Button btnEdit;
+
+    @FXML
+    private Button btnDelete;
 
     @FXML
     private javafx.scene.control.Button btnBack;
@@ -47,6 +62,14 @@ public class SupplierPage {
 
         txtSupplierId.setText(String.valueOf(prodIdTemp));
         txtSupplierName.setText(Fname);
+
+        btnNew.setVisible(true);
+        btnNew.setDisable(false);
+        btnSubmit.setVisible(true);
+        btnSubmit.setDisable(false);
+
+        btnDelete.setDisable(false);
+        btnDelete.setVisible(true);
     }
 
     ObservableList<Supplier> suplist = FXCollections.observableArrayList();
@@ -55,7 +78,7 @@ public class SupplierPage {
 
     public void OnActionSaveClick(ActionEvent actionEvent) {
 
-
+        Boolean name = Validator.textFieldnotEmpty(txtSupplierName, lblSupName, "Name is required!");
         if(Validator.matchString(txtSupplierName.getText()) == true) {
 
             Connection conn = DBHelper.getConnection();//initialize connection again
@@ -88,17 +111,32 @@ public class SupplierPage {
     }
 
     public void OnActionNewClick(ActionEvent actionEvent) {
+        txtSupplierName.setEditable(true);
 
+        btnSubmit.setVisible(true);
+        btnSubmit.setDisable(false);
+
+        btnEdit.setVisible(false);
+        btnSave.setVisible(false);
+        btnEdit.setDisable(true);
+        btnSave.setDisable(true);
+    }
+
+    public void onActionSubmitClick(ActionEvent actionEvent) {
+
+        Boolean name = Validator.textFieldnotEmpty(txtSupplierName, lblSupName, "Name is required!");
             if(Validator.matchString(txtSupplierName.getText()) == true) {
 
             Connection conn = DBHelper.getConnection();//initialize connection again
-            String insertsql = "INSERT Suppliers set SupplierId=?, SupName=?;";
+                // String maxProductIDsql = "SELECT MAX(PackageId)+1 FROM Packages";
+                int maxProduct = Integer.parseInt("SELECT MAX(SupplierId)+1 FROM Suppliers;");
+            String insertsql = "INSERT Suppliers set SupplierId= max, SupName=?;";
             int maxSupplierId = 0;
 
             try {
 
                 PreparedStatement stmt = conn.prepareStatement(insertsql);
-                stmt.setInt(1, maxSupplierId);
+                stmt.setInt(1, maxProduct);
                 stmt.setString(2, txtSupplierName.getText());
 
                 int numRows = stmt.executeUpdate();
@@ -131,8 +169,18 @@ public class SupplierPage {
         assert txtSupplierId != null : "fx:id=\"txtSupplierId\" was not injected: check your FXML file 'SupplierPage.fxml'.";
         assert txtSupplierName != null : "fx:id=\"txtSupplierName\" was not injected: check your FXML file 'SupplierPage.fxml'.";
 
+        btnSubmit.setVisible(false);
+        btnSubmit.setDisable(true);
+        btnSave.setVisible(false);
+        btnSave.setDisable(true);
+        btnEdit.setVisible(false);
+        btnEdit.setDisable(true);
+        btnDelete.setVisible(false);
+        btnDelete.setDisable(true);
+
+
         txtSupplierName.setEditable(false);
-        txtSupplierId.setEditable(false);
+        txtSupplierId.setEditable(true);
         loadListView();
     }
 
