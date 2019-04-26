@@ -273,8 +273,7 @@ public class CustomerPage{
 
 
 
-        ObservableList names =
-                FXCollections.observableArrayList();
+       // ObservableList names = FXCollections.observableArrayList();
         ObservableList data =
                 FXCollections.observableArrayList();
 
@@ -295,7 +294,7 @@ public class CustomerPage{
         }*/
 
         lvCustomers.setItems(data);
-        lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
+        //lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
 
 
 
@@ -512,7 +511,14 @@ public class CustomerPage{
             }
             conn.close();
         }
-    }
+
+        //our array list for storing Customers
+        ObservableList<Customer> data = FXCollections.observableArrayList();
+/*
+        //tester list
+        ObservableList names =
+                FXCollections.observableArrayList();
+
         class XCell extends ListCell<Customer> {
             HBox hbox = new HBox();
             Label label = new Label("(empty)");
@@ -529,7 +535,7 @@ public class CustomerPage{
                     @Override
                     public void handle(ActionEvent event) {
                         //put what happens when you click button
-                        /* we need to insert the cust id into the api to retrieve the data */
+                        // we need to insert the cust id into the api to retrieve the data
                         try {
                             URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
                             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -549,14 +555,15 @@ public class CustomerPage{
             //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             //`alert.showAndWait();
         }
-    }
+    }*/
+
     //our array list for storing Customers
-    ObservableList<Customer> data = FXCollections.observableArrayList();
+    //ObservableList<Customer> data = FXCollections.observableArrayList();
 
     //tester list
     ObservableList names =
             FXCollections.observableArrayList();
-
+/*
     class XCell extends ListCell<Customer> {
         HBox hbox = new HBox();
         Label label = new Label("(empty)");
@@ -574,15 +581,28 @@ public class CustomerPage{
                     //put what happens when you click button
                     /* we need to insert the cust id into the api to retrieve the data */
 
-                    try {
+                    Document document = new Document();
+                    try
+                    {
+                        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HElloMarkooooooo.pdf"));
+                        document.open();
+                        document.add(new Paragraph("A Hello World PDF document."));
+                        document.close();
+                        writer.close();
+                    } catch (DocumentException e)
+                    {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    }
+
 
                         /* set this property to the location of the cert file
                         System.setProperty("javax.net.ssl.trustStore","C:/Documents and Settings/bhattdr/Desktop/-.energystar.gov.der")
 
 
-                        String username = "yy777PPP";
-                        String password = "yy777PPP";
-                        String userpass = "";*/
+
 
                         URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
 //      URLConnection uc = url.openConnection();
@@ -614,18 +634,20 @@ public class CustomerPage{
                         }
                     }
                         });
-                    }
+                    }*/
 
 
 
-
+/*
 
 
                     //end of test
                     System.out.println(lastItem.getCustomerID());
                 }
-            });
-        }
+
+            }*/
+
+        private void loadListView(){
 
 
         @Override
@@ -655,17 +677,15 @@ public class CustomerPage{
             while (rs.next()) {
                 data.add(new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getInt(12)));
 
-            }
 
-
-            lvCustomers.setItems(data);
-            //sets the cell
-            lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
-                @Override
-                public ListCell<Customer> call(ListView<Customer> param) {
-                    return new XCell();
-                }
-            });
+                lvCustomers.setItems(data);
+                //sets the cell
+          /*      lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
+                   @Override
+                    public ListCell<Customer> call(ListView<Customer> param) {
+                        return new XCell();
+                    }
+                });*/
 
 
         } catch (SQLException e) {
