@@ -285,6 +285,7 @@ public class GeneratePDF {
 
 
     */
+        /*
 public static void makePdf(String jsonDetails) {
     Document document = new Document();
     PdfWriter writer = null;
@@ -308,8 +309,6 @@ public static void makePdf(String jsonDetails) {
     document.close();
     writer.close();
 
-    }//end makePDF
+    }//end makePDF*/
 }//end GeneratePDF class
-
-}
 

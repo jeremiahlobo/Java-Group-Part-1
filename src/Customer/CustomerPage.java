@@ -3,7 +3,7 @@ package Customer;
 
 
 import java.io.*;
-=======
+
 import Core.Customer;
 import Core.DBHelper;
 import Core.GeneratePDF;
@@ -214,8 +214,7 @@ public class CustomerPage{
 
 
 
-        ObservableList names =
-                FXCollections.observableArrayList();
+       // ObservableList names = FXCollections.observableArrayList();
         ObservableList data =
                 FXCollections.observableArrayList();
 
@@ -236,7 +235,7 @@ public class CustomerPage{
         }*/
 
         lvCustomers.setItems(data);
-        lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
+        //lvCustomers.setCellFactory(ComboBoxListCell.forListView(names));
 
 
 
@@ -474,7 +473,7 @@ public class CustomerPage{
         }
         //our array list for storing Customers
         ObservableList<Customer> data = FXCollections.observableArrayList();
-
+/*
         //tester list
         ObservableList names =
                 FXCollections.observableArrayList();
@@ -495,7 +494,7 @@ public class CustomerPage{
                     @Override
                     public void handle(ActionEvent event) {
                         //put what happens when you click button
-                        /* we need to insert the cust id into the api to retrieve the data */
+                        // we need to insert the cust id into the api to retrieve the data
                         try {
                             URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
                             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -516,14 +515,15 @@ public class CustomerPage{
             //Alert alert = new Alert(Alert.AlertType.ERROR, "Try using the save command instead.");
             //`alert.showAndWait();
         }
-    }
+    }*/
+
     //our array list for storing Customers
-    ObservableList<Customer> data = FXCollections.observableArrayList();
+    //ObservableList<Customer> data = FXCollections.observableArrayList();
 
     //tester list
     ObservableList names =
             FXCollections.observableArrayList();
-
+/*
     class XCell extends ListCell<Customer> {
         HBox hbox = new HBox();
         Label label = new Label("(empty)");
@@ -547,7 +547,7 @@ public class CustomerPage{
                     GeneratePDF(data);
 
 
-                   /* Document document = new Document();
+                    Document document = new Document();
                     try
                     {
                         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HElloMarkooooooo.pdf"));
@@ -561,7 +561,7 @@ public class CustomerPage{
                     } catch (FileNotFoundException e)
                     {
                         e.printStackTrace();
-                    }*/
+                    }
 
                     //save windows pop up
 
@@ -569,9 +569,7 @@ public class CustomerPage{
             });
         }
 
-                        String username = "yy777PPP";
-                        String password = "yy777PPP";
-                        String userpass = "";*/
+
 
 
                             URL url = new URL("http://localhost:8080/api.travelexperts.com/rest/customersbookings/info/" + lastItem.getCustomerID());
@@ -599,11 +597,11 @@ public class CustomerPage{
                         }
                     }
                         });
-                    }
+                    }*/
 
 
 
-
+/*
 
             @Override
             protected void updateItem(Customer item, boolean empty) {
@@ -617,8 +615,8 @@ public class CustomerPage{
                     label.setText(item != null ? String.valueOf(item) : "<null>");
                     setGraphic(hbox);
                 }
-            }
-        }
+            }*/
+
         private void loadListView(){
 
 
@@ -637,12 +635,12 @@ public class CustomerPage{
 
                 lvCustomers.setItems(data);
                 //sets the cell
-                lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
-                    @Override
+          /*      lvCustomers.setCellFactory(new Callback<ListView<Customer>, ListCell<Customer>>() {
+                   @Override
                     public ListCell<Customer> call(ListView<Customer> param) {
                         return new XCell();
                     }
-                });
+                });*/
 
 
             } catch (SQLException e) {
